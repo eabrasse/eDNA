@@ -5,9 +5,9 @@ do I want to plot all 40 in one figure? or plot them in 40 figures? or a subset 
 
 import os
 import sys
-pth = os.path.abspath('/data2/pmr4/eab32/etools/')
-if pth not in sys.path:
-    sys.path.append(pth)
+# pth = os.path.abspath('/data2/pmr4/eab32/etools/')
+# if pth not in sys.path:
+#     sys.path.append(pth)
 import efun
 import matplotlib.pyplot as plt
 import xarray as xr
@@ -156,7 +156,8 @@ xsort = 100*tvary['hist_decay'].flatten()[tv_inds]
 
 # PLOTTING
 plt.close('all')
-figsize = (10,10)
+fw, fh = efun.gen_plot_props()
+figsize = (fw*2,fh*2)
 fig1,axes1 = plt.subplots(Nrt,Ndk,figsize=figsize)
 fig2,axes2 = plt.subplots(Nrt,Ndk,figsize=figsize)
 count=0
