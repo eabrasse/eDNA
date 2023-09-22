@@ -147,7 +147,8 @@ vmin = 0
 vmax_list = [np.percentile(100*rt['hist_nodecay'][rt['hist_nodecay']>0],90) for rt in release_type_list]
 vmax = np.max(vmax_list)
 vmax2 = 0.001
-xymax = 100*max([rt['hist_nodecay'].max() for rt in release_type_list])
+# xymax = 100*max([rt['hist_nodecay'].max() for rt in release_type_list])
+xymax = 100*max([np.percentile(rt['hist_nodecay'],75) for rt in release_type_list])
 xmean = tvary['hist_decay'].mean()
 # sort indexes
 tv_inds = tvary['hist_decay'].flatten().argsort()
@@ -183,7 +184,7 @@ for rt in range(Nrt):
     
         # now plot comparison of each option with Time-Varying decay
         ax2 = axes2[rt,dk]
-        ax2.scatter(100*tvary['hist_decay'].flatten(),100*release_type[key].flatten(),color=mygreen,s=10,alpha=0.5,zorder=30)
+        ax2.scatter(100*tvary['hist_decay'].flatten(),100*release_type[key].flatten(),color=mygreen,s=10,alpha=0.35,zorder=30)
         ax2.set_aspect(1)
         # xx = tvary['hist_decay'].flatten().sort()
         ax2.plot([0,xymax],[0,xymax],linestyle='solid',color='gray',zorder=25)
