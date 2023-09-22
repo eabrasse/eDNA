@@ -120,7 +120,7 @@ for release in release_list:
     hist = np.histogram2d(lon[:],lat[:],bins=[bin_lon_edges,bin_lat_edges])
     
     # add to hist piles
-    if release=='rel_2023.01.31_sh1':
+    if release==release_list[0]:
         NP = lon.shape[0]
         pulse['hist_nodecay'] = hist[0].T
         pulse['hist_decay'] = rel['decay']*hist[0].T
