@@ -223,7 +223,7 @@ cb.set_label(r'$\%$ released particles')
 outfn1 = '/data2/pmr4/eab32/etools/plots/hc_dolph_3d_compare_releases_heatmap.png'
 fig1.savefig(outfn1)
 print('saved to {}'.format(outfn1))
-fig2.subplots_adjust(top=0.98,right=0.98)
+fig2.subplots_adjust(bottom=0.08,top=0.98,left=0.08,right=0.98)
 outfn2 = '/data2/pmr4/eab32/etools/plots/hc_dolph_3d_compare_releases_scatter.png'
 fig2.savefig(outfn2)
 print('saved to {}'.format(outfn2))
