@@ -206,7 +206,7 @@ for rt in range(Nrt):
         
         ax2.text(0.98,0.1,
             f'RMSE = {rmse:0.2}\nNRSME = {nrmse:0.2}\nlinear fit = {pfit[0]:0.2}x+{pfit[1]:0.2}\nR2={Rsquared:0.2}\nWSS={wss:0.2}',
-            transform=ax2.transAxes,ha='right',va='bottom',color='gray',zorder=50)
+            transform=ax2.transAxes,ha='right',va='bottom',color='k',zorder=50,fontsize=10)
         
         for ax in ax1,ax2:
             ax.text(0.1,0.9,'{:}) {:}{:}'.format(atoz[count],release_type['desc'],decay_label_list[dk]),transform=ax.transAxes,ha='left',va='top',color='black')
@@ -223,6 +223,7 @@ cb.set_label(r'$\%$ released particles')
 outfn1 = '/data2/pmr4/eab32/etools/plots/hc_dolph_3d_compare_releases_heatmap.png'
 fig1.savefig(outfn1)
 print('saved to {}'.format(outfn1))
+fig2.subplots_adjust(top=0.98,right=0.98)
 outfn2 = '/data2/pmr4/eab32/etools/plots/hc_dolph_3d_compare_releases_scatter.png'
 fig2.savefig(outfn2)
 print('saved to {}'.format(outfn2))
