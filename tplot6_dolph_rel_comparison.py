@@ -136,7 +136,7 @@ for release in release_list:
 #normalize
 release_type_list = [tvary,const,pulse]
 decay_key_list = ['hist_nodecay','hist_decay']
-decay_label_list = ['',' + Decay']
+decay_label_list = ['','+ Decay']
 for reltype in release_type_list:
     for key in decay_key_list:
         reltype[key] = reltype[key]/reltype['denom']
@@ -208,8 +208,9 @@ for rt in range(Nrt):
             f'RMSE = {rmse:0.2}\nNRSME = {nrmse:0.2}\nlinear fit = {pfit[0]:0.2}x+{pfit[1]:0.2}\nR2={Rsquared:0.2}\nWSS={wss:0.2}',
             transform=ax2.transAxes,ha='right',va='bottom',color='k',zorder=50,fontsize=10)
         
-        for ax in ax1,ax2:
-            ax.text(0.1,0.9,'{:}) {:}{:}'.format(atoz[count],release_type['desc'],decay_label_list[dk]),transform=ax.transAxes,ha='left',va='top',color='black')
+        
+        ax1.text(0.1,0.9,'{:}) {:}\n{:}'.format(atoz[count],release_type['desc'],decay_label_list[dk]),transform=ax1.transAxes,ha='left',va='top',color='black')
+        ax2.text(0.1,0.9,'{:}) {:}{:}'.format(atoz[count],release_type['desc'],decay_label_list[dk]),transform=ax2.transAxes,ha='left',va='top',color='black')
         
         count+=1
 
