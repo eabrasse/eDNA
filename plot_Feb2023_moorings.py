@@ -33,8 +33,9 @@ img_extent = (-122.754167, -122.695833, 47.718611, 47.788056)
 #find June sampling particle tracks
 moor_fn = home+'LO_data/eDNA/Feb2023_moorings.p'
 
-moor = pickle.load(open(moor_fn,'rb'))
-moor_list = moor['moor_list']
+moor_dict = pickle.load(open(moor_fn,'rb'))
+moor_list = moor_dict['moor_list']
+dt_list = moor_dict['dt_list']
 nmoor = len(moor_list)
 rainbow = plt.get_cmap('rainbow',nmoor)
 moor_lat_list = [moor['lat'] for moor in moor_list]
@@ -64,8 +65,8 @@ with Image.open(figname) as img:
         ax.plot(moor['lon'],moor['lat'],marker='d',mec='k',mfc = rainbow(moor_count),markersize=12)
         
         axm = plt.subplot(gs[moor_count,1:])
-        axm.plot(moor['dt_list'],moor['const_particle_bin'],linestyle='dashed',color=rainbow(moor_count))
-        axm.plot(moor['dt_list'],moor['TV_particle_bin'],linestyle='solid',color=rainbow(moor_count))
+        axm.plot(dt_list,moor['const_particle_bin'],linestyle='dashed',color=rainbow(moor_count))
+        axm.plot(dt_list,moor['TV_particle_bin'],linestyle='solid',color=rainbow(moor_count))
         
         axm.set_yscale('log')
         axm.text(0.1,0.9,'{}) {}'.format(atoz[moor_count],moor['label']),color=rainbow(moor_count),transform=axm.transAxes,ha='left',va='top')
