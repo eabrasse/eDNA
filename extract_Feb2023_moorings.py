@@ -29,9 +29,10 @@ eDNA_fn = home+'LO_data/eDNA/ESP_Feb2023_hourly.csv'
 df = pd.read_csv(eDNA_fn,sep=',',engine='python')
 df.date = pd.to_datetime(df.date)
 
-C0 = {}
+D = {}
 count=0
 for f in f_list:
+    D[f] = {}
 
     track_dir = track_dir0+f
 
@@ -40,18 +41,22 @@ for f in f_list:
     file_list = [x for x in file_list if x[:3]=='rel']
     rel_fn = file_list[0]
 
-    ds = nc.Dataset(track_dir+'/'+rel_fn)
+    filefn = track_dir+'/'+rel_fn
+    D[f]['filefn']=filefn
+    ds = nc.Dataset(filefn)
 
     ot = ds['ot'][:].data
     T0 = datetime(1970,1,1,tzinfo=pytz.utc)+timedelta(seconds=ot[0]) #datetime of release
     T1 = datetime(1970,1,1,tzinfo=pytz.utc)+timedelta(seconds=ot[-1])
+    D[f]['times'] = [T0,T1]
+    
     if count==0:
         Tmin = T0
         Tmax = T1
     else:
         Tmin = min([Tmin,T0])
         Tmax = max([Tmax,T1])
-    C0[rel_fn] = df[df.date==T0].PB_quantity_mean.values[0] 
+    D[f]['C0'] = df[df.date==T0].PB_quantity_mean.values[0] 
     
     count+=1
 
@@ -126,21 +131,17 @@ for dt in dt_list0:
     #FIGURE OUT HOW TO INCORPORATE TIME VARYING WITHOUT LOOKING IT UP OVER AND OVER
     for f in f_list:
 
-        track_dir = track_dir0+f
+        [T0,T1] = D[f]['times']
 
-        # build a keyname from the release filename
-        file_list = os.listdir(track_dir)
-        file_list = [x for x in file_list if x[:3]=='rel']
-        rel_fn = file_list[0]
+        # ot = ds['ot'][:].data
+#
+#         ot0 = utc.localize(datetime(1970,1,1)+timedelta(seconds=ot[0]))
+#         ot1 = utc.localize(datetime(1970,1,1)+timedelta(seconds=ot[-1]))
 
-        ds = nc.Dataset(track_dir+'/'+rel_fn)
-
-        ot = ds['ot'][:].data
-
-        ot0 = utc.localize(datetime(1970,1,1)+timedelta(seconds=ot[0]))
-        ot1 = utc.localize(datetime(1970,1,1)+timedelta(seconds=ot[-1]))
-
-        if (dt>ot0)&(dt<ot1):
+        if (dt>T0)&(dt<T1):
+            ds = nc.Dataset(D[f]['filefn'])
+            ot = ds['ot'][:].data
+            
             dt_list = [utc.localize(datetime(1970,1,1)+timedelta(seconds=ott)) for ott in ot]
             t = argnearest(dt_list,dt)
             delta_T = ot[t]-ot[0]
@@ -151,14 +152,14 @@ for dt in dt_list0:
                 hist = np.histogram2d(ds['lon'][t,zmask],ds['lat'][t,zmask],bins=[bin_lon_edges,bin_lat_edges])
                 
                 const_particle_bin[count,:] += decay*hist[0].T
-                TV_particle_bin[count,:] += C0[rel_fn]*decay*hist[0].T
+                TV_particle_bin[count,:] += D[f]['C0']*decay*hist[0].T
                 
         ds.close()
     count+=1
 
 
 for moor in moor_list:
-    moor['const_particle_bin'] = constant_particle_bin[:,moor['lat_bin'],moor['lon_bin']]
+    moor['const_particle_bin'] = const_particle_bin[:,moor['lat_bin'],moor['lon_bin']]
     moor['TV_particle_bin'] = TV_particle_bin[:,moor['lat_bin'],moor['lon_bin']]
     
 
