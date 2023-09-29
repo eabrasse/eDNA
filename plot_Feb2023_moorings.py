@@ -38,7 +38,7 @@ moor_list = moor['moor_list']
 nmoor = len(moor_list)
 rainbow = plt.get_cmap('rainbow',nmoor)
 moor_lat_list = [moor['lat'] for moor in moor_list]
-ns_inds = moor_lat_list.argsort()[::-1]
+ns_inds = np.argsort(moor_lat_list)[::-1]
 
 with Image.open(figname) as img:
 
