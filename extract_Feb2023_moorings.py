@@ -154,7 +154,7 @@ for dt in dt_list0:
                 const_particle_bin[count,:] += decay*hist[0].T
                 TV_particle_bin[count,:] += D[f]['C0']*decay*hist[0].T
                 
-        ds.close()
+            ds.close()
     count+=1
 
 
