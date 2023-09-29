@@ -170,6 +170,8 @@ for moor in moor_list:
     moor['TV_particle_bin'] = TV_particle_bin[:,moor['lon_bin'],moor['lat_bin']]
 print('Done!')
 
+moor_dict = {'moor0':moor0,'moor1':moor1,'moor2':moor2,'moor3':moor3,'moor4':moor4}
+
 outfn = home+'LO_data/eDNA/Feb2023_moorings.p'
-pickle.dump(moor,open(outfn, 'wb'))
+pickle.dump(moor_dict,open(outfn, 'wb'))
 print('saved to {}'.format(outfn))
