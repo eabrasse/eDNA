@@ -44,7 +44,7 @@ ns_inds = np.argsort(moor_lat_list)[::-1]
 with Image.open(figname) as img:
 
     fig = plt.figure(figsize=(12, 8))
-    gs = GridSpec(nmoor,3)
+    gs = GridSpec(nmoor,2)
 
     ax = plt.subplot(gs[:,0],projection=ccrs.PlateCarree())
 
@@ -64,7 +64,7 @@ with Image.open(figname) as img:
         
         ax.plot(moor['lon'],moor['lat'],marker='d',mec='k',mfc = rainbow(moor_count),markersize=12)
         
-        axm = plt.subplot(gs[moor_count,1:])
+        axm = plt.subplot(gs[moor_count,-1])
         axm.plot(dt_list,moor['const_particle_bin'],linestyle='dashed',color=rainbow(moor_count))
         axm.plot(dt_list,moor['TV_particle_bin'],linestyle='solid',color=rainbow(moor_count))
         
@@ -80,7 +80,7 @@ with Image.open(figname) as img:
         ymin = min([np.min(moor['const_particle_bin']),np.min(moor['TV_particle_bin']),ymin])
         
         # format date/time axis
-        if moor_count==(nmoor-1):
+        if moor_count<(nmoor-1):
             axm.set_xlabel('')
             axm.set_xticklabels(['' for xtl in axm.get_xticklabels()])
         else:
@@ -92,7 +92,7 @@ with Image.open(figname) as img:
         moor_count+=1
         
 
-    ax.axis(img_extent)
+    ax.axis([-122.74,-122.72,47.73,47.76])
 
     for axm in mooring_axes:
         axm.set_ylim([ymin,ymax])
