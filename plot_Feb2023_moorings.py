@@ -66,9 +66,9 @@ with Image.open(figname) as img:
         
         axm = plt.subplot(gs[moor_count,-1])
         
-        moor['const_particle_bin'][moor['const_particle_bin']==0] = np.nan
+        # moor['const_particle_bin'][moor['const_particle_bin']==0] = np.nan
         axm.plot(dt_list,moor['const_particle_bin'],linestyle='dashed',color=rainbow(moor_count))
-        moor['TV_particle_bin'][moor['TV_particle_bin']==0] = np.nan
+        # moor['TV_particle_bin'][moor['TV_particle_bin']==0] = np.nan
         axm.plot(dt_list,moor['TV_particle_bin'],linestyle='solid',color=rainbow(moor_count))
         
         axm.set_yscale('log')
