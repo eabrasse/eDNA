@@ -92,7 +92,7 @@ with Image.open(figname) as img:
         moor_count+=1
         
 
-    ax.axis([-122.74,-122.72,47.73,47.76])
+    ax.axis([-122.735,-122.725,47.74,47.75])
 
     for axm in mooring_axes:
         axm.set_ylim([ymin,ymax])
