@@ -21,7 +21,7 @@ def argnearest(items, pivot):
 plt.close('all')
 home = '/data2/pmr4/eab32/'
 
-atoz = string.lower_ascii
+atoz = string.ascii_lowercase
 
 tab10 = plt.get_cmap('tab10',10)
 Paired = plt.get_cmap('Paired',12)
