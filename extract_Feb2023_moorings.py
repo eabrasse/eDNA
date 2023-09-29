@@ -31,6 +31,7 @@ df.date = pd.to_datetime(df.date)
 
 D = {}
 count=0
+print('Preprocessing particle release experiments')
 for f in f_list:
     D[f] = {}
 
@@ -60,6 +61,7 @@ for f in f_list:
     
     count+=1
 
+print('Preprocessing done!')
 #set reference time
 Pacific = pytz.timezone("PST8PDT")
 utc = pytz.utc
@@ -110,14 +112,14 @@ zref = -2
 
 nbins = 100
 bin_lon_edges=np.linspace(aa[0], aa[1],nbins+1)
-bin_lat_edges=np.linspace(aa[0], aa[1],nbins+1)
+bin_lat_edges=np.linspace(aa[2], aa[3],nbins+1)
 xx, yy = np.meshgrid(bin_lon_edges[:-1]+0.5*(bin_lon_edges[1]-bin_lon_edges[0]),bin_lat_edges[:-1]+0.5*(bin_lat_edges[1]-bin_lat_edges[0]))
 
 # find which bin
 for moor in moor_list:
     #first bin they're greater than
-    moor['lon_bin'] = np.argwhere(moor['lon']>bin_lon_edges)[0][0]
-    moor['lat_bin'] = np.argwhere(moor['lat']>bin_lat_edges)[0][0]
+    moor['lon_bin'] = np.argwhere(moor['lon']<bin_lon_edges)[0][0]
+    moor['lat_bin'] = np.argwhere(moor['lat']<bin_lat_edges)[0][0]
 
 nt = len(dt_list0)
 const_particle_bin = np.zeros((nt,nbins,nbins))
@@ -127,6 +129,8 @@ k_decay = 0.02/3600 #units: data 0.02 1/hr, multiply by hr/sec to get 1/sec
 
 count =0
 for dt in dt_list0:
+    
+    print('Extracting particle positions from all releases at timestep {}'.format(dt))
     
     #FIGURE OUT HOW TO INCORPORATE TIME VARYING WITHOUT LOOKING IT UP OVER AND OVER
     for f in f_list:
@@ -151,17 +155,21 @@ for dt in dt_list0:
                 # ax.scatter(ds['lon'][t,zmask],ds['lat'][t,zmask],c='w',s=1,alpha=0.05)
                 hist = np.histogram2d(ds['lon'][t,zmask],ds['lat'][t,zmask],bins=[bin_lon_edges,bin_lat_edges])
                 
-                const_particle_bin[count,:] += decay*hist[0].T
-                TV_particle_bin[count,:] += D[f]['C0']*decay*hist[0].T
+                #note: not tranposing because I'm not plotting in 2d! I want to be able to follow the
+                # indexing in the manual. Histogram should be indexed nx, ny
+                const_particle_bin[count,:] += decay*hist[0]
+                TV_particle_bin[count,:] += D[f]['C0']*decay*hist[0]
                 
             ds.close()
     count+=1
 
-
+print('Done extracting!')
+print('Extracting moorings')
 for moor in moor_list:
-    moor['const_particle_bin'] = const_particle_bin[:,moor['lat_bin'],moor['lon_bin']]
-    moor['TV_particle_bin'] = TV_particle_bin[:,moor['lat_bin'],moor['lon_bin']]
-    
+    moor['const_particle_bin'] = const_particle_bin[:,moor['lon_bin'],moor['lat_bin']]
+    moor['TV_particle_bin'] = TV_particle_bin[:,moor['lon_bin'],moor['lat_bin']]
+print('Done!')
 
 outfn = home+'LO_data/eDNA/Feb2023_moorings.p'
-pickle.dump(moor,outfn)
+pickle.dump(moor,open(outfn, 'wb'))
+print('saved to {}'.format(outfn))
