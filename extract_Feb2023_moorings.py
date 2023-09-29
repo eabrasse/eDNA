@@ -170,8 +170,7 @@ for moor in moor_list:
     moor['TV_particle_bin'] = TV_particle_bin[:,moor['lon_bin'],moor['lat_bin']]
 print('Done!')
 
-moor_dict = {'moor0':moor0,'moor1':moor1,'moor2':moor2,'moor3':moor3,'moor4':moor4,
-'const_particle_bin':const_particle_bin,'TV_particle_bin':TV_particle_bin,'dt_list':dt_list0}
+moor_dict = {'moor_list':moor_list,'const_particle_bin':const_particle_bin,'TV_particle_bin':TV_particle_bin,'dt_list':dt_list0}
 
 outfn = home+'LO_data/eDNA/Feb2023_moorings.p'
 pickle.dump(moor_dict,open(outfn, 'wb'))
