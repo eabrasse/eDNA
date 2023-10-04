@@ -138,8 +138,8 @@ with Image.open(figname) as img:
         axm.set_ylim([ymin,ymax])
         axm.set_ylabel('Part wt')
     
-    mooring_axes[0].text(0.9,0.9,'solid=time varying\ndashed=constant',transform=mooring_axes[0].transAxes,ha='right',va='top',fontsize=10)
-    ax_mean.text(0.9,0.9,'filled=time varying\nempty=constant',transform=ax_mean.transAxes,ha='right',va='top',fontsize=10)
+    mooring_axes[0].text(0.9,0.9,'solid=time varying\ndashed=constant',transform=mooring_axes[0].transAxes,ha='right',va='top',fontsize=8)
+    ax_mean.text(0.95,0.8,'filled=time varying\nempty=constant',transform=ax_mean.transAxes,ha='right',va='top',fontsize=8)
 
     fig.subplots_adjust(right=0.98,left=0.1,bottom=0.1,top = 0.98)
     outfn = home+'etools/plots/Feb2023_mooringsB.png'
