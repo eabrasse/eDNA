@@ -53,10 +53,12 @@ DNA_mean = np.mean(df.PB_quantity_mean)
 with Image.open(figname) as img:
 
     fig = plt.figure(figsize=(12, 8))
-    gs = GridSpec(nmoor*2,3)
+    gs = GridSpec(nmoor*3,3)
 
     ax_mean = plt.subplot(gs[:(nmoor),-1])
-    ax_var = plt.subplot(gs[(nmoor):,-1])
+    ax_var = plt.subplot(gs[(nmoor):(2*nmoor),-1])
+    ax_std2mean = plt.subplot(gs[(2*nmoor):,-1])
+    
     ax = plt.subplot(gs[:,0],projection=ccrs.PlateCarree())
 
     ax.imshow(img, extent=img_extent,transform=ccrs.PlateCarree())
@@ -75,7 +77,7 @@ with Image.open(figname) as img:
     
         ax.plot(moor['lon'],moor['lat'],marker='d',mec='k',mfc = rainbow(moor_count),markersize=10)
     
-        axm = plt.subplot(gs[(2*moor_count):(2*(moor_count+1)),1])
+        axm = plt.subplot(gs[(3*moor_count):(3*(moor_count+1)),1])
     
         # moor['const_particle_bin'][moor['const_particle_bin']==0] = np.nan
         axm.plot(dt_list,DNA_mean*moor['const_particle_bin'],linestyle='dashed',color=rainbow(moor_count))
@@ -107,15 +109,23 @@ with Image.open(figname) as img:
         # calculate stats
         x,y = efun.ll2xy(moor['lon'],moor['lat'],lon0,lat0)
         moor['dist_from_pen'] = np.sqrt(x**2+y**2)
-        moor['const_mean'] = np.mean(DNA_mean*moor['const_particle_bin'][moor['const_particle_bin']>0])
-        moor['const_var'] = np.std(DNA_mean*moor['const_particle_bin'][moor['const_particle_bin']>0])**2
-        moor['TV_mean'] = np.mean(moor['TV_particle_bin'][moor['TV_particle_bin']>0])
-        moor['TV_var'] = np.std(moor['TV_particle_bin'][moor['TV_particle_bin']>0])**2
+        const_std = np.std(DNA_mean*moor['const_particle_bin'][moor['const_particle_bin']>0])
+        const_mean =np.mean(DNA_mean*moor['const_particle_bin'][moor['const_particle_bin']>0])
+        moor['const_mean'] = const_mean
+        moor['const_var'] = const_std**2
+        moor['const_std2mean'] = const_std/const_mean
+        TV_mean = np.mean(moor['TV_particle_bin'][moor['TV_particle_bin']>0])
+        TV_std = np.std(moor['TV_particle_bin'][moor['TV_particle_bin']>0])
+        moor['TV_mean'] = TV_mean
+        moor['TV_var'] = TV_std**2
+        moor['TV_std2mean'] = TV_std/TV_mean
     
         ax_mean.plot(moor['dist_from_pen'],moor['const_mean'],marker='o',linestyle='None',mfc='none',mec=rainbow(moor_count))
         ax_mean.plot(moor['dist_from_pen'],moor['TV_mean'],marker='o',linestyle='None',mfc=rainbow(moor_count),mec='None')
         ax_var.plot(moor['dist_from_pen'],moor['const_var'],marker='o',linestyle='None',mfc='none',mec=rainbow(moor_count))
         ax_var.plot(moor['dist_from_pen'],moor['TV_var'],marker='o',linestyle='None',mfc=rainbow(moor_count),mec='None')
+        ax_std2mean.plot(moor['dist_from_pen'],moor['const_std2mean'],marker='o',linestyle='None',mfc='none',mec=rainbow(moor_count))
+        ax_std2mean.plot(moor['dist_from_pen'],moor['TV_std2mean'],marker='o',linestyle='None',mfc=rainbow(moor_count),mec='None')
     
         moor_count+=1
     
@@ -124,12 +134,14 @@ with Image.open(figname) as img:
 
     ax_mean.text(0.1,0.9,'{}) Mean of nonzeros'.format(atoz[moor_count]),color='k',transform=ax_mean.transAxes,ha='left',va='top')
     ax_var.text(0.1,0.9,'{}) Variance of nonzeros'.format(atoz[moor_count+1]),color='k',transform=ax_var.transAxes,ha='left',va='top')
+    ax_std2mean.text(0.1,0.9,'{}) Ratio of standard dev to mean'.format(atoz[moor_count+2]),color='k',transform=ax_var.transAxes,ha='left',va='top')
     
-    ax_mean.set_xlabel('')
-    ax_mean.set_xticklabels(['' for xtl in ax_mean.get_xticklabels()])
-    
-    ax_var.set_xlabel('Dist from pen (m)')
     for ax_stat in ax_mean,ax_var:
+        ax_stat.set_xlabel('')
+        ax_stat.set_xticklabels(['' for xtl in ax_stat.get_xticklabels()])
+    
+    ax_std2mean.set_xlabel('Dist from pen (m)')
+    for ax_stat in ax_mean,ax_var,ax_std2mean:
         ax_stat.set_ylabel('Part wt')
         ax_stat.grid()
         ax_stat.set_yscale('log')
