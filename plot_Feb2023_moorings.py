@@ -134,17 +134,18 @@ with Image.open(figname) as img:
 
     ax_mean.text(0.1,0.9,'{}) Mean of nonzeros'.format(atoz[moor_count]),color='k',transform=ax_mean.transAxes,ha='left',va='top')
     ax_var.text(0.1,0.9,'{}) Variance of nonzeros'.format(atoz[moor_count+1]),color='k',transform=ax_var.transAxes,ha='left',va='top')
-    ax_std2mean.text(0.1,0.9,'{}) Ratio of standard dev to mean'.format(atoz[moor_count+2]),color='k',transform=ax_var.transAxes,ha='left',va='top')
+    ax_std2mean.text(0.1,0.9,'{}) Ratio of standard dev to mean'.format(atoz[moor_count+2]),color='k',transform=ax_std2mean.transAxes,ha='left',va='top')
     
     for ax_stat in ax_mean,ax_var:
         ax_stat.set_xlabel('')
         ax_stat.set_xticklabels(['' for xtl in ax_stat.get_xticklabels()])
+        ax_stat.set_yscale('log')
+        ax_stat.set_ylabel('Part wt')
     
     ax_std2mean.set_xlabel('Dist from pen (m)')
     for ax_stat in ax_mean,ax_var,ax_std2mean:
-        ax_stat.set_ylabel('Part wt')
         ax_stat.grid()
-        ax_stat.set_yscale('log')
+        
 
     for axm in mooring_axes:
         axm.set_ylim([ymin,ymax])
