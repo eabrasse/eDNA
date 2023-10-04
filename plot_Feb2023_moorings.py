@@ -50,8 +50,8 @@ DNA_mean = np.mean(df.PB_quantity_mean)
 fig = plt.figure(figsize=(12, 8))
 gs = GridSpec(nmoor*2,3)
 
-ax_mean = plt.subplot(gs[:(moor_count+1),-1])
-ax_var = plt.subplot(gs[(moor_count+1):,-1])
+ax_mean = plt.subplot(gs[:(nmoor+1),-1])
+ax_var = plt.subplot(gs[(nmoor+1):,-1])
 ax = plt.subplot(gs[:,0],projection=ccrs.PlateCarree())
 
 # ax.imshow(img, extent=img_extent,transform=ccrs.PlateCarree())
