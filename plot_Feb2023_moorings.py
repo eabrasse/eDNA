@@ -13,6 +13,7 @@ from matplotlib.gridspec import GridSpec
 import matplotlib.dates as mdates
 import pickle
 import string
+import efun
 
 def argnearest(items, pivot):
     td = [np.abs(item-pivot) for item in items]
