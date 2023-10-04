@@ -41,7 +41,7 @@ moor_lat_list = [moor['lat'] for moor in moor_list]
 ns_inds = np.argsort(moor_lat_list)[::-1]
 
 #get mean concentration 
-data_fn = home+'ESP_Feb2023_hourly.csv'
+data_fn = home+'LO_data/eDNA/ESP_Feb2023_hourly.csv'
 df = pd.read_csv(data_fn,sep=',',engine='python')
 DNA_mean = np.mean(df.PB_quantity_mean)
 
