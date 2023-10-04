@@ -124,16 +124,21 @@ with Image.open(figname) as img:
 
     ax_mean.text(0.1,0.9,'{}) Mean of nonzeros'.format(atoz[moor_count]),color='k',transform=ax_mean.transAxes,ha='left',va='top')
     ax_var.text(0.1,0.9,'{}) Variance of nonzeros'.format(atoz[moor_count+1]),color='k',transform=ax_var.transAxes,ha='left',va='top')
+    
+    ax_mean.set_xlabel('')
+    ax_mean.set_xticklabels(['' for xtl in ax_mean.get_xticklabels()])
+    
+    ax_var.set_xlabel('Dist from pen (m)')
     for ax_stat in ax_mean,ax_var:
-        ax_stat.set_xlabel('Dist from pen (m)')
         ax_stat.set_ylabel('Part wt')
         ax_stat.grid()
+        ax_stat.set_yscale('log')
 
     for axm in mooring_axes:
         axm.set_ylim([ymin,ymax])
         axm.set_ylabel('Part wt')
 
-    fig.subplots_adjust(right=0.98,left=0.05,bottom=0.05,top = 0.98)
+    fig.subplots_adjust(right=0.98,left=0.1,bottom=0.2,top = 0.98)
     outfn = home+'etools/plots/Feb2023_mooringsB.png'
     plt.savefig(outfn)
     print(f'Saved to {outfn}')
