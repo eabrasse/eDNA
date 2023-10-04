@@ -30,6 +30,10 @@ Paired = plt.get_cmap('Paired',12)
 # dolphin pen location
 lon0 = -122.729779; lat0 = 47.742773
 
+# load background map
+figname = home+'LO_data/eDNA/bangor_gmaps.png'
+img_extent = (-122.754167, -122.695833, 47.718611, 47.788056)
+
 #find June sampling particle tracks
 moor_fn = home+'LO_data/eDNA/Feb2023_moorings.p'
 
@@ -129,7 +133,7 @@ with Image.open(figname) as img:
         axm.set_ylim([ymin,ymax])
         axm.set_ylabel('Part wt')
 
-    plt.subplots_adjust(right=0.98,left=0.05,bottom=0.05,top = 0.98)
+    fig.subplots_adjust(right=0.98,left=0.05,bottom=0.05,top = 0.98)
     outfn = home+'etools/plots/Feb2023_mooringsB.png'
     plt.savefig(outfn)
     print(f'Saved to {outfn}')
