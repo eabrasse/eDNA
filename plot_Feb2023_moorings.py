@@ -55,8 +55,8 @@ with Image.open(figname) as img:
     fig = plt.figure(figsize=(12, 8))
     gs = GridSpec(nmoor*2,3)
 
-    ax_mean = plt.subplot(gs[:(nmoor+1),-1])
-    ax_var = plt.subplot(gs[(nmoor+1):,-1])
+    ax_mean = plt.subplot(gs[:(nmoor),-1])
+    ax_var = plt.subplot(gs[(nmoor):,-1])
     ax = plt.subplot(gs[:,0],projection=ccrs.PlateCarree())
 
     ax.imshow(img, extent=img_extent,transform=ccrs.PlateCarree())
@@ -138,7 +138,7 @@ with Image.open(figname) as img:
         axm.set_ylim([ymin,ymax])
         axm.set_ylabel('Part wt')
 
-    fig.subplots_adjust(right=0.98,left=0.1,bottom=0.2,top = 0.98)
+    fig.subplots_adjust(right=0.98,left=0.1,bottom=0.1,top = 0.98)
     outfn = home+'etools/plots/Feb2023_mooringsB.png'
     plt.savefig(outfn)
     print(f'Saved to {outfn}')
