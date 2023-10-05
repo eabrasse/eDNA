@@ -64,7 +64,7 @@ xx, yy = np.meshgrid(bin_lon_edges[:-1]+0.5*(bin_lon_edges[1]-bin_lon_edges[0]),
 tvary_denom = 0
 pulse_hist_decay = np.zeros((len(release_list),np.shape(xx)[0],np.shape(xx)[1]))
 tvary_hist_decay = np.zeros(np.shape(xx))
-T0_list = []
+deltaT_list = []
 count=0
 for release in release_list:
     rel = D[release]
@@ -96,11 +96,11 @@ for release in release_list:
     
     tvary_denom += rel['C0']*NP
     
-    T0_list.append(rel['T0'])
+    deltaT_list.append(rel['deltaT']/3600)
     
     count+=1
-T0_inds = np.argsort(T0_list)
-pulse_hist_decay=pulse_hist_decay[T0_inds,:]
+dT_inds = np.argsort(deltaT_list[::-1])
+pulse_hist_decay=pulse_hist_decay[dT_inds,:]
 
 #normalize
 tvary_hist_decay=tvary_hist_decay/tvary_denom
@@ -113,7 +113,7 @@ xmean = tvary_hist_decay.mean()
 nrel = len(release_list)
 rmse = {'values':np.zeros((nrel)),'label':'RMSE','best':0}
 nrmse = {'values':np.zeros((nrel)),'label':'NRMSE','best':0}
-slope = {'values':np.zeros((nrel)),'label':'Slope of best fit line','best':1}
+slope = {'values':np.zeros((nrel)),'label':'Slope of\nbest fit line','best':1}
 intercept = {'values':np.zeros((nrel)),'label':'Intercept of best fit line','best':0}
 wss = {'values':np.zeros((nrel)),'label':'WSS','best':1}
 Rsquared = {'values':np.zeros((nrel)),'label':r'$\mathrm{R}^{2}$','best':1}
@@ -138,7 +138,7 @@ plt.close('all')
 fw, fh = efun.gen_plot_props()
 figsize = (fw*2.5,fh)
 fig,axs = plt.subplots(1,len(metrics2plot),figsize=figsize)
-T0_list.sort()
+deltaT_list.sort(reverse=True)
 for met in range(len(metrics2plot)):
     metric = metrics2plot[met]
     ax = axs[met]
@@ -147,15 +147,15 @@ for met in range(len(metrics2plot)):
     ax.text(0.1,0.9,'{}) {}'.format(atoz[met],metric['label']),color='k',transform=ax.transAxes,zorder=100)
     
     best_ind = np.argmin(np.abs(metric['values']-metric['best']))
-    ax.plot(T0_list[best_ind],metric['values'][best_ind],marker='*',linestyle='none',markersize=10,mec='k',mfc=tab10(met),zorder=50)
-    ax.axvline(T0_list[best_ind],color='k',linestyle='dashed',zorder=12)
-    ax.text(0.5,0.5,'best = {}'.format(best_ind),transform=ax.transAxes,color='k',zorder=70,ha='center',fontsize=8)
+    ax.plot(deltaT_list[best_ind],metric['values'][best_ind],marker='*',linestyle='none',markersize=10,mec='k',mfc=tab10(met),zorder=50)
+    ax.axvline(deltaT_list[best_ind],color='k',linestyle='dashed',zorder=12)
+    ax.text(0.5,0.5,'best fit release =\n{} hours before snapshot'.format(deltaT_list[best_ind]),transform=ax.transAxes,color='k',zorder=70,ha='center',fontsize=8)
     
     ax.set_xlabel('Release #')
 
 
 #plt.show()
-fig.subplots_adjust(bottom=0.08,top=0.98,left=0.08,right=0.98)
+fig.subplots_adjust(bottom=0.08,top=0.98,left=0.08,right=0.98,wspace=0.2)
 outfn = '/data2/pmr4/eab32/etools/plots/hc_dolph_3d_compare_pulse_releases.png'
 fig.savefig(outfn)
 print('saved to {}'.format(outfn))
