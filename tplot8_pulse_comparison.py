@@ -133,6 +133,7 @@ for i in range(nrel):
 
 metrics2plot = [nrmse,slope,wss,Rsquared]
 props = dict(boxstyle='round', facecolor='white',edgecolor='none')
+props2 = dict(boxstyle='round', facecolor='white',edgecolor='none',alpha=0.5)
 # PLOTTING
 plt.close('all')
 fw, fh = efun.gen_plot_props()
@@ -149,13 +150,13 @@ for met in range(len(metrics2plot)):
     best_ind = np.argmin(np.abs(metric['values']-metric['best']))
     ax.plot(deltaT_list[best_ind],metric['values'][best_ind],marker='*',linestyle='none',markersize=10,mec='k',mfc=tab10(met),zorder=50)
     ax.axvline(deltaT_list[best_ind],color='k',linestyle='dashed',zorder=12)
-    ax.text(0.5,0.5,'best release =\n{} hours before refT'.format(int(deltaT_list[best_ind])),transform=ax.transAxes,color='k',zorder=70,ha='center',fontsize=8)
+    ax.text(0.5,0.5,'best release =\n{} hours before refT'.format(int(deltaT_list[best_ind])),transform=ax.transAxes,color='k',zorder=70,ha='center',fontsize=8,bbox=props2)
     
     ax.set_xlabel('Release time\n(hr before refT)')
 
 
 #plt.show()
-fig.subplots_adjust(bottom=0.13,top=0.98,left=0.08,right=0.98,wspace=0.35)
+fig.subplots_adjust(bottom=0.22,top=0.98,left=0.08,right=0.98,wspace=0.35)
 outfn = '/data2/pmr4/eab32/etools/plots/hc_dolph_3d_compare_pulse_releases.png'
 fig.savefig(outfn)
 print('saved to {}'.format(outfn))
