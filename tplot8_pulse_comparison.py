@@ -138,12 +138,12 @@ plt.close('all')
 fw, fh = efun.gen_plot_props()
 figsize = (fw*2.5,fh)
 fig,axs = plt.subplots(1,len(metrics2plot),figsize=figsize)
-
+T0_list.sort()
 for met in range(len(metrics2plot)):
     metric = metrics2plot[met]
     ax = axs[met]
     
-    ax.plot(T0_list.sort(),metric['values'],color=tab10(met),zorder=15)
+    ax.plot(T0_list,metric['values'],color=tab10(met),zorder=15)
     ax.text(0.1,0.9,'{}) {}'.format(atoz[met],metric['label']),color='k',transform=ax.transAxes,zorder=100)
     
     best_ind = np.argmin(np.abs(metric['values']-metric['best']))
