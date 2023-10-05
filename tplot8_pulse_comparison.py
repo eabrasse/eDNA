@@ -134,7 +134,7 @@ fw, fh = efun.gen_plot_props()
 figsize = (fw*2,fh)
 fig,axs = plt.subplots(1,len(metrics2plot),figsize=figsize)
 
-for met in len(metrics2plot):
+for met in range(len(metrics2plot)):
     metric = metrics2plot[met]
     ax = axs[met]
     
