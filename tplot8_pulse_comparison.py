@@ -90,7 +90,7 @@ for release in release_list:
     if release==release_list[0]:
         NP = lon.shape[0]
 
-    pulse_list_decay[count,:] = rel['decay']*hist[0].T/NP
+    pulse_hist_decay[count,:] = rel['decay']*hist[0].T/NP
     tvary_hist_decay += rel['decay']*rel['C0']*hist[0].T
     
     tvary_denom += rel['C0']*NP
@@ -114,10 +114,10 @@ wss = {'values':np.zeros((nrel)),'label':'WSS','best':1}
 Rsquared = {'values':np.zeros((nrel)),'label':r'$\mathrm{R}^{2}$','best':1}
 
 for i in range(nrel):
-    rmse['values'][i] = np.sqrt((np.sum((tvary_hist_decay.flatten()-pulse_list_decay[i,:].flatten())**2))/len(tvary_hist_decay.flatten()))
+    rmse['values'][i] = np.sqrt((np.sum((tvary_hist_decay.flatten()-pulse_hist_decay[i,:].flatten())**2))/len(tvary_hist_decay.flatten()))
     nrmse['values'][i] = rmse['values'][i]/xmean
 
-    ysort = [100*pulse_list_decay[i,:].flatten()[tv_ind] for tv_ind in tv_inds]
+    ysort = [100*pulse_hist_decay[i,:].flatten()[tv_ind] for tv_ind in tv_inds]
     slope['values'][i],intercept['values'][i] = np.polyfit(xsort,ysort,1)
     # xfit = np.linspace(0,xymax,10)
     # yfit = pfit[0]*xfit +pfit[1]
