@@ -100,7 +100,7 @@ tvary = {'desc':'Varying','hist_nodecay':0,'hist_decay':0,'denom':0}
 # NP = 100000
 for release in release_list:
     rel = D[release]
-
+    print('deltaT={}'.format(rel['deltaT'])
     lon = rel['lon'][:]
     lat = rel['lat'][:]
 
