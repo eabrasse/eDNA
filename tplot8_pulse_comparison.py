@@ -99,7 +99,7 @@ for release in release_list:
     deltaT_list.append(rel['deltaT']/3600)
     
     count+=1
-dT_inds = np.argsort(deltaT_list[::-1])
+dT_inds = np.argsort(deltaT_list)
 pulse_hist_decay=pulse_hist_decay[dT_inds,:]
 
 #normalize
@@ -138,7 +138,7 @@ plt.close('all')
 fw, fh = efun.gen_plot_props()
 figsize = (fw*2.5,fh)
 fig,axs = plt.subplots(1,len(metrics2plot),figsize=figsize)
-deltaT_list.sort(reverse=True)
+deltaT_list.sort()
 for met in range(len(metrics2plot)):
     metric = metrics2plot[met]
     ax = axs[met]
