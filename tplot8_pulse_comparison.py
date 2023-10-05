@@ -64,6 +64,7 @@ xx, yy = np.meshgrid(bin_lon_edges[:-1]+0.5*(bin_lon_edges[1]-bin_lon_edges[0]),
 tvary_denom = 0
 pulse_hist_decay = np.zeros((len(release_list),np.shape(xx)[0],np.shape(xx)[1]))
 tvary_hist_decay = np.zeros(np.shape(xx))
+T0_list = []
 count=0
 for release in release_list:
     rel = D[release]
@@ -95,7 +96,11 @@ for release in release_list:
     
     tvary_denom += rel['C0']*NP
     
+    T0_list.append(rel['T0'])
+    
     count+=1
+T0_inds = np.argsort(T0_list)
+pulse_hist_decay=pulse_hist_decay[T0_inds,:]
 
 #normalize
 tvary_hist_decay=tvary_hist_decay/tvary_denom
@@ -138,7 +143,7 @@ for met in range(len(metrics2plot)):
     metric = metrics2plot[met]
     ax = axs[met]
     
-    ax.plot(range(nrel),metric['values'],color=tab10(met),zorder=15)
+    ax.plot(T0_list[T0_inds],metric['values'],color=tab10(met),zorder=15)
     ax.text(0.1,0.9,'{}) {}'.format(atoz[met],metric['label']),color='k',transform=ax.transAxes,zorder=100)
     
     best_ind = np.argmin(np.abs(metric['values']-metric['best']))
