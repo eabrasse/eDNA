@@ -147,8 +147,8 @@ for met in range(len(metrics2plot)):
     ax.text(0.1,0.9,'{}) {}'.format(atoz[met],metric['label']),color='k',transform=ax.transAxes,zorder=100)
     
     best_ind = np.argmin(np.abs(metric['values']-metric['best']))
-    ax.plot(best_ind,metric['values'][best_ind],marker='*',linestyle='none',markersize=10,mec='k',mfc=tab10(met),zorder=50)
-    ax.axvline(best_ind,color='k',linestyle='dashed',zorder=12)
+    ax.plot(T0_list[best_ind],metric['values'][best_ind],marker='*',linestyle='none',markersize=10,mec='k',mfc=tab10(met),zorder=50)
+    ax.axvline(T0_list[best_ind],color='k',linestyle='dashed',zorder=12)
     ax.text(0.5,0.5,'best = {}'.format(best_ind),transform=ax.transAxes,color='k',zorder=70,ha='center',fontsize=8)
     
     ax.set_xlabel('Release #')
