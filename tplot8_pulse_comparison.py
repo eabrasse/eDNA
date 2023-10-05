@@ -131,7 +131,7 @@ metrics2plot = [nrmse,slope,wss,Rsquared]
 # PLOTTING
 plt.close('all')
 fw, fh = efun.gen_plot_props()
-figsize = (fw*2,fh)
+figsize = (fw*2.5,fh)
 fig,axs = plt.subplots(1,len(metrics2plot),figsize=figsize)
 
 for met in range(len(metrics2plot)):
@@ -144,7 +144,7 @@ for met in range(len(metrics2plot)):
     best_ind = np.argmin(np.abs(metric['values']-metric['best']))
     ax.plot(best_ind,metric['values'][best_ind],marker='*',linestyle='none',markersize=10,mec='k',mfc=tab10(met),zorder=50)
     ax.axvline(best_ind,color='k',linestyle='dashed',zorder=12)
-    ax.text(0.7,0.5,'best = {}'.format(best_ind),transform=ax.transAxes,color='k',zorder=70)
+    ax.text(0.5,0.5,'best = {}'.format(best_ind),transform=ax.transAxes,color='k',zorder=70,ha='center',fontsize=8)
     
     ax.set_xlabel('Release #')
 
