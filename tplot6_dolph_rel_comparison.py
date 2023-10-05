@@ -122,7 +122,7 @@ for release in release_list:
     # add to hist piles
     if release==release_list[0]:
         NP = lon.shape[0]
-    if rel['deltaT']==20:
+    if rel['deltaT']==(20*3600):
         pulse['hist_nodecay'] = hist[0].T
         pulse['hist_decay'] = rel['decay']*hist[0].T
         pulse['denom']+=NP
