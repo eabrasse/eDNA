@@ -85,6 +85,7 @@ aa = [lon0-pad, lon0+pad,
 #identify grid edge limits for making mask      
 AA = [lonp[0,0], lonp[0,-1],
         latp[0,0], latp[-1,0]]
+zref = -2
 
 nbins = 100
 bin_lon_edges=np.linspace(aa[0], aa[1],nbins+1)
@@ -100,9 +101,10 @@ tvary = {'desc':'Varying','hist_nodecay':0,'hist_decay':0,'denom':0}
 # NP = 100000
 for release in release_list:
     rel = D[release]
-    print('deltaT={}'.format(rel['deltaT']))
+    # print('deltaT={}'.format(rel['deltaT']))
     lon = rel['lon'][:]
     lat = rel['lat'][:]
+    z = rel['z'][:]
 
     # make a mask that is False from the time a particle first leaves the domain
     # and onwards
@@ -112,6 +114,7 @@ for release in release_list:
     ib_mask[lon > AA[1]] = False
     ib_mask[lat < AA[2]] = False
     ib_mask[lat > AA[3]] = False
+    ib_mask[z<zref] = False
 
     # and apply the mask to lon and lat
     lon[~ib_mask] = np.nan
