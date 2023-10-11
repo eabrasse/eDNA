@@ -48,8 +48,8 @@ TV['particle_bin'] = moor_dict['TV_particle_bin']
 TV['label'] = 'Time-varying'
 relstrat_list = [const,TV]
 for relstrat in relstrat_list:
-    relstrat['mean'] = np.mean(relstrat['particle_bin'],axis=0)
-    relstrat['std'] = np.std(relstrat['particle_bin'],axis=0)
+    relstrat['mean'] = np.nanmean(relstrat['particle_bin'],axis=0)
+    relstrat['std'] = np.nanstd(relstrat['particle_bin'],axis=0)
     relstrat['var'] = relstrat['std']**2
     relstrat['cv'] = relstrat['std']/relstrat['mean']
 
