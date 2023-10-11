@@ -86,8 +86,9 @@ for stat in statfig_list:
         axmap.set_xlabel('Longitude')
         axmap.set_ylabel('Latitude')
         
-        axlon.scatter(xx,relstrat[stat][0,:],color=tab10(rscount),label=relstrat['label'])
-        axlat.scatter(relstrat[stat][:,0],yy,color=tab10(rscount),label=relstrat['label'])
+        axlon.scatter(xx[0,:],relstrat[stat][0,:],c=tab10(rscount))
+        axlat.scatter(relstrat[stat][:,0],yy[:,0],c=tab10(rscount))
+        axlat.text(0.9,0.8,restrat['label'],transform=axlat.transAxes,color=tab10(rscount))
         
         rscount+=1
         
