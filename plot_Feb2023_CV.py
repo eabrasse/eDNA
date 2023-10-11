@@ -77,7 +77,7 @@ for stat in statfig_list:
         axmap.contour(lonp,latp,maskr,levels=[0.5],colors='k',linewidths=1,linestyles='solid')
         
         p=axmap.pcolormesh(xx,yy,relstrat[stat],cmap = colmap,norm=normal) 
-        cbaxes = inset_axes(axmap, width="4%", height="60%", loc='center right',bbox_transform=axemap.transAxes,bbox_to_anchor=(0.15,0.,1,1))
+        cbaxes = inset_axes(axmap, width="4%", height="60%", loc='center right',bbox_transform=axmap.transAxes,bbox_to_anchor=(0.15,0.,1,1))
         cb = fig.colorbar(p, cax=cbaxes, orientation='vertical')
         cb.set_label('{} particle wt'.format(stat))
         
