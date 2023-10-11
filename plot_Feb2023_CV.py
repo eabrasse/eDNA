@@ -74,9 +74,10 @@ for stat in statfig_list:
     rscount=0
     for relstrat in relstrat_list:
         axmap = fig.add_subplot(gs[:,rscount])
+        axmap.axis(aa)
         axmap.contour(lonp,latp,maskr,levels=[0.5],colors='k',linewidths=1,linestyles='solid')
         
-        p=axmap.pcolormesh(xx,yy,relstrat[stat],cmap = colmap,norm=normal) 
+        p=axmap.pcolormesh(xx,yy,relstrat[stat].T,cmap = colmap,norm=normal) 
         cbaxes = inset_axes(axmap, width="4%", height="60%", loc='center right',bbox_transform=axmap.transAxes,bbox_to_anchor=(0.15,0.,1,1))
         cb = fig.colorbar(p, cax=cbaxes, orientation='vertical')
         cb.set_label('{} particle wt'.format(stat))
@@ -85,8 +86,8 @@ for stat in statfig_list:
         axmap.set_xlabel('Longitude')
         axmap.set_ylabel('Latitude')
         
-        axlon.plot(xx,relstrat[stat][0,:],color=tab10(rscount),label=relstrat['label'])
-        axlat.plot(relstrat[stat][:,0],yy,color=tab10(rscount),label=relstrat['label'])
+        axlon.scatter(xx,relstrat[stat][0,:],color=tab10(rscount),label=relstrat['label'])
+        axlat.scatter(relstrat[stat][:,0],yy,color=tab10(rscount),label=relstrat['label'])
         
         rscount+=1
         
