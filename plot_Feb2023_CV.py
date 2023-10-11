@@ -78,7 +78,7 @@ for stat in statfig_list:
         axmap.contour(lonp,latp,maskr,levels=[0.5],colors='k',linewidths=1,linestyles='solid')
         
         p=axmap.pcolormesh(xx,yy,relstrat[stat].T,cmap = colmap,norm=normal) 
-        cbaxes = inset_axes(axmap, width="4%", height="60%", loc='center right',bbox_transform=axmap.transAxes,bbox_to_anchor=(0.15,0.,1,1))
+        cbaxes = inset_axes(axmap, width="4%", height="40%", loc='center right',bbox_transform=axmap.transAxes,bbox_to_anchor=(-0.15,-0.05,1,1))
         cb = fig.colorbar(p, cax=cbaxes, orientation='vertical')
         cb.set_label('{} particle wt'.format(stat))
         
@@ -86,9 +86,12 @@ for stat in statfig_list:
         axmap.set_xlabel('Longitude')
         axmap.set_ylabel('Latitude')
         
-        axlon.scatter(xx[0,:],relstrat[stat][0,:],c=tab10(rscount))
-        axlat.scatter(relstrat[stat][:,0],yy[:,0],c=tab10(rscount))
-        axlat.text(0.9,0.8,relstrat['label'],transform=axlat.transAxes,color=tab10(rscount))
+        axlon.scatter(xx[0,:],relstrat[stat][:,0],c=tab10(rscount))
+        axlat.scatter(relstrat[stat][0,:],yy[:,0],c=tab10(rscount))
+        axlat.text(0.9,0.8-0.1*rscount,relstrat['label'],transform=axlat.transAxes,color=tab10(rscount),ha='right')
+        
+        axlat.set_xscale('log')
+        axlon.set_yscale('log')
         
         rscount+=1
         
@@ -96,8 +99,9 @@ for stat in statfig_list:
     axlon.set_ylabel('Long-avg {} particle wt'.format(stat))
     axlat.set_xlabel('Lat-avg {} particle wt'.format(stat))
     axlat.set_ylabel('Latitude')
-    axlat.legend()
+    # axlat.legend()
     
+    plt.subplots_adjust(left=0.1,right=0.975,top=0.98,hspace=0.2,wspace=0.2)
     outfn = home + 'etools/plots/TV_vs_const_{}.png'.format(stat)
     plt.savefig(outfn)
     print(f'Saved to {outfn}')
