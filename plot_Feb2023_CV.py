@@ -92,8 +92,8 @@ for stat in statfig_list:
         axmap.set_xlabel('Longitude')
         axmap.set_ylabel('Latitude')
         
-        axlon.scatter(xx[0,:],np.mean(relstrat[stat],axis=1),color=tab10(rscount))
-        axlat.scatter(np.mean(relstrat[stat],axis=0),yy[:,0],color=tab10(rscount))
+        axlon.scatter(xx[0,:],np.nanmean(relstrat[stat],axis=1),color=tab10(rscount))
+        axlat.scatter(np.nanmean(relstrat[stat],axis=0),yy[:,0],color=tab10(rscount))
         axlat.text(0.9,0.8-0.1*rscount,relstrat['label'],transform=axlat.transAxes,color=tab10(rscount),ha='right')
         
         if stat!='cv':
