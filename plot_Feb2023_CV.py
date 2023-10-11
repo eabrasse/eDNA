@@ -88,7 +88,7 @@ for stat in statfig_list:
         
         axlon.scatter(xx[0,:],relstrat[stat][0,:],c=tab10(rscount))
         axlat.scatter(relstrat[stat][:,0],yy[:,0],c=tab10(rscount))
-        axlat.text(0.9,0.8,restrat['label'],transform=axlat.transAxes,color=tab10(rscount))
+        axlat.text(0.9,0.8,relstrat['label'],transform=axlat.transAxes,color=tab10(rscount))
         
         rscount+=1
         
