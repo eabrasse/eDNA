@@ -97,17 +97,17 @@ for stat in statfig_list:
         axlat.text(0.9,0.8-0.1*rscount,relstrat['label'],transform=axlat.transAxes,color=tab10(rscount),ha='right')
         
         if stat!='cv':
-            print('stat is not cv')
-            axlat.set_xscale('log')
-            axlon.set_yscale('log')
+            # print('stat is not cv')
+            # axlat.set_xscale('log')
+            # axlon.set_yscale('log')
         
         rscount+=1
     
     
     axlon.set_xlabel('Longitude')
     axlon.set_ylabel('particle wt')
-    axlon.text(0.1,0.9,'{}) Long-avg {} particle wt'.format(atoz[rscount],stat),transform=axlon.transAxes)
-    axlat.text(0.1,0.9,'{}) Lat-avg {} particle wt'.format(atoz[rscount+1],stat),transform=axlat.transAxes)
+    axlon.text(0.1,0.9,'{}) Long-avg {} particle wt'.format(atoz[rscount+1],stat),transform=axlon.transAxes)
+    axlat.text(0.1,0.9,'{}) Lat-avg {} particle wt'.format(atoz[rscount],stat),transform=axlat.transAxes)
     axlat.set_xlabel('particle wt')
     axlat.set_ylabel('Latitude')
     # axlat.legend()
