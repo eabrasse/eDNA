@@ -68,8 +68,8 @@ for stat in statfig_list:
     plt.close('all')
     fig = plt.figure(figsize=(12, 8))
     gs = GridSpec(2,len(relstrat_list)+1)
-    axlon = fig.add_subplot(gs[1,len(relstrat_list)+1])
-    axlat = fig.add_subplot(gs[0,len(relstrat_list)+1])
+    axlon = fig.add_subplot(gs[1,len(relstrat_list)])
+    axlat = fig.add_subplot(gs[0,len(relstrat_list)])
     
     rscount=0
     for relstrat in relstrat_list:
