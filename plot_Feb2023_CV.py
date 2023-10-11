@@ -21,8 +21,7 @@ atoz= string.ascii_lowercase
 home = '/data2/pmr4/eab32/'
 
 # get grid from a random file
-in_dir0 = Ldir['LOo'] / 'tracks'
-data_fn = in_dir0 / 'all_3d_hc_dolph_releases.p'
+data_fn = home+'LO_data/tracks/all_3d_hc_dolph_releases.p'
 
 D = pickle.load(open(data_fn,'rb'))
 
