@@ -31,12 +31,17 @@ latp = D['metadata']['lat'][:]
 hh = D['metadata']['h'][:]
 maskr = D['metadata']['mask'][:]
 
+#get mean concentration 
+data_fn = home+'LO_data/eDNA/ESP_Feb2023_hourly.csv'
+df = pd.read_csv(data_fn,sep=',',engine='python')
+DNA_mean = np.mean(df.PB_quantity_mean)
+
 # load mooring results
 moor_fn = home+'LO_data/eDNA/Feb2023_moorings.p'
 
 moor_dict = pickle.load(open(moor_fn,'rb'))
 const= {}
-const['particle_bin'] = moor_dict['const_particle_bin']
+const['particle_bin'] = DNA_mean*moor_dict['const_particle_bin']
 const['label'] = 'Constant'
 TV = {}
 TV['particle_bin'] = moor_dict['TV_particle_bin']
@@ -62,7 +67,7 @@ xx, yy = np.meshgrid(bin_lon_edges[:-1]+0.5*(bin_lon_edges[1]-bin_lon_edges[0]),
 
 statfig_list = ['mean','var','cv']
 colmap = cmo.cm.matter
-normal = matplotlib.colors.LogNorm()
+normal = matplotlib.colors.LogNorm(vmin=2e1,vmax=2e4)
 for stat in statfig_list:
     
     plt.close('all')
@@ -78,7 +83,7 @@ for stat in statfig_list:
         axmap.contour(lonp,latp,maskr,levels=[0.5],colors='k',linewidths=1,linestyles='solid')
         
         p=axmap.pcolormesh(xx,yy,relstrat[stat].T,cmap = colmap,norm=normal) 
-        cbaxes = inset_axes(axmap, width="4%", height="40%", loc='center right',bbox_transform=axmap.transAxes,bbox_to_anchor=(-0.15,-0.05,1,1))
+        cbaxes = inset_axes(axmap, width="4%", height="40%", loc='center right',bbox_transform=axmap.transAxes,bbox_to_anchor=(-0.2,-0.2,1,1))
         cb = fig.colorbar(p, cax=cbaxes, orientation='vertical')
         cb.set_label('{} particle wt'.format(stat))
         
@@ -101,7 +106,7 @@ for stat in statfig_list:
     axlat.set_ylabel('Latitude')
     # axlat.legend()
     
-    plt.subplots_adjust(left=0.1,right=0.975,top=0.98,hspace=0.2,wspace=0.2)
+    plt.subplots_adjust(left=0.1,right=0.975,top=0.98,hspace=0.3,wspace=0.3)
     outfn = home + 'etools/plots/TV_vs_const_{}.png'.format(stat)
     plt.savefig(outfn)
     print(f'Saved to {outfn}')
