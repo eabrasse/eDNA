@@ -82,7 +82,11 @@ for stat in statfig_list:
         axmap.axis(aa)
         axmap.contour(lonp,latp,maskr,levels=[0.5],colors='k',linewidths=1,linestyles='solid')
         
-        p=axmap.pcolormesh(xx,yy,relstrat[stat].T,cmap = colmap,norm=normal) 
+        if stat!='cv':
+            norm = matplotlib.colors.LogNorm(vmin=2e1,vmax=2e4)
+        else:
+            norm = matplotlib.colors.NoNorm
+        p=axmap.pcolormesh(xx,yy,relstrat[stat].T,cmap = colmap,norm= norm) 
         cbaxes = inset_axes(axmap, width="4%", height="40%", loc='center right',bbox_transform=axmap.transAxes,bbox_to_anchor=(-0.2,-0.2,1,1))
         cb = fig.colorbar(p, cax=cbaxes, orientation='vertical')
         cb.set_label('{} particle wt'.format(stat))
@@ -95,13 +99,16 @@ for stat in statfig_list:
         axlat.scatter(relstrat[stat][0,:],yy[:,0],c=tab10(rscount))
         axlat.text(0.9,0.8-0.1*rscount,relstrat['label'],transform=axlat.transAxes,color=tab10(rscount),ha='right')
         
-        axlat.set_xscale('log')
-        axlon.set_yscale('log')
+        if stat!='cv':
+            axlat.set_xscale('log')
+            axlon.set_yscale('log')
         
         rscount+=1
-        
+    
+    
     axlon.set_xlabel('Longitude')
-    axlon.set_ylabel('Long-avg {} particle wt'.format(stat))
+    axlon.set_ylabel('particle wt')
+    axlon.text(0.1,0.9,'{}) Long-avg {} particle wt'.format(stat))
     axlat.set_xlabel('Lat-avg {} particle wt'.format(stat))
     axlat.set_ylabel('Latitude')
     # axlat.legend()
