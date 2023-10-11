@@ -66,8 +66,8 @@ bin_lat_edges=np.linspace(aa[2], aa[3],nbins+1)
 xx, yy = np.meshgrid(bin_lon_edges[:-1]+0.5*(bin_lon_edges[1]-bin_lon_edges[0]),bin_lat_edges[:-1]+0.5*(bin_lat_edges[1]-bin_lat_edges[0]))
 
 statfig_list = ['mean','var','cv']
+norm_list = {'mean':matplotlib.colors.LogNorm(vmin=2e1,vmax=2e4),'var':matplotlib.colors.LogNorm(vmin=2e2,vmax=2e9),'cv':norm = matplotlib.colors.NoNorm}
 colmap = cmo.cm.matter
-normal = matplotlib.colors.LogNorm(vmin=2e1,vmax=2e4)
 for stat in statfig_list:
     
     plt.close('all')
@@ -81,12 +81,9 @@ for stat in statfig_list:
         axmap = fig.add_subplot(gs[:,rscount])
         axmap.axis(aa)
         axmap.contour(lonp,latp,maskr,levels=[0.5],colors='k',linewidths=1,linestyles='solid')
-        
-        if stat!='cv':
-            norm = matplotlib.colors.LogNorm(vmin=2e1,vmax=2e4)
-        else:
-            norm = matplotlib.colors.NoNorm
-        p=axmap.pcolormesh(xx,yy,relstrat[stat].T,cmap = colmap,norm= norm) 
+    
+            
+        p=axmap.pcolormesh(xx,yy,relstrat[stat].T,cmap = colmap,norm= norm_list[stat]) 
         cbaxes = inset_axes(axmap, width="4%", height="40%", loc='center right',bbox_transform=axmap.transAxes,bbox_to_anchor=(-0.2,-0.2,1,1))
         cb = fig.colorbar(p, cax=cbaxes, orientation='vertical')
         cb.set_label('{} particle wt'.format(stat))
@@ -100,6 +97,7 @@ for stat in statfig_list:
         axlat.text(0.9,0.8-0.1*rscount,relstrat['label'],transform=axlat.transAxes,color=tab10(rscount),ha='right')
         
         if stat!='cv':
+            print('stat is not cv')
             axlat.set_xscale('log')
             axlon.set_yscale('log')
         
@@ -109,7 +107,7 @@ for stat in statfig_list:
     axlon.set_xlabel('Longitude')
     axlon.set_ylabel('particle wt')
     axlon.text(0.1,0.9,'{}) Long-avg {} particle wt'.format(atoz[rscount],stat),transform=axlon.transAxes)
-    axlat.text(0.1,0.9,'{}) Lat-avg {} particle wt'.format(atoz[rscount+1],stat),transform=axlon.transAxes)
+    axlat.text(0.1,0.9,'{}) Lat-avg {} particle wt'.format(atoz[rscount+1],stat),transform=axlat.transAxes)
     axlat.set_xlabel('particle wt')
     axlat.set_ylabel('Latitude')
     # axlat.legend()
