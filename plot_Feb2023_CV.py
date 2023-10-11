@@ -66,7 +66,7 @@ bin_lat_edges=np.linspace(aa[2], aa[3],nbins+1)
 xx, yy = np.meshgrid(bin_lon_edges[:-1]+0.5*(bin_lon_edges[1]-bin_lon_edges[0]),bin_lat_edges[:-1]+0.5*(bin_lat_edges[1]-bin_lat_edges[0]))
 
 statfig_list = ['mean','var','cv']
-norm_list = {'mean':matplotlib.colors.LogNorm(vmin=2e1,vmax=2e4),'var':matplotlib.colors.LogNorm(vmin=2e2,vmax=2e9),'cv':norm = matplotlib.colors.NoNorm}
+norm_list = {'mean':matplotlib.colors.LogNorm(vmin=2e1,vmax=2e4),'var':matplotlib.colors.LogNorm(vmin=2e2,vmax=2e9),'cv':matplotlib.colors.NoNorm}
 colmap = cmo.cm.matter
 for stat in statfig_list:
     
