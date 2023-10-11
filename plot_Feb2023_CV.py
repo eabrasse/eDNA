@@ -108,8 +108,9 @@ for stat in statfig_list:
     
     axlon.set_xlabel('Longitude')
     axlon.set_ylabel('particle wt')
-    axlon.text(0.1,0.9,'{}) Long-avg {} particle wt'.format(stat))
-    axlat.set_xlabel('Lat-avg {} particle wt'.format(stat))
+    axlon.text(0.1,0.9,'{}) Long-avg {} particle wt'.format(atoz[rscount],stat),transform=axlon.transAxes)
+    axlat.text(0.1,0.9,'{}) Lat-avg {} particle wt'.format(atoz[rscount+1],stat),transform=axlon.transAxes)
+    axlat.set_xlabel('particle wt')
     axlat.set_ylabel('Latitude')
     # axlat.legend()
     
