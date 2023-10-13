@@ -97,10 +97,10 @@ for stat in statfig_list:
         axlat.scatter(np.nanmean(relstrat[stat],axis=0),yy[:,0],color=tab10(rscount))
         axlat.text(0.9,0.8-0.1*rscount,relstrat['label'],transform=axlat.transAxes,color=tab10(rscount),ha='right')
         
-        # if stat!='cv':
+        if stat!='cv':
             # print('stat is not cv')
-            # axlat.set_xscale('log')
-            # axlon.set_yscale('log')
+            axlat.set_xscale('log')
+            axlon.set_yscale('log')
         
         rscount+=1
     
