@@ -152,7 +152,7 @@ vmax_list = [np.percentile(100*rt['hist_nodecay'][rt['hist_nodecay']>0],90) for 
 vmax = np.max(vmax_list)
 vmax2 = 0.001
 # xymax = 100*max([rt['hist_nodecay'].max() for rt in release_type_list])
-xymax = 100*max([np.percentile(rt['hist_nodecay'],97) for rt in release_type_list])
+xymax = 100*max([np.percentile(rt['hist_nodecay'],98) for rt in release_type_list])
 xmean = tvary['hist_decay'].mean()
 # sort indexes
 tv_inds = tvary['hist_decay'].flatten().argsort()
