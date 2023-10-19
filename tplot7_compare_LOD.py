@@ -159,7 +159,7 @@ DNA_conc_rel_list = [1e2,1e3,1e4,1e5]
 nDNA_conc_rel = len(DNA_conc_rel_list)
 plt.close('all')
 fw,fh=efun.gen_plot_props()
-figsize = (fw*4,fh*1.5)
+figsize = (fw*3,fh)
 fig,axs = plt.subplots(1,nDNA_conc_rel,figsize=figsize)
 vmin = 0
 # vmax = max(DNA_conc_rel_list) * np.percentile(particle_conc_bin,90)/particle_conc_rel
@@ -177,7 +177,10 @@ for i in range(nDNA_conc_rel):
     # if np.nanmax(DNA_conc_bin)>5:
         # ax.contour(xx,yy,DNA_conc_bin,levels=[5],colors=['limegreen'],linewidths=[2],linestyles=['solid'],zorder=1000)
     ax.set_xlabel('Dist from pen (m)')
-    ax.set_ylabel('Dist from pen (m)')
+    if i>0:
+        ax1.set_yticklabels([''])
+    else:
+        ax1.set_ylabel('Dist from pen (m)')
     ax.text(0.1,0.95,'DNA conc near source\n'+f'{int(DNA_conc_rel):}'+r' copies $\mu\mathrm{L}^{-1}$',transform=ax.transAxes,ha='left',va='top',bbox=props2)
 
 cbaxes = inset_axes(axs[-1], width="4%", height="60%", loc='center right',bbox_transform=axs[-1].transAxes,bbox_to_anchor=(0.15,0.,1,1))
@@ -208,7 +211,7 @@ ax.set_xlabel(r'DNA concentration near source (copies $\mu\mathrm{L}^{-1}$)')
 ax.set_ylabel(r'Area above LOD ($\mathrm{m}^{2}$)')
 ax.grid()
 
-plt.subplots_adjust(left=0.23,right=0.95,top=0.98,bottom=0.18)
+plt.subplots_adjust(left=0.23,right=0.95,top=0.98,bottom=0.18,wspace=0.08)
 outfn = '/data2/pmr4/eab32/etools/plots/hc_dolph_LOD_area.png'
 fig.savefig(outfn)
 print('saved to {}'.format(outfn))
