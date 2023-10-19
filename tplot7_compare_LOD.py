@@ -188,7 +188,7 @@ cb = fig.colorbar(p, cax=cbaxes, orientation='vertical')
 cb.set_label(r'copies $\mu\mathrm{L}^{-1}$')
 
 #plt.show()
-plt.subplots_adjust(left=0.1,right=0.9,bottom=0.18,wspace=0.1)
+plt.subplots_adjust(left=0.08,right=0.92,bottom=0.18,wspace=0.1,top=0.98)
 outfn = '/data2/pmr4/eab32/etools/plots/hc_dolph_LOD.png'
 fig.savefig(outfn)
 print('saved to {}'.format(outfn))
