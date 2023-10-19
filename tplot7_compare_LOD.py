@@ -211,7 +211,7 @@ ax.set_xlabel(r'DNA concentration near source (copies $\mu\mathrm{L}^{-1}$)')
 ax.set_ylabel(r'Area above LOD ($\mathrm{m}^{2}$)')
 ax.grid()
 
-plt.subplots_adjust(left=0.23,right=0.95,top=0.98,bottom=0.3,wspace=0.0)
+plt.subplots_adjust(left=0.23,right=0.95,top=0.98,bottom=0.5,wspace=0.0)
 outfn = '/data2/pmr4/eab32/etools/plots/hc_dolph_LOD_area.png'
 fig.savefig(outfn)
 print('saved to {}'.format(outfn))
