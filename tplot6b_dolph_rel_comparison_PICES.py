@@ -176,8 +176,12 @@ for rt in range(Nrt):
     release_type[key][release_type[key]==0]=np.nan
     p=ax1.pcolormesh(xx,yy,100*release_type[key],vmax=vmax,vmin=vmin,cmap=cmo.cm.matter)
     # add axis labels
-    ax1.set_ylabel('Latitude')
+    if rt>0:
+        ax1.set_yticklabels([''])
+    else:
+        ax1.set_ylabel('Latitude')
     ax1.set_xlabel('Longitude')
+    plt.setp( ax1.xaxis.get_majorticklabels(), rotation=30, ha="right",rotation_mode='anchor')
     ax1.ticklabel_format(axis='both',style='plain',useOffset=False)
     # ax1.set_title(release_type['desc'])
     
