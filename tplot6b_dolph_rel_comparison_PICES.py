@@ -224,7 +224,7 @@ cb = fig1.colorbar(p, cax=cbaxes, orientation='vertical')
 cb.set_label(r'$\%$ released particles')
 
 #plt.show()
-fig1.subplots_adjust(bottom=0.08,top=0.98,left=0.08,right=0.88,wspace=0.1)
+fig1.subplots_adjust(bottom=0.12,top=0.98,left=0.08,right=0.88,wspace=0.1)
 outfn1 = '/data2/pmr4/eab32/etools/plots/hc_dolph_3d_compare_releases_heatmapB.png'
 fig1.savefig(outfn1)
 print('saved to {}'.format(outfn1))
