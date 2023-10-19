@@ -182,7 +182,7 @@ for rt in range(Nrt):
         ax1.set_ylabel('Latitude')
     ax1.set_xlabel('Longitude')
     plt.setp( ax1.xaxis.get_majorticklabels(), rotation=30, ha="right",rotation_mode='anchor')
-    ax1.ticklabel_format(axis='both',style='plain',useOffset=False)
+    ax1.ticklabel_format(axis='x',style='plain',useOffset=False)
     # ax1.set_title(release_type['desc'])
     
 
@@ -224,7 +224,7 @@ cb = fig1.colorbar(p, cax=cbaxes, orientation='vertical')
 cb.set_label(r'$\%$ released particles')
 
 #plt.show()
-fig1.subplots_adjust(bottom=0.08,top=0.98,left=0.08,right=0.88,wspace=0.3)
+fig1.subplots_adjust(bottom=0.08,top=0.98,left=0.08,right=0.88,wspace=0.1)
 outfn1 = '/data2/pmr4/eab32/etools/plots/hc_dolph_3d_compare_releases_heatmapB.png'
 fig1.savefig(outfn1)
 print('saved to {}'.format(outfn1))
