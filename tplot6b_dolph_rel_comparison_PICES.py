@@ -214,7 +214,7 @@ for rt in range(Nrt):
 
 
 
-cbaxes = inset_axes(axes1[0,-1], width="4%", height="60%", loc='center right',bbox_transform=axes1[0,-1].transAxes,bbox_to_anchor=(0.15,0.,1,1))
+cbaxes = inset_axes(axes1[-1], width="4%", height="60%", loc='center right',bbox_transform=axes1[-1].transAxes,bbox_to_anchor=(0.15,0.,1,1))
 cb = fig1.colorbar(p, cax=cbaxes, orientation='vertical')
 cb.set_label(r'$\%$ released particles')
 
