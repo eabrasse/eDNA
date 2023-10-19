@@ -38,7 +38,7 @@ cmap_mask = matplotlib.colors.ListedColormap([landcol,seacol])
 # colors.insert(0,(mygreen[0], mygreen[1], mygreen[2],0))
 # newBlues = matplotlib.colors.LinearSegmentedColormap.from_list('mycmap', colors, N=100)
 
-newcmap = cmocean.tools.crop_by_percent(cmo.cm.oxy, 20, which='min', N=None)
+newcmap = cmo.tools.crop_by_percent(cmo.cm.oxy, 20, which='min', N=None)
 
 #custom diverging colormap
 # ncolors = 256
