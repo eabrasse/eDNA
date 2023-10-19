@@ -173,11 +173,12 @@ for rt in range(Nrt):
     pfun.dar(ax1)
     ax1.plot(lon0, lat0, marker='*',mec='k',mfc='yellow', markersize=10,alpha=1,zorder=500)
     # plot particle heatmap
+    release_type[key][release_type[key]==0]=np.nan
     p=ax1.pcolormesh(xx,yy,100*release_type[key],vmax=vmax,vmin=vmin,cmap=cmo.cm.matter)
     # add axis labels
     ax1.set_ylabel('Latitude')
     ax1.set_xlabel('Longitude')
-    ax1.ticklabel_format(axis='both',style='plain')
+    ax1.ticklabel_format(axis='x',style='plain')
     # ax1.set_title(release_type['desc'])
     
 
