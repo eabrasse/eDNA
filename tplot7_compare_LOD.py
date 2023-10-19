@@ -32,21 +32,23 @@ seacol = (1.0,1.0,1.0,0)
 cmap_mask = matplotlib.colors.ListedColormap([landcol,seacol])
 
 #custom sequential colormap
-paired = plt.get_cmap('Paired',12)
-mygreen = [p for p in paired(3)]
-colors = [(mygreen[0], mygreen[1], mygreen[2],c) for c in np.linspace(0.25,1,99)]
-colors.insert(0,(mygreen[0], mygreen[1], mygreen[2],0))
-newBlues = matplotlib.colors.LinearSegmentedColormap.from_list('mycmap', colors, N=100)
+# paired = plt.get_cmap('Paired',12)
+# mygreen = [p for p in paired(3)]
+# colors = [(mygreen[0], mygreen[1], mygreen[2],c) for c in np.linspace(0.25,1,99)]
+# colors.insert(0,(mygreen[0], mygreen[1], mygreen[2],0))
+# newBlues = matplotlib.colors.LinearSegmentedColormap.from_list('mycmap', colors, N=100)
+
+newcmap = cmocean.tools.crop_by_percent(cmo.cm.oxy, 20, which='min', N=None)
 
 #custom diverging colormap
-ncolors = 256
-ncolors_half = int(ncolors/2)
-myblue = [p for p in matplotlib.colors.to_rgba('blue')]
-myred = [p for p in matplotlib.colors.to_rgba('red')]
-blue_array = [(myblue[0], myblue[1], myblue[2],c) for c in np.linspace(0,1,ncolors_half)[::-1]]
-red_array = [(myred[0], myred[1], myred[2],c) for c in np.linspace(0,1,ncolors_half)]
-color_array = np.concatenate((blue_array,red_array),axis=0)
-newbwr = matplotlib.colors.LinearSegmentedColormap.from_list('newbwr', color_array, N=100)
+# ncolors = 256
+# ncolors_half = int(ncolors/2)
+# myblue = [p for p in matplotlib.colors.to_rgba('blue')]
+# myred = [p for p in matplotlib.colors.to_rgba('red')]
+# blue_array = [(myblue[0], myblue[1], myblue[2],c) for c in np.linspace(0,1,ncolors_half)[::-1]]
+# red_array = [(myred[0], myred[1], myred[2],c) for c in np.linspace(0,1,ncolors_half)]
+# color_array = np.concatenate((blue_array,red_array),axis=0)
+# newbwr = matplotlib.colors.LinearSegmentedColormap.from_list('newbwr', color_array, N=100)
 
 # # Choose an experiment and release to plot.
 in_dir0 = Ldir['LOo'] / 'tracks'
@@ -161,7 +163,7 @@ figsize = (fw*4,fh*1.5)
 fig,axs = plt.subplots(1,nDNA_conc_rel,figsize=figsize)
 vmin = 0
 # vmax = max(DNA_conc_rel_list) * np.percentile(particle_conc_bin,90)/particle_conc_rel
-vmax = 5
+vmax = 6.25
 
 for i in range(nDNA_conc_rel):
     DNA_conc_rel = DNA_conc_rel_list[i]
@@ -171,7 +173,7 @@ for i in range(nDNA_conc_rel):
     ax.contour(xgrid,ygrid,wd_mask[wd_ind,:,:],levels=[0.5],colors=['k'],linewidths=[1.5])
     ax.axis(aaxy)
     ax.plot([0],[0],marker='*',mec='k',mfc='yellow',markersize=15,alpha=1,zorder=500)
-    p=ax.pcolormesh(xx,yy,DNA_conc_bin,vmax=vmax,vmin=vmin,cmap=cmo.cm.matter)
+    p=ax.pcolormesh(xx,yy,DNA_conc_bin,vmax=vmax,vmin=vmin,cmap=newcmap)
     if np.nanmax(DNA_conc_bin)>5:
         ax.contour(xx,yy,DNA_conc_bin,levels=[5],colors=['limegreen'],linewidths=[2],linestyles=['solid'],zorder=1000)
     ax.set_xlabel('Dist from pen (m)')
