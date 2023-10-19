@@ -89,7 +89,7 @@ const_denom=0
 tvary_denom = 0
 pulse = {'desc':'Pulse','hist_nodecay':0,'hist_decay':0,'denom':0}
 const = {'desc':'Constant','hist_nodecay':0,'hist_decay':0,'denom':0}
-tvary = {'desc':'Varying','hist_nodecay':0,'hist_decay':0,'denom':0}
+tvary = {'desc':'Time-varying','hist_nodecay':0,'hist_decay':0,'denom':0}
 # NP = 100000
 for release in release_list:
     rel = D[release]
@@ -224,7 +224,7 @@ cb = fig1.colorbar(p, cax=cbaxes, orientation='vertical')
 cb.set_label(r'$\%$ released particles')
 
 #plt.show()
-fig1.subplots_adjust(bottom=0.2,top=0.98,left=0.08,right=0.88,wspace=0.1)
+fig1.subplots_adjust(bottom=0.2,top=0.98,left=0.08,right=0.88,wspace=0.05)
 outfn1 = '/data2/pmr4/eab32/etools/plots/hc_dolph_3d_compare_releases_heatmapB.png'
 fig1.savefig(outfn1)
 print('saved to {}'.format(outfn1))
