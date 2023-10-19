@@ -19,7 +19,7 @@ import pytz
 from lo_tools import Lfun
 from lo_tools import plotting_functions as pfun
 import string
-import cmocean
+import cmocean as cmo
 
 atoz = string.ascii_lowercase
 Ldir = Lfun.Lstart()
