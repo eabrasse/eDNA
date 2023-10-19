@@ -39,7 +39,7 @@ cmap_mask = matplotlib.colors.ListedColormap([landcol,seacol])
 # newBlues = matplotlib.colors.LinearSegmentedColormap.from_list('mycmap', colors, N=100)
 
 newcmap = cmo.tools.crop_by_percent(cmo.cm.oxy, 20, which='min', N=None)
-
+props2 = dict(boxstyle='round', facecolor='white',edgecolor='none',alpha=0.5)
 #custom diverging colormap
 # ncolors = 256
 # ncolors_half = int(ncolors/2)
@@ -178,7 +178,7 @@ for i in range(nDNA_conc_rel):
         # ax.contour(xx,yy,DNA_conc_bin,levels=[5],colors=['limegreen'],linewidths=[2],linestyles=['solid'],zorder=1000)
     ax.set_xlabel('Dist from pen (m)')
     ax.set_ylabel('Dist from pen (m)')
-    ax.text(0.1,0.95,'DNA conc near source\n'+f'{int(DNA_conc_rel):}'+r' copies $\mu\mathrm{L}^{-1}$',transform=ax.transAxes,ha='left',va='top')
+    ax.text(0.1,0.95,'DNA conc near source\n'+f'{int(DNA_conc_rel):}'+r' copies $\mu\mathrm{L}^{-1}$',transform=ax.transAxes,ha='left',va='top',bbox=props2)
 
 cbaxes = inset_axes(axs[-1], width="4%", height="60%", loc='center right',bbox_transform=axs[-1].transAxes,bbox_to_anchor=(0.15,0.,1,1))
 cb = fig.colorbar(p, cax=cbaxes, orientation='vertical')
