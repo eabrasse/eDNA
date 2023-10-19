@@ -153,7 +153,7 @@ xsort = 100*tvary['hist_decay'].flatten()[tv_inds]
 # PLOTTING
 plt.close('all')
 fw, fh = efun.gen_plot_props()
-figsize = (fw*2,fh)
+figsize = (fw*3,fh)
 fig1,axes1 = plt.subplots(1,Nrt,figsize=figsize)
 # fig2,axes2 = plt.subplots(1,Nrt,figsize=figsize)
 count=0
@@ -178,7 +178,7 @@ for rt in range(Nrt):
     # add axis labels
     ax1.set_ylabel('Latitude')
     ax1.set_xlabel('Longitude')
-    ax1.ticklabel_format(axis='x',style='plain')
+    ax1.ticklabel_format(axis='both',style='plain',useOffset=False)
     # ax1.set_title(release_type['desc'])
     
 
@@ -220,7 +220,7 @@ cb = fig1.colorbar(p, cax=cbaxes, orientation='vertical')
 cb.set_label(r'$\%$ released particles')
 
 #plt.show()
-fig1.subplots_adjust(bottom=0.08,top=0.98,left=0.08,right=0.98,hspace=0.3)
+fig1.subplots_adjust(bottom=0.08,top=0.98,left=0.08,right=0.88,wspace=0.3)
 outfn1 = '/data2/pmr4/eab32/etools/plots/hc_dolph_3d_compare_releases_heatmapB.png'
 fig1.savefig(outfn1)
 print('saved to {}'.format(outfn1))
