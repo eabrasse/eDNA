@@ -172,7 +172,7 @@ for i in range(nDNA_conc_rel):
     ax.axis(aaxy)
     ax.plot([0],[0],marker='*',mec='k',mfc='yellow',markersize=15,alpha=1,zorder=500)
     p=ax.pcolormesh(xx,yy,DNA_conc_bin,vmax=vmax,vmin=vmin,cmap=cmo.cm.matter)
-    if DNA_conc_bin.max()>5:
+    if np.nanmax(DNA_conc_bin)>5:
         ax.contour(xx,yy,DNA_conc_bin,levels=[5],colors=['m'],linewidths=[1],linestyles=['solid'],zorder=1000)
     ax.set_xlabel('Dist from pen (m)')
     ax.set_ylabel('Dist from pen (m)')
