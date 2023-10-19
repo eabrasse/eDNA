@@ -19,6 +19,7 @@ import pytz
 from lo_tools import Lfun
 from lo_tools import plotting_functions as pfun
 import string
+import cmocean as cmo
 
 atoz = string.ascii_lowercase
 Ldir = Lfun.Lstart()
@@ -143,6 +144,8 @@ for release in release_list:
     particle_bin += hist[0].T
 
 #normalize
+particle_bin[particle_bin==0]=np.nan
+
 vol_rel = dxrel*dyrel*dzrel
 particle_conc_rel = particle_rel/vol_rel
 
@@ -168,7 +171,7 @@ for i in range(nDNA_conc_rel):
     ax.contour(xgrid,ygrid,wd_mask[wd_ind,:,:],levels=[0.5],colors=['k'],linewidths=[1.5])
     ax.axis(aaxy)
     ax.plot([0],[0],marker='*',mec='k',mfc='yellow',markersize=15,alpha=1,zorder=500)
-    p=ax.pcolormesh(xx,yy,DNA_conc_bin,vmax=vmax,vmin=vmin,cmap=newBlues)
+    p=ax.pcolormesh(xx,yy,DNA_conc_bin,vmax=vmax,vmin=vmin,cmap=cmo.cm.matter)
     if DNA_conc_bin.max()>5:
         ax.contour(xx,yy,DNA_conc_bin,levels=[5],colors=['m'],linewidths=[1],linestyles=['solid'],zorder=1000)
     ax.set_xlabel('Dist from pen (m)')
