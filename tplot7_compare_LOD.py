@@ -163,7 +163,7 @@ figsize = (fw*4,fh*1.5)
 fig,axs = plt.subplots(1,nDNA_conc_rel,figsize=figsize)
 vmin = 0
 # vmax = max(DNA_conc_rel_list) * np.percentile(particle_conc_bin,90)/particle_conc_rel
-vmax = 6.25
+vmax = 20/3
 
 for i in range(nDNA_conc_rel):
     DNA_conc_rel = DNA_conc_rel_list[i]
