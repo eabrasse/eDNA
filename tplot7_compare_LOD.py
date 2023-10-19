@@ -39,7 +39,7 @@ cmap_mask = matplotlib.colors.ListedColormap([landcol,seacol])
 # newBlues = matplotlib.colors.LinearSegmentedColormap.from_list('mycmap', colors, N=100)
 
 newcmap = cmo.tools.crop_by_percent(cmo.cm.oxy, 20, which='min', N=None)
-props2 = dict(boxstyle='round', facecolor='white',edgecolor='none',alpha=0.5)
+props2 = dict(boxstyle='round', facecolor='white',edgecolor='none',alpha=0.8)
 #custom diverging colormap
 # ncolors = 256
 # ncolors_half = int(ncolors/2)
