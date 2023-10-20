@@ -77,11 +77,15 @@ lonr = D['metadata']['lon'][:]
 latr = D['metadata']['lat'][:]
 maskr = D['metadata']['mask'][:]
 
+
+# MAP
+xgrid,ygrid = efun.ll2xy(lonp,latp,lon0,lat0)
+
 # ax.imshow(img, extent=img_extent,transform=ccrs.PlateCarree())
-ax.pcolormesh(lonr,latr,maskr,cmap=cmap_mask,shading='nearest',zorder=0)
-ax.contour(lonr,latr,maskr,levels=[0.5],colors=['k'],linewidths=[1.5])
-ax.set_xlabel('Longitude')
-ax.set_ylabel('Latitude')
+ax.pcolormesh(xgrid,ygrid,maskr,cmap=cmap_mask,shading='nearest',zorder=0)
+ax.contour(xgrid,ygrid,maskr,levels=[0.5],colors=['k'],linewidths=[1.5])
+ax.set_xlabel('Dist from pen (m)')
+ax.set_ylabel('Dist from pen (m)')
 gl=ax.gridlines(draw_labels=True, dms=False, x_inline=False, y_inline=False)
 gl.top_labels = False
 gl.right_labels = False
@@ -92,8 +96,9 @@ mooring_axes = []
 for ind in ns_inds:
 
     moor = moor_list[ind]
-
-    ax.plot(moor['lon'],moor['lat'],marker='d',mec='k',mfc = rainbow(moor_count),markersize=10)
+    
+    x,y = efun.ll2xy(moor['lon'],moor['lat'],lon0,lat0)
+    ax.plot(x,y,marker='d',mec='k',mfc = rainbow(moor_count),markersize=10)
 
     axm = plt.subplot(gs[(3*moor_count):(3*(moor_count+1)),1])
 
@@ -125,7 +130,7 @@ for ind in ns_inds:
     mooring_axes.append(axm)
 
     # calculate stats
-    x,y = efun.ll2xy(moor['lon'],moor['lat'],lon0,lat0)
+    
     moor['dist_from_pen'] = np.sqrt(x**2+y**2)
     const_std = np.std(DNA_mean*moor['const_particle_bin'][moor['const_particle_bin']>0])
     const_mean =np.mean(DNA_mean*moor['const_particle_bin'][moor['const_particle_bin']>0])
@@ -173,7 +178,7 @@ mooring_axes[0].text(0.9,0.9,'solid=time varying\ndashed=constant',transform=moo
 ax_mean.text(0.95,0.8,'filled=time varying\nempty=constant',transform=ax_mean.transAxes,ha='right',va='top',fontsize=8)
 
 fig.subplots_adjust(right=0.98,left=0.1,bottom=0.1,top = 0.98)
-outfn = home+'etools/plots/Feb2023_mooringsD.png'
+outfn = home+'etools/plots/Feb2023_mooringsE.png'
 plt.savefig(outfn)
 print(f'Saved to {outfn}')
 plt.close()
