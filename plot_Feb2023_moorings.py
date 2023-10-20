@@ -155,7 +155,7 @@ for ind in ns_inds:
 
 
 # ax.axis([-122.735,-122.725,47.74,47.75])
-lonaxes = [-122.735,-122.725];lataxes=[47.74,47.75]
+lonaxes = np.array([-122.735,-122.725]);lataxes=np.array([47.74,47.75])
 xaxes,yaxes = efun.ll2xy(lonaxes,lataxes,lon0,lat0)
 ax.axis([xaxes[0],xaxes[1],yaxes[0],yaxes[1]])
 
