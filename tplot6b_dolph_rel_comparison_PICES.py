@@ -67,22 +67,48 @@ wd_ind = wd_td_list.index(min(wd_td_list))
 # dolphin pen location
 lon0 = -122.729779; lat0 = 47.742773
 
+# # MAP
+# # set domain limits
+# pad = .01
+# # plot region around delta pier, using release point as indicator
+# aa = [lon0-pad, lon0+pad,
+#    lat0-pad, lat0+pad]
+#
+# #identify grid edge limits for making mask
+# AA = [lonp[0,0], lonp[0,-1],
+#         latp[0,0], latp[-1,0]]
+# zref = -2
+#
+# nbins = 100
+# bin_lon_edges=np.linspace(aa[0], aa[1],nbins+1)
+# bin_lat_edges=np.linspace(aa[2], aa[3],nbins+1)
+# xx, yy = np.meshgrid(bin_lon_edges[:-1]+0.5*(bin_lon_edges[1]-bin_lon_edges[0]),bin_lat_edges[:-1]+0.5*(bin_lat_edges[1]-bin_lat_edges[0]))
+# dolphin pen location
+lon0 = -122.729779; lat0 = 47.742773
+
 # MAP
+xgrid,ygrid = efun.ll2xy(lonp,latp,lon0,lat0)
 # set domain limits
 pad = .01
 # plot region around delta pier, using release point as indicator
 aa = [lon0-pad, lon0+pad,
    lat0-pad, lat0+pad]
- 
+
+aax,aay =  efun.ll2xy(np.array(aa[:2]),np.array(aa[2:]),lon0,lat0)
+aaxy = [aax[0],aax[1],aay[0],aay[1]]
+
 #identify grid edge limits for making mask      
 AA = [lonp[0,0], lonp[0,-1],
         latp[0,0], latp[-1,0]]
 zref = -2
 
 nbins = 100
-bin_lon_edges=np.linspace(aa[0], aa[1],nbins+1)
-bin_lat_edges=np.linspace(aa[2], aa[3],nbins+1)
-xx, yy = np.meshgrid(bin_lon_edges[:-1]+0.5*(bin_lon_edges[1]-bin_lon_edges[0]),bin_lat_edges[:-1]+0.5*(bin_lat_edges[1]-bin_lat_edges[0]))
+bin_x_edges=np.linspace(aax[0], aax[1],nbins+1)
+bin_y_edges=np.linspace(aay[0], aay[1],nbins+1)
+xx, yy = np.meshgrid(bin_x_edges[:-1]+0.5*(bin_x_edges[1]-bin_x_edges[0]),bin_y_edges[:-1]+0.5*(bin_y_edges[1]-bin_y_edges[0]))
+# dxbin = bin_x_edges[1]-bin_x_edges[0]
+# dybin = bin_y_edges[1]-bin_y_edges[0]
+# dzbin = np.abs(zref)
 
 vmax = 75
 const_denom=0
@@ -112,7 +138,10 @@ for release in release_list:
     lon[~ib_mask] = np.nan
     lat[~ib_mask] = np.nan
     
-    hist = np.histogram2d(lon[:],lat[:],bins=[bin_lon_edges,bin_lat_edges])
+    # hist = np.histogram2d(lon[:],lat[:],bins=[bin_lon_edges,bin_lat_edges])
+    xp,yp = efun.ll2xy(lon,lat,lon0,lat0)
+    
+    hist = np.histogram2d(xp,yp,bins=[bin_x_edges,bin_y_edges])
     
     # add to hist piles
     if release==release_list[0]:
@@ -167,11 +196,11 @@ for rt in range(Nrt):
     ax1 = axes1[rt]
     
     # add context - shoreline, etc
-    ax1.pcolormesh(lonp,latp,maskr,cmap=cmap_mask,shading='nearest',zorder=0)
-    ax1.contour(lonp,latp,wd_mask[wd_ind,:,:],levels=[0.5],colors=['k'],linewidths=[1.5])
-    ax1.axis(aa)
-    pfun.dar(ax1)
-    ax1.plot(lon0, lat0, marker='*',mec='k',mfc='yellow', markersize=10,alpha=1,zorder=500)
+    ax1.pcolormesh(xgrid,ygrid,maskr,cmap=cmap_mask,shading='nearest',zorder=0)
+    ax1.contour(xgrid,ygrid,wd_mask[wd_ind,:,:],levels=[0.5],colors=['k'],linewidths=[1.5])
+    ax1.axis(aaxy)
+    # pfun.dar(ax1)
+    ax1.plot([0], [0], marker='*',mec='k',mfc='yellow', markersize=10,alpha=1,zorder=500)
     # plot particle heatmap
     release_type[key][release_type[key]==0]=np.nan
     p=ax1.pcolormesh(xx,yy,100*release_type[key],vmax=vmax,vmin=vmin,cmap=cmo.cm.matter)
@@ -179,8 +208,8 @@ for rt in range(Nrt):
     if rt>0:
         ax1.set_yticklabels([''])
     else:
-        ax1.set_ylabel('Latitude')
-    ax1.set_xlabel('Longitude')
+        ax1.set_ylabel('Dist from pen (m)')
+    ax1.set_xlabel('Dist from pen (m)')
     plt.setp( ax1.xaxis.get_majorticklabels(), rotation=15, ha="right",rotation_mode='anchor')
     ax1.ticklabel_format(axis='x',style='plain',useOffset=False)
     # ax1.set_title(release_type['desc'])
@@ -211,7 +240,7 @@ for rt in range(Nrt):
     #     f'RMSE = {rmse:0.2}\nNRSME = {nrmse:0.2}\nlinear fit = {pfit[0]:0.2}x+{pfit[1]:0.2}\nR2={Rsquared:0.2}\nWSS={wss:0.2}',
     #     transform=ax2.transAxes,ha='right',va='bottom',color='k',zorder=50,fontsize=10)
     
-    
+    ax1.set_aspect(1)
     ax1.text(0.1,0.9,'{:}) {:}'.format(atoz[count],release_type['desc']),transform=ax1.transAxes,ha='left',va='top',color='black')
     # ax2.text(0.1,0.9,'{:}) {:}{:}'.format(atoz[count],release_type['desc'],decay_label_list[dk]),transform=ax2.transAxes,ha='left',va='top',color='black')
     
@@ -225,7 +254,7 @@ cb.set_label(r'$\%$ released particles')
 
 #plt.show()
 fig1.subplots_adjust(bottom=0.2,top=0.98,left=0.08,right=0.88,wspace=0.05)
-outfn1 = '/data2/pmr4/eab32/etools/plots/hc_dolph_3d_compare_releases_heatmapB.png'
+outfn1 = '/data2/pmr4/eab32/etools/plots/hc_dolph_3d_compare_releases_heatmapC.png'
 fig1.savefig(outfn1)
 print('saved to {}'.format(outfn1))
 # fig2.subplots_adjust(bottom=0.08,top=0.98,left=0.08,right=0.98,hspace=0.3)
