@@ -155,6 +155,9 @@ for ind in ns_inds:
 
 
 # ax.axis([-122.735,-122.725,47.74,47.75])
+lonaxes = [-122.735,-122.725];lataxes=[47.74,47.75]
+xaxes,yaxes = efun.ll2xy(lonaxes,lataxes,lon0,lat0)
+ax.axis([xaxes[0],xaxes[1],yaxes[0],yaxes[1]])
 
 ax_mean.text(0.1,0.9,'{}) Mean of nonzeros'.format(atoz[moor_count]),color='k',transform=ax_mean.transAxes,ha='left',va='top')
 ax_var.text(0.1,0.9,'{}) Variance of nonzeros'.format(atoz[moor_count+1]),color='k',transform=ax_var.transAxes,ha='left',va='top')
