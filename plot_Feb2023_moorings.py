@@ -65,7 +65,8 @@ ax_mean = plt.subplot(gs[:(nmoor),-1])
 ax_var = plt.subplot(gs[(nmoor):(2*nmoor),-1])
 ax_std2mean = plt.subplot(gs[(2*nmoor):,-1])
 
-ax = plt.subplot(gs[:,0],projection=ccrs.PlateCarree())
+# ax = plt.subplot(gs[:,0],projection=ccrs.PlateCarree())
+ax = plt.subplot(gs[:,0])
 
 # # get grid from random file
 grid_fn= home+ 'LO_output/tracks/all_3d_hc_dolph_releases.p'
@@ -86,9 +87,9 @@ ax.pcolormesh(xgrid,ygrid,maskr,cmap=cmap_mask,shading='nearest',zorder=0)
 ax.contour(xgrid,ygrid,maskr,levels=[0.5],colors=['k'],linewidths=[1.5])
 ax.set_xlabel('Dist from pen (m)')
 ax.set_ylabel('Dist from pen (m)')
-gl=ax.gridlines(draw_labels=True, dms=False, x_inline=False, y_inline=False)
-gl.top_labels = False
-gl.right_labels = False
+# gl=ax.gridlines(draw_labels=True, dms=False, x_inline=False, y_inline=False)
+# gl.top_labels = False
+# gl.right_labels = False
 
 moor_count=0
 mooring_axes = []
