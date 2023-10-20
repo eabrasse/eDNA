@@ -68,10 +68,9 @@ ax_std2mean = plt.subplot(gs[(2*nmoor):,-1])
 ax = plt.subplot(gs[:,0],projection=ccrs.PlateCarree())
 
 # # get grid from random file
-in_dir0 = Ldir['LOo'] / 'tracks'
-data_fn = in_dir0 / 'all_3d_hc_dolph_releases.p'
+grid_fn= home+ 'LO_output/tracks/all_3d_hc_dolph_releases.p'
 
-D = pickle.load(open(data_fn,'rb'))
+D = pickle.load(open(grid_fn,'rb'))
 
 # gather some fields, for convenience
 lonr = D['metadata']['lon'][:]
