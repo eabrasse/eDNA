@@ -79,7 +79,7 @@ maskr = D['metadata']['mask'][:]
 
 
 # MAP
-xgrid,ygrid = efun.ll2xy(lonp,latp,lon0,lat0)
+xgrid,ygrid = efun.ll2xy(lonr,latr,lon0,lat0)
 
 # ax.imshow(img, extent=img_extent,transform=ccrs.PlateCarree())
 ax.pcolormesh(xgrid,ygrid,maskr,cmap=cmap_mask,shading='nearest',zorder=0)
