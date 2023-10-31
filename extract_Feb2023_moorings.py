@@ -54,6 +54,8 @@ for f in f_list:
     if count==0:
         Tmin = T0
         Tmax = T1
+        DNA_mean = np.mean(df.PB_quantity_mean)
+        
     else:
         Tmin = min([Tmin,T0])
         Tmax = max([Tmax,T1])
@@ -125,9 +127,16 @@ nt = len(dt_list0)
 const_particle_bin = np.zeros((nt,nbins,nbins))
 TV_particle_bin = np.zeros((nt,nbins,nbins))
 
+#normalize
+vol_rel = dxrel*dyrel*dzrel
+
+vol_bin = dxbin*dybin*dzbin
+
+
 k_decay = 0.02/3600 #units: data 0.02 1/hr, multiply by hr/sec to get 1/sec
 
 count =0
+flag=0
 for dt in dt_list0:
     
     print('Extracting particle positions from all releases at timestep {}'.format(dt))
@@ -144,6 +153,12 @@ for dt in dt_list0:
 
         if (dt>T0)&(dt<T1):
             ds = nc.Dataset(D[f]['filefn'])
+            
+            if flag==0:
+                particle_rel=np.shape(ds['lon'])[1]
+                particle_conc_rel = particle_rel/vol_rel
+                flag+=1
+                
             ot = ds['ot'][:].data
             
             dt_list = [utc.localize(datetime(1970,1,1)+timedelta(seconds=ott)) for ott in ot]
@@ -151,14 +166,21 @@ for dt in dt_list0:
             delta_T = ot[t]-ot[0]
             decay = np.exp(-k_decay*delta_T)
             zmask = ds['z'][t,:]>(ds['zeta'][t,:]-2)
+            
             if np.sum(zmask)>0:
                 # ax.scatter(ds['lon'][t,zmask],ds['lat'][t,zmask],c='w',s=1,alpha=0.05)
                 hist = np.histogram2d(ds['lon'][t,zmask],ds['lat'][t,zmask],bins=[bin_lon_edges,bin_lat_edges])
                 
+                particle_conc_bin = hist[0]/vol_bin
+                # DNA_conc_bin = DNA_conc_rel * particle_conc_bin/particle_conc_rel
+                
                 #note: not tranposing because I'm not plotting in 2d! I want to be able to follow the
                 # indexing in the manual. Histogram should be indexed nx, ny
-                const_particle_bin[count,:] += decay*hist[0]
-                TV_particle_bin[count,:] += D[f]['C0']*decay*hist[0]
+                # const_particle_bin[count,:] += decay*hist[0]
+                # TV_particle_bin[count,:] += D[f]['C0']*decay*hist[0]
+                const_DNA_bin[count,:] += decay*DNA_mean*particle_conc_bin/particle_conc_rel
+                TV_DNA_bin[count,:] += D[f]['C0']*decay*particle_conc_bin/particle_conc_rel
+                
                 
             ds.close()
     count+=1
@@ -166,12 +188,14 @@ for dt in dt_list0:
 print('Done extracting!')
 print('Extracting moorings')
 for moor in moor_list:
-    moor['const_particle_bin'] = const_particle_bin[:,moor['lon_bin'],moor['lat_bin']]
-    moor['TV_particle_bin'] = TV_particle_bin[:,moor['lon_bin'],moor['lat_bin']]
+    # moor['const_particle_bin'] = const_particle_bin[:,moor['lon_bin'],moor['lat_bin']]
+    # moor['TV_particle_bin'] = TV_particle_bin[:,moor['lon_bin'],moor['lat_bin']]
+    moor['const_DNA_bin'] = const_DNA_bin[:,moor['lon_bin'],moor['lat_bin']]
+    moor['TV_DNA_bin'] = TV_DNA_bin[:,moor['lon_bin'],moor['lat_bin']]
 print('Done!')
 
-moor_dict = {'moor_list':moor_list,'const_particle_bin':const_particle_bin,'TV_particle_bin':TV_particle_bin,'dt_list':dt_list0}
+moor_dict = {'moor_list':moor_list,'const_DNA_bin':const_DNA_bin,'TV_DNA_bin':TV_DNA_bin,'dt_list':dt_list0}
 
-outfn = home+'LO_data/eDNA/Feb2023_moorings.p'
+outfn = home+'LO_data/eDNA/Feb2023_DNA_moorings.p'
 pickle.dump(moor_dict,open(outfn, 'wb'))
 print('saved to {}'.format(outfn))
