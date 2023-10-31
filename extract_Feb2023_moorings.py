@@ -55,6 +55,11 @@ for f in f_list:
         Tmin = T0
         Tmax = T1
         DNA_mean = np.mean(df.PB_quantity_mean)
+        gridfn = track_dir + 'grid.nc'
+        dsg = nc.Dataset(gridfn)
+        lonr = dsg['lon_rho']
+        latr = dsg['lat_rho']
+        dsg.close()
         
     else:
         Tmin = min([Tmin,T0])
@@ -105,17 +110,32 @@ moor4['label'] = 'Delta Pier'
 moor_list = [moor0,moor1,moor2,moor3,moor4]
 
 
-# define domain & bins as done in previous heatmap plotting code
-# plot region around delta pier, using release point as indicator
+# MAP
+xgrid,ygrid = efun.ll2xy(lonr,latr,lon0,lat0)
+# set domain limits
 pad = .01
+# plot region around delta pier, using release point as indicator
 aa = [lon0-pad, lon0+pad,
    lat0-pad, lat0+pad]
+
+aax,aay =  efun.ll2xy(np.array(aa[:2]),np.array(aa[2:]),lon0,lat0)
+aaxy = [aax[0],aax[1],aay[0],aay[1]]
+
+#identify grid edge limits for making mask      
+AA = [lonp[0,0], lonp[0,-1],
+        latp[0,0], latp[-1,0]]
 zref = -2
 
 nbins = 100
 bin_lon_edges=np.linspace(aa[0], aa[1],nbins+1)
 bin_lat_edges=np.linspace(aa[2], aa[3],nbins+1)
-xx, yy = np.meshgrid(bin_lon_edges[:-1]+0.5*(bin_lon_edges[1]-bin_lon_edges[0]),bin_lat_edges[:-1]+0.5*(bin_lat_edges[1]-bin_lat_edges[0]))
+bin_x_edges=np.linspace(aax[0], aax[1],nbins+1)
+bin_y_edges=np.linspace(aay[0], aay[1],nbins+1)
+# xx, yy = np.meshgrid(bin_x_edges[:-1]+0.5*(bin_x_edges[1]-bin_x_edges[0]),bin_y_edges[:-1]+0.5*(bin_y_edges[1]-bin_y_edges[0]))
+dxbin = bin_x_edges[1]-bin_x_edges[0]
+dybin = bin_y_edges[1]-bin_y_edges[0] 
+dzbin = np.abs(zref)
+vol_bin = dxbin*dybin*dzbin
 
 # find which bin
 for moor in moor_list:
@@ -124,14 +144,8 @@ for moor in moor_list:
     moor['lat_bin'] = np.argwhere(moor['lat']<bin_lat_edges)[0][0]
 
 nt = len(dt_list0)
-const_particle_bin = np.zeros((nt,nbins,nbins))
-TV_particle_bin = np.zeros((nt,nbins,nbins))
-
-#normalize
-vol_rel = dxrel*dyrel*dzrel
-
-vol_bin = dxbin*dybin*dzbin
-
+const_DNA_bin = np.zeros((nt,nbins,nbins))
+TV_DNA_bin = np.zeros((nt,nbins,nbins))
 
 k_decay = 0.02/3600 #units: data 0.02 1/hr, multiply by hr/sec to get 1/sec
 
@@ -155,8 +169,15 @@ for dt in dt_list0:
             ds = nc.Dataset(D[f]['filefn'])
             
             if flag==0:
+                xp0,yp0 = efun.ll2xy(lon,lat,lon0,lat0)
+                dxrel = np.abs(xp0.max()-xp0.min())
+                dyrel = np.abs(yp0.max()-yp0.min())
+                dzrel = 1 #all released at surface, soooo....
+                vol_rel = dxrel*dyrel*dzrel
+                
                 particle_rel=np.shape(ds['lon'])[1]
                 particle_conc_rel = particle_rel/vol_rel
+                
                 flag+=1
                 
             ot = ds['ot'][:].data
@@ -168,8 +189,10 @@ for dt in dt_list0:
             zmask = ds['z'][t,:]>(ds['zeta'][t,:]-2)
             
             if np.sum(zmask)>0:
+                xp,yp = efun.ll2xy(ds['lon'][t,zmask],ds['lat'][t,zmask],lon0,lat0)
                 # ax.scatter(ds['lon'][t,zmask],ds['lat'][t,zmask],c='w',s=1,alpha=0.05)
-                hist = np.histogram2d(ds['lon'][t,zmask],ds['lat'][t,zmask],bins=[bin_lon_edges,bin_lat_edges])
+                # hist = np.histogram2d(ds['lon'][t,zmask],ds['lat'][t,zmask],bins=[bin_lon_edges,bin_lat_edges])
+                hist = np.histogram2d[xp,yp,bins=[bin_x_edges,bin_y_edges]]
                 
                 particle_conc_bin = hist[0]/vol_bin
                 # DNA_conc_bin = DNA_conc_rel * particle_conc_bin/particle_conc_rel
@@ -178,7 +201,7 @@ for dt in dt_list0:
                 # indexing in the manual. Histogram should be indexed nx, ny
                 # const_particle_bin[count,:] += decay*hist[0]
                 # TV_particle_bin[count,:] += D[f]['C0']*decay*hist[0]
-                const_DNA_bin[count,:] += decay*DNA_mean*particle_conc_bin/particle_conc_rel
+                const_DNA_bin[count,:] += DNA_mean*decay*particle_conc_bin/particle_conc_rel
                 TV_DNA_bin[count,:] += D[f]['C0']*decay*particle_conc_bin/particle_conc_rel
                 
                 
