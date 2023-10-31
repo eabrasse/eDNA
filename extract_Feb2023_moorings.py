@@ -9,6 +9,7 @@ import pytz
 import netCDF4 as nc
 import pandas as pd
 import pickle
+import efun
 
 def argnearest(items, pivot):
     td = [np.abs(item-pivot) for item in items]
