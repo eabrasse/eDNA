@@ -58,8 +58,8 @@ for f in f_list:
         DNA_mean = np.mean(df.PB_quantity_mean)
         gridfn = track_dir + '/grid.nc'
         dsg = nc.Dataset(gridfn)
-        lonr = dsg['lon_rho']
-        latr = dsg['lat_rho']
+        lonr = dsg['lon_rho'][:]
+        latr = dsg['lat_rho'][:]
         dsg.close()
         
     else:
