@@ -170,7 +170,7 @@ for dt in dt_list0:
             ds = nc.Dataset(D[f]['filefn'])
             
             if flag==0:
-                xp0,yp0 = efun.ll2xy(lon,lat,lon0,lat0)
+                xp0,yp0 = efun.ll2xy(ds['lon'][0,:],ds['lat'][0,:],lon0,lat0)
                 dxrel = np.abs(xp0.max()-xp0.min())
                 dyrel = np.abs(yp0.max()-yp0.min())
                 dzrel = 1 #all released at surface, soooo....
