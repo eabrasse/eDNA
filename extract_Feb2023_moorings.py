@@ -123,8 +123,8 @@ aax,aay =  efun.ll2xy(np.array(aa[:2]),np.array(aa[2:]),lon0,lat0)
 aaxy = [aax[0],aax[1],aay[0],aay[1]]
 
 #identify grid edge limits for making mask      
-AA = [lonp[0,0], lonp[0,-1],
-        latp[0,0], latp[-1,0]]
+AA = [lonr[0,0], lonr[0,-1],
+        latr[0,0], latr[-1,0]]
 zref = -2
 
 nbins = 100
