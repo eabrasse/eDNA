@@ -192,7 +192,7 @@ for dt in dt_list0:
                 xp,yp = efun.ll2xy(ds['lon'][t,zmask],ds['lat'][t,zmask],lon0,lat0)
                 # ax.scatter(ds['lon'][t,zmask],ds['lat'][t,zmask],c='w',s=1,alpha=0.05)
                 # hist = np.histogram2d(ds['lon'][t,zmask],ds['lat'][t,zmask],bins=[bin_lon_edges,bin_lat_edges])
-                hist = np.histogram2d(xp,yp,bins=[bin_x_edges,bin_y_edges)
+                hist = np.histogram2d(xp,yp,bins=[bin_x_edges,bin_y_edges])
                 
                 particle_conc_bin = hist[0]/vol_bin
                 # DNA_conc_bin = DNA_conc_rel * particle_conc_bin/particle_conc_rel
