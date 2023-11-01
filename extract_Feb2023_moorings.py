@@ -147,6 +147,7 @@ for moor in moor_list:
 nt = len(dt_list0)
 const_DNA_bin = np.zeros((nt,nbins,nbins))
 TV_DNA_bin = np.zeros((nt,nbins,nbins))
+active_particles = np.zeros((nt))
 
 k_decay = 0.02/3600 #units: data 0.02 1/hr, multiply by hr/sec to get 1/sec
 
@@ -155,6 +156,8 @@ flag=0
 for dt in dt_list0:
     
     print('Extracting particle positions from all releases at timestep {}'.format(dt))
+    
+    
     
     #FIGURE OUT HOW TO INCORPORATE TIME VARYING WITHOUT LOOKING IT UP OVER AND OVER
     for f in f_list:
@@ -189,6 +192,8 @@ for dt in dt_list0:
             decay = np.exp(-k_decay*delta_T)
             zmask = ds['z'][t,:]>(ds['zeta'][t,:]-2)
             
+            active_paritcles[count] += particle_rel
+            
             if np.sum(zmask)>0:
                 xp,yp = efun.ll2xy(ds['lon'][t,zmask],ds['lat'][t,zmask],lon0,lat0)
                 # ax.scatter(ds['lon'][t,zmask],ds['lat'][t,zmask],c='w',s=1,alpha=0.05)
@@ -218,7 +223,7 @@ for moor in moor_list:
     moor['TV_DNA_bin'] = TV_DNA_bin[:,moor['lon_bin'],moor['lat_bin']]
 print('Done!')
 
-moor_dict = {'moor_list':moor_list,'const_DNA_bin':const_DNA_bin,'TV_DNA_bin':TV_DNA_bin,'dt_list':dt_list0}
+moor_dict = {'moor_list':moor_list,'const_DNA_bin':const_DNA_bin,'TV_DNA_bin':TV_DNA_bin,'dt_list':dt_list0,'active_particles':active_particles}
 
 outfn = home+'LO_data/eDNA/Feb2023_DNA_moorings.p'
 pickle.dump(moor_dict,open(outfn, 'wb'))
