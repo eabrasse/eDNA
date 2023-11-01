@@ -192,7 +192,7 @@ for dt in dt_list0:
             decay = np.exp(-k_decay*delta_T)
             zmask = ds['z'][t,:]>(ds['zeta'][t,:]-2)
             
-            active_particles[count] += particle_rel
+            active_particles[t] += particle_rel
             
             if np.sum(zmask)>0:
                 xp,yp = efun.ll2xy(ds['lon'][t,zmask],ds['lat'][t,zmask],lon0,lat0)
