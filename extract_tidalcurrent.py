@@ -54,7 +54,7 @@ neardolphpen['lat0']=47.742773
 # choose which location to extract
 print(90*'*')
 print('\n%s\n' % '** Choose extract location (return for Tide Gauge) **')
-st_list = [tidegauge, dolphpen]
+st_list = [tidegauge, dolphpen, neardolphpen]
 Nst = len(st_list)
 st_dict = dict(zip(range(Nst), st_list))
 for nst in range(Nst):
