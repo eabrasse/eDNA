@@ -150,6 +150,7 @@ for t in range(ndays):
             k_r = zfun.find_nearest_ind(zvec,depth)
             u[tt,zcount] = dsh['u'][0,k_r,j_u,i_u]
             v[tt,zcount] = dsh['v'][0,k_r,j_v,i_v]
+            zcount+=1
         
         
         dsh.close()
