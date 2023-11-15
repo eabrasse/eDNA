@@ -45,17 +45,11 @@ dolphpen['name']='BangorDolphinPen'
 dolphpen['lon0']=-122.729779
 dolphpen['lat0']=47.742773
 
-neardolphpen = {}
-neardolphpen['name']='NearBangorDolphinPen'
-neardolphpen['lon0']=-122.729779
-neardolphpen['lat0']=47.742773
-
-#approximate floating pen location: 47.740866, -122.733362
 
 # choose which location to extract
 print(90*'*')
 print('\n%s\n' % '** Choose extract location (return for Tide Gauge) **')
-st_list = [tidegauge, dolphpen, neardolphpen]
+st_list = [tidegauge, dolphpen]
 Nst = len(st_list)
 st_dict = dict(zip(range(Nst), st_list))
 for nst in range(Nst):
@@ -66,13 +60,9 @@ if len(my_nst)==0:
 else:
     location = st_dict[int(my_nst)]
 
-lat_nudge = 0
-lon_nudge = 0
+v_grid_nudge = 0
 if location==dolphpen:
-    lat_nudge=-2
-if location==neardolphpen:
-    lat_nudge=-3
-    lon_nudge=3
+    v_grid_nudge=2
 
 dt_list = []
 tt = 0
@@ -116,14 +106,14 @@ for t in range(ndays):
             latvecv = latv[:,0]
             
             # get tidal location index          
-            i_r = zfun.find_nearest_ind(lonvecr,location['lon0'])+lon_nudge
-            j_r = zfun.find_nearest_ind(latvecr,location['lat0'])+lat_nudge
+            i_r = zfun.find_nearest_ind(lonvecr,location['lon0'])
+            j_r = zfun.find_nearest_ind(latvecr,location['lat0'])
               
-            i_u = zfun.find_nearest_ind(lonvecu,location['lon0'])+lon_nudge
-            j_u = zfun.find_nearest_ind(latvecu,location['lat0'])+lat_nudge
+            i_u = zfun.find_nearest_ind(lonvecu,location['lon0'])
+            j_u = zfun.find_nearest_ind(latvecu,location['lat0'])
             
-            i_v = zfun.find_nearest_ind(lonvecv,location['lon0'])+lon_nudge
-            j_v = zfun.find_nearest_ind(latvecv,location['lat0'])+lat_nudge #avoid delta pier
+            i_v = zfun.find_nearest_ind(lonvecv,location['lon0'])
+            j_v = zfun.find_nearest_ind(latvecv,location['lat0'])-v_grid_nudge #avoid delta pier
     
         
         ot = dsh['ocean_time'][:].data[0]
