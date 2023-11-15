@@ -143,7 +143,7 @@ for t in range(ndays):
         ubar[tt] = dsh['ubar'][0,j_u,i_u]
         vbar[tt] = dsh['vbar'][0,j_v,i_v]
         
-        z_r = zrfun.get_z(h,zeta,S,only_rho=True)
+        z_r = zrfun.get_z(h,zeta[tt],S,only_rho=True)
         zvec = z_r[:,j_r,i_r]
         
         zcount=0
