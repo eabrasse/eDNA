@@ -74,6 +74,8 @@ if location==neardolphpen:
     lat_nudge=-3
     lon_nudge=3
 
+depth_list0 = [0,-4.25,-8.5,-12.5]
+
 dt_list = []
 tt = 0
 for t in range(ndays):
@@ -90,11 +92,6 @@ for t in range(ndays):
         dsh = nc4.Dataset(oceanfnh)
     
         if tt==0:
-
-            #initialize arrays
-            zeta = np.zeros((nt))
-            u = np.zeros((nt))
-            v = np.zeros((nt))
             
             #load in lat & lon on u & v grids
             lonr = dsh['lon_rho'][:]
@@ -124,14 +121,36 @@ for t in range(ndays):
             
             i_v = zfun.find_nearest_ind(lonvecv,location['lon0'])+lon_nudge
             j_v = zfun.find_nearest_ind(latvecv,location['lat0'])+lat_nudge #avoid delta pier
-    
+            
+            S = zrfun.get_basic_info(oceanfnh,only_S=True)
+            h = dsh['h'][j_r,i_r]
+            
+            depth_list = [depth in depth_list if np.abs(depth)<h]
+            ndepth = len(depth_list)
+            
+            #initialize arrays
+            zeta = np.zeros((nt))
+            u = np.zeros((nt,ndepth))
+            ubar = np.zeros((nt))
+            v = np.zeros((nt,ndepth))
+            vbar = np.zeros((nt))
+            
         
         ot = dsh['ocean_time'][:].data[0]
         dt_list.append(datetime(1970,1,1)+timedelta(seconds=ot))
         
         zeta[tt] = dsh['zeta'][0,j_r,i_r]
-        u[tt] = dsh['ubar'][0,j_u,i_u]
-        v[tt] = dsh['vbar'][0,j_v,i_v]
+        ubar[tt] = dsh['ubar'][0,j_u,i_u]
+        vbar[tt] = dsh['vbar'][0,j_v,i_v]
+        
+        z_r = zrfun.get_z(h,zeta,S,only_rho=True)
+        zvec = z_r[:,j_r,i_r]
+        
+        zcount=0
+        for depth in depth_list:
+            k_r = zfun.find_nearest_ind(zvec,depth)
+            u[tt,zcount] = dsh['u'][0,k_r,j_u,i_u]
+            v[tt,zcount] = dsh['v'][0,k_r,j_v,i_v]
         
         
         dsh.close()
@@ -141,13 +160,9 @@ for t in range(ndays):
 
 
 D = dict()
-var_list = ['dt_list','zeta','u','v','lonu','latu','masku','lonv','latv','maskv','lonr','latr','maskr']
+var_list = ['dt_list','zeta','ubar','vbar','u','v','lonu','latu','masku','lonv','latv','maskv','lonr','latr','maskr','depth_list']
 for var in var_list:
     D[var] = locals()[var]
-# D['dt_list'] = dt_list
-# D['zeta'] = zeta
-# D['u'] = u
-# D['v'] = v
 D['lon0'] = location['lon0']
 D['lat0'] = location['lat0']
 D['location_name'] = location['name']
