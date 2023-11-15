@@ -143,7 +143,7 @@ for t in range(ndays):
         ubar[tt] = dsh['ubar'][0,j_u,i_u]
         vbar[tt] = dsh['vbar'][0,j_v,i_v]
         
-        zvec = zrfun.get_z(h,zeta[tt],S,only_rho=True)
+        zvec = zrfun.get_z(np.array(h),np.array(zeta[tt]),S,only_rho=True)
         
         zcount=0
         for depth in depth_list:
