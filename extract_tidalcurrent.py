@@ -125,7 +125,7 @@ for t in range(ndays):
             S = zrfun.get_basic_info(oceanfnh,only_S=True)
             h = dsh['h'][j_r,i_r]
             
-            depth_list = [depth in depth_list if np.abs(depth)<h]
+            depth_list = [depth for depth in depth_list if np.abs(depth)<h]
             ndepth = len(depth_list)
             
             #initialize arrays
