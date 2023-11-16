@@ -22,7 +22,8 @@ track_dir0 = home+'LO_output/tracks/'
 
 f_list = os.listdir(track_dir0)
 f_list.sort()
-f_list = [x for x in f_list if (x[:11]=='hc_dolph_3d')&(x[-4]=='6')]
+# f_list = [x for x in f_list if (x[:11]=='hc_dolph_3d')&(x[-4]=='6')]
+f_list = [x for x in f_list if (x[:28]=='hc_bangor_perimeter_point_3d')&(x[-4]=='6')]
 
 #set reference time
 Pacific = pytz.timezone("PST8PDT")
@@ -74,7 +75,7 @@ for dt in dt_list0:
             ds.close()
         ax.axis(img_extent)
         ax.text(0.9,0.1,dt.astimezone(Pacific).strftime("%m/%d/%Y, %H:%M:%S PDT"),transform=ax.transAxes,ha='right',va='center',color='white')
-        outfn = home+'etools/plots/June5_samples/figure_{}.png'.format(str(figcount).zfill(3))
+        outfn = home+'etools/plots/June5_samples_pp_all/figure_{}.png'.format(str(figcount).zfill(3))
         plt.savefig(outfn)
         print(f'Saved to {outfn}')
         plt.close()
