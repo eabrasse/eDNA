@@ -25,10 +25,13 @@ f_list = os.listdir(track_dir0)
 f_list.sort()
 f_list = [x for x in f_list if (x[:11]=='hc_dolph_3d')&(x[-4]!='6')] # because releases were in Jan & Feb
 
-# load eDNA concentrations
-eDNA_fn = home+'LO_data/eDNA/ESP_Feb2023_hourly.csv'
-df = pd.read_csv(eDNA_fn,sep=',',engine='python')
-df.date = pd.to_datetime(df.date)
+scale_const = False
+TV = False
+if TV:
+    # load eDNA concentrations
+    eDNA_fn = home+'LO_data/eDNA/ESP_Feb2023_hourly.csv'
+    df = pd.read_csv(eDNA_fn,sep=',',engine='python')
+    df.date = pd.to_datetime(df.date)
 
 D = {}
 count=0
@@ -55,7 +58,8 @@ for f in f_list:
     if count==0:
         Tmin = T0
         Tmax = T1
-        DNA_mean = np.mean(df.PB_quantity_mean)
+        if scale_const:
+            DNA_mean = np.mean(df.PB_quantity_mean)
         gridfn = track_dir + '/grid.nc'
         dsg = nc.Dataset(gridfn)
         lonr = dsg['lon_rho'][:]
@@ -65,7 +69,8 @@ for f in f_list:
     else:
         Tmin = min([Tmin,T0])
         Tmax = max([Tmax,T1])
-    D[f]['C0'] = df[df.date==T0].PB_quantity_mean.values[0] 
+    if TV:
+        D[f]['C0'] = df[df.date==T0].PB_quantity_mean.values[0] 
     
     count+=1
 
@@ -146,7 +151,8 @@ for moor in moor_list:
 
 nt = len(dt_list0)
 const_DNA_bin = np.zeros((nt,nbins,nbins))
-TV_DNA_bin = np.zeros((nt,nbins,nbins))
+if TV:
+    TV_DNA_bin = np.zeros((nt,nbins,nbins))
 active_particles = np.zeros((nt))
 
 k_decay = 0.02/3600 #units: data 0.02 1/hr, multiply by hr/sec to get 1/sec
@@ -207,8 +213,12 @@ for dt in dt_list0:
                 # indexing in the manual. Histogram should be indexed nx, ny
                 # const_particle_bin[count,:] += decay*hist[0]
                 # TV_particle_bin[count,:] += D[f]['C0']*decay*hist[0]
-                const_DNA_bin[count,:] += DNA_mean*decay*particle_conc_bin/particle_conc_rel
-                TV_DNA_bin[count,:] += D[f]['C0']*decay*particle_conc_bin/particle_conc_rel
+                if scale_const:
+                    const_DNA_bin[count,:] += DNA_mean*decay*particle_conc_bin/particle_conc_rel
+                else:
+                    const_DNA_bin[count,:] += decay*particle_conc_bin/particle_conc_rel
+                if TV:
+                    TV_DNA_bin[count,:] += D[f]['C0']*decay*particle_conc_bin/particle_conc_rel
                 
                 
             ds.close()
@@ -220,11 +230,14 @@ for moor in moor_list:
     # moor['const_particle_bin'] = const_particle_bin[:,moor['lon_bin'],moor['lat_bin']]
     # moor['TV_particle_bin'] = TV_particle_bin[:,moor['lon_bin'],moor['lat_bin']]
     moor['const_DNA_bin'] = const_DNA_bin[:,moor['lon_bin'],moor['lat_bin']]
-    moor['TV_DNA_bin'] = TV_DNA_bin[:,moor['lon_bin'],moor['lat_bin']]
+    if TV:
+        moor['TV_DNA_bin'] = TV_DNA_bin[:,moor['lon_bin'],moor['lat_bin']]
 print('Done!')
 
-moor_dict = {'moor_list':moor_list,'const_DNA_bin':const_DNA_bin,'TV_DNA_bin':TV_DNA_bin,'dt_list':dt_list0,'active_particles':active_particles}
+moor_dict = {'moor_list':moor_list,'const_DNA_bin':const_DNA_bin,'dt_list':dt_list0,'active_particles':active_particles}
+if TV:
+    moor_dict['TV_DNA_bin']=TV_DNA_bin
 
-outfn = home+'LO_data/eDNA/Feb2023_DNA_moorings.p'
+outfn = home+'LO_data/eDNA/Feb2023_DNA_moorings_extended_const_only.p'
 pickle.dump(moor_dict,open(outfn, 'wb'))
 print('saved to {}'.format(outfn))
