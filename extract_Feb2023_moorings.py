@@ -179,15 +179,15 @@ for dt in dt_list0:
             ds = nc.Dataset(D[f]['filefn'])
             
             if flag==0:
-                xp0,yp0 = efun.ll2xy(ds['lon'][0,:],ds['lat'][0,:],lon0,lat0)
-                dxrel = np.abs(xp0.max()-xp0.min())
-                dyrel = np.abs(yp0.max()-yp0.min())
-                dzrel = 1 #all released at surface, soooo....
-                vol_rel = dxrel*dyrel*dzrel
-                
+            #     xp0,yp0 = efun.ll2xy(ds['lon'][0,:],ds['lat'][0,:],lon0,lat0)
+            #     dxrel = np.abs(xp0.max()-xp0.min())
+            #     dyrel = np.abs(yp0.max()-yp0.min())
+            #     dzrel = 1 #all released at surface, soooo....
+            #     vol_rel = dxrel*dyrel*dzrel
+            #
                 particle_rel=np.shape(ds['lon'])[1]
-                particle_conc_rel = particle_rel/vol_rel
-                
+            #     particle_conc_rel = particle_rel/vol_rel
+            #
                 flag+=1
                 
             ot = ds['ot'][:].data
@@ -216,7 +216,7 @@ for dt in dt_list0:
                 if scale_const:
                     const_DNA_bin[count,:] += DNA_mean*decay*particle_conc_bin/particle_conc_rel
                 else:
-                    const_DNA_bin[count,:] += decay*particle_conc_bin/particle_conc_rel
+                    const_DNA_bin[count,:] += decay*particle_conc_bin#/particle_conc_rel
                 if TV:
                     TV_DNA_bin[count,:] += D[f]['C0']*decay*particle_conc_bin/particle_conc_rel
                 
@@ -234,10 +234,10 @@ for moor in moor_list:
         moor['TV_DNA_bin'] = TV_DNA_bin[:,moor['lon_bin'],moor['lat_bin']]
 print('Done!')
 
-moor_dict = {'moor_list':moor_list,'const_DNA_bin':const_DNA_bin,'dt_list':dt_list0,'active_particles':active_particles}
+moor_dict = {'moor_list':moor_list,'const_DNA_bin':const_DNA_bin,'dt_list':dt_list0,'active_particles':active_particles,'bin_x_edges':bin_x_edges,'bin_y_edges':bin_y_edges}
 if TV:
     moor_dict['TV_DNA_bin']=TV_DNA_bin
 
-outfn = home+'LO_data/eDNA/Feb2023_DNA_moorings_extended_const_only.p'
+outfn = home+'LO_data/eDNA/Feb2023_DNA_moorings_extended_const_only_noscale.p'
 pickle.dump(moor_dict,open(outfn, 'wb'))
 print('saved to {}'.format(outfn))
