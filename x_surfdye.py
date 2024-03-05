@@ -20,7 +20,7 @@ dir0 = '/data1/jxiong/LO_roms/hc11_v01_uu0kdye/f2023.06.05_test_case' #inside fo
 
 fn_list = os.listdir(dir0)
 fn_list.sort()
-fn_list = [x for x in f_list if x[:9]=='ocean_his']
+fn_list = [x for x in fn_list if x[:9]=='ocean_his']
 
 nt = len(f_list)
 
