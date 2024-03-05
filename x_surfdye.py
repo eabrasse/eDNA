@@ -40,7 +40,7 @@ for t in range(nt):
         latr = dsh['lat_rho'][:]
         maskr = dsh['mask_rho'][:]
         
-        nxr,nyr = np.shape(lonr)
+        nyr,nxr = np.shape(lonr)
         
         #initialize array
         dye = np.zeros((nt,nyr,nxr))
