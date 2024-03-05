@@ -49,7 +49,7 @@ for t in range(nt):
     ot = dsh['ocean_time'][:].data[0]
     dt_list.append(datetime(1970,1,1)+timedelta(seconds=ot))
     
-    dye[tt,:] = dsh[''][0,-1, :]
+    dye[tt,:] = dsh['dye_01'][0,-1, :]
     
     dsh.close()
     tt = tt+1
