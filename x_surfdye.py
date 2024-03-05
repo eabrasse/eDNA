@@ -43,7 +43,7 @@ for t in range(nt):
         nxr,nyr = np.shape(lonr)
         
         #initialize array
-        dye = np.zeros((nt,ny,nx))
+        dye = np.zeros((nt,nyr,nxr))
         
     
     ot = dsh['ocean_time'][:].data[0]
