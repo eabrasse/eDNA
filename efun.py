@@ -12,6 +12,20 @@ import matplotlib
 import matplotlib.pyplot as plt
 import netCDF4 as nc
 
+def argnearest(items, pivot):
+    td = [np.abs(item-pivot) for item in items]
+    return np.argmin(td)
+
+def ll2dist(lon, lat, lon0, lat0):
+    """
+    This converts lon, lat into meters relative to lon0, lat0.
+    It should work for lon, lat scalars or arrays.
+    NOTE: lat and lon are in degrees!!
+    """
+    x,y = ll2xy(lon,lat,lon0,lat0)
+    dist = np.sqrt(x**2+y**2)
+    return dist
+
 def find_ll_inds(lon_rho,lat_rho,mask_rho,lon0,lat0):
     
     #note add new modifier to keep form extracting on land for NOAA tide gauge - don't universally shift by 0.005!
