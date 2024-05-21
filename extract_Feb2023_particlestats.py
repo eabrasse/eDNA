@@ -54,9 +54,14 @@ for f in f_list:
     Dy = y-np.tile(np.reshape(D[f]['y_mean'],(D[f]['y_mean'].shape[0],1)),(1,y.shape[1]))
     Dz = ds['z'][:].data-np.tile(np.reshape(D[f]['z_mean'],(D[f]['z_mean'].shape[0],1)),(1,ds['z'][:].data.shape[1]))
     
-    D[f]['avg_dist_from_COM'] = np.mean(np.sqrt(Dx**2+Dy**2+Dz**2),axis=1)
+    dist_from_COM = np.sqrt(Dx**2+Dy**2+Dz**2)
+    
+    D[f]['avg_dist_from_COM'] = np.mean(dist_from_COM,axis=1)
+    D[f]['med_dist_from_COM'] = np.median(dist_from_COM,axis=1)
 
     D[f]['t'] = ds['ot'][:].data-ds['ot'][0].data
+    
+    # ds.close()
 
 
 outfn = home+'LO_data/eDNA/Feb2023_particlepositionstats.p'
