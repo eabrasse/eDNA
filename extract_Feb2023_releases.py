@@ -104,6 +104,7 @@ particle_age_lists = [[[[] for i in range(xbins)] for j in range(ybins)] for t i
 total_released_particles = np.zeros((nt))
 deep_particles = np.zeros((nt))
 outfield_particles = np.zeros((nt))
+all_surface_particles = np.zeros((nt))
 
 count =0
 flag=0
