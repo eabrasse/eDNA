@@ -112,7 +112,7 @@ for dt in dt_list0:
     print('Extracting particle positions from all releases at timestep {}'.format(dt))
     
     
-        for f in f_list:
+    for f in f_list:
 
         [T0,T1] = D[f]['times']
 
