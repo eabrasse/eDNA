@@ -23,7 +23,7 @@ track_dir0 = home+'LO_output/tracks/'
 
 f_list = os.listdir(track_dir0)
 f_list.sort()
-f_list = [x for x in f_list if (x[:11]=='hc_dolph_3d')&(x[-4]!='6')] # because releases were in Jan & Feb
+f_list = [x for x in f_list if (x[:11]=='hc_dolph_3d')&(x[-4]!='6')&(x[-10:-6]=='2023')] # because releases were in Jan & Feb
 
 D = {}
 count=0
