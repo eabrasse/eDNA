@@ -180,5 +180,5 @@ D={}
 for vname in vnames:
     D[vname] = locals()[vname]
 outfn = home+'LO_data/eDNA/Feb2023_hist_counts.p'
-pickle.dump(moor_dict,open(outfn, 'wb'))
+pickle.dump(D,open(outfn, 'wb'))
 print('saved to {}'.format(outfn))
