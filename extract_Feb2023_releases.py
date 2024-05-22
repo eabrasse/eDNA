@@ -104,7 +104,7 @@ particle_age_lists = [[[[] for i in range(xbins)] for j in range(ybins)] for t i
 total_released_particles = np.zeros((nt))
 deep_particles = np.zeros((nt))
 outfield_particles = np.zeros((nt))
-all_surface_particles = np.zeros((nt))
+surface_particles = np.zeros((nt))
 
 count =0
 flag=0
@@ -148,7 +148,7 @@ for dt in dt_list0:
                 #grab x/y locations for surface particles at time stamp t 
                 xp,yp = efun.ll2xy(ds['lon'][t,zmask],ds['lat'][t,zmask],lon0,lat0)
                 # count how many total are in the surface layer (should be totalreleased - zmasked)
-                all_surface_particles[count] += len(xp.flatten())
+                surface_particles[count] += len(xp.flatten())
                 # bin them by location
                 hist = np.histogram2d(xp,yp,bins=[bin_x_edges,bin_y_edges])
                 
@@ -174,7 +174,7 @@ for t in range(nt):
             particle_age_bins[t,j,i] = np.mean(particle_age_lists[t][j][i])
 print('Done calculating mean age!')
 
-vnames = ['hist_particles_bin','outfield_particles','deep_particles','particle_age_bins','bin_x_edges','bin_y_edges','dt_list0','zref']
+vnames = ['hist_particles_bin','outfield_particles','total_released_particles','surface_particles','deep_particles','particle_age_bins','bin_x_edges','bin_y_edges','dt_list0','zref']
 D={}
 for vname in vnames:
     D[vname] = locals()[vname]
