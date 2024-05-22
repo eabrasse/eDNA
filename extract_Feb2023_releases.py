@@ -156,11 +156,11 @@ for dt in dt_list0:
                 outfield_particles[count] += len(xp.flatten())-np.sum(hist[0])
                 
                 #save the histogram
-                hist_particles_bin[count,:] += hist[0]
+                hist_particles_bin[count,:] += hist[0].T
                 
                 for i in range(xbins):
                     for j in range(ybins):
-                        age_list = [deltaT]*int(hist[0][j,i])
+                        age_list = [deltaT]*int(hist[0][i,j])
                         particle_age_lists[count][j][i].append(age_list)
                 
             ds.close()
