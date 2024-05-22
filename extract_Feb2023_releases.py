@@ -127,7 +127,7 @@ for dt in dt_list0:
                 flag+=1
                 
             # add active particles
-            active_particles[count] += particle_rel
+            total_released_particles[count] += particle_rel
             
             # find specific time index
             ot = ds['ot'][:].data
