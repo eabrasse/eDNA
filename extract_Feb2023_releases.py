@@ -160,7 +160,7 @@ for dt in dt_list0:
                 
                 for i in range(xbins):
                     for j in range(ybins):
-                        age_list = [deltaT]*int(hist[0][i,j])
+                        age_list = [delta_T]*int(hist[0][i,j])
                         particle_age_lists[count][j][i].append(age_list)
                 
             ds.close()
