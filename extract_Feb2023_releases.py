@@ -141,7 +141,7 @@ for dt in dt_list0:
             zmask = ds['z'][t,:]>(ds['zeta'][t,:]-2)
             
             # count how many won't be in the histogram because they're depth masked
-            deep_particles[count] += np.sum(zmask)
+            deep_particles[count] += np.sum(zmask==0)
             
             # now look at the surface particles...
             if np.sum(zmask)>0: #(if there are any!)
