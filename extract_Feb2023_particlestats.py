@@ -28,8 +28,11 @@ lon0 = -122.729779; lat0 = 47.742773
 
 D = {}
 
-print('Preprocessing particle release experiments')
+count = 1
 for f in f_list:
+    
+    print(f'working on file {count} of {len(f_list)}')
+    
     D[f] = {}
 
     track_dir = track_dir0+f
@@ -45,25 +48,34 @@ for f in f_list:
     
     x,y = efun.ll2xy(ds['lon'][:].data,ds['lat'][:].data,lon0,lat0)
     
+    deep_mask = ds['z']<(ds['zeta']-2)
+    
+    x[deep_mask] = np.nan
+    y[deep_mask] = np.nan
+    
     # particle cloud COM as a function of time
-    D[f]['x_mean'] = np.mean(x,axis=1)
-    D[f]['y_mean'] = np.mean(y,axis=1)
-    D[f]['z_mean'] = np.mean(ds['z'][:].data,axis=1)
+    D[f]['x_mean'] = np.nanmean(x,axis=1)
+    D[f]['y_mean'] = np.nanmean(y,axis=1)
+    # D[f]['z_mean'] = np.mean(ds['z'][:].data,axis=1)
+    D[f]['deep_masked_count'] = np.sum(deep_mask,axis=1)
     
     Dx = x-np.tile(np.reshape(D[f]['x_mean'],(D[f]['x_mean'].shape[0],1)),(1,x.shape[1]))
     Dy = y-np.tile(np.reshape(D[f]['y_mean'],(D[f]['y_mean'].shape[0],1)),(1,y.shape[1]))
-    Dz = ds['z'][:].data-np.tile(np.reshape(D[f]['z_mean'],(D[f]['z_mean'].shape[0],1)),(1,ds['z'][:].data.shape[1]))
+    # Dz = ds['z'][:].data-np.tile(np.reshape(D[f]['z_mean'],(D[f]['z_mean'].shape[0],1)),(1,ds['z'][:].data.shape[1]))
     
     dist_from_COM = np.sqrt(Dx**2+Dy**2+Dz**2)
     
-    D[f]['avg_dist_from_COM'] = np.mean(dist_from_COM,axis=1)
-    D[f]['med_dist_from_COM'] = np.median(dist_from_COM,axis=1)
+    D[f]['avg_dist_from_COM'] = np.nanmean(dist_from_COM,axis=1)
+    D[f]['med_dist_from_COM'] = np.nanmedian(dist_from_COM,axis=1)
 
     D[f]['t'] = ds['ot'][:].data-ds['ot'][0].data
     
-    # ds.close()
+    ds.close()
+    
+    count+=1
 
 
-outfn = home+'LO_data/eDNA/Feb2023_particlepositionstats.p'
+
+outfn = home+'LO_data/eDNA/Feb2023_surfaceparticlepositionstats.p'
 pickle.dump(D,open(outfn, 'wb'))
 print('saved to {}'.format(outfn))
