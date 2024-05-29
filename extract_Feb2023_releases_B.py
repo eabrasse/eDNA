@@ -128,7 +128,7 @@ for f in f_list:
     ds = nc.Dataset(filefn)
     ot = ds['ot'][:].data
     
-    dt_list = [utc.localize(datetime(1970,1,1)+timedelta(seconds=ott)) for ott in ot]
+    dt_list = [tz.localize(datetime(1970,1,1)+timedelta(seconds=ott)) for ott in ot]
     t = argnearest(dt_list,sample_dt)
     delta_T = ot[t]-ot[0]
     
