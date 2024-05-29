@@ -48,7 +48,7 @@ for f in f_list:
     
     x,y = efun.ll2xy(ds['lon'][:].data,ds['lat'][:].data,lon0,lat0)
     
-    deep_mask = ds['z']<(ds['zeta']-2)
+    deep_mask = ds['z']<(ds['zeta']-2.0)
     
     x[deep_mask] = np.nan
     y[deep_mask] = np.nan
