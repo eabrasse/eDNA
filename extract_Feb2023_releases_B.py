@@ -110,7 +110,6 @@ nrad = len(radius_list)
 for moor in moor_list:
     moor['count'] = np.zeros((nrad))
 
-nt = len(dt_list0)
 particle_count = np.zeros((nmoor,nrad))
 particle_age_lists = [[[] for m in range(nmoor)] for r in range(nrad)]
 
