@@ -162,7 +162,7 @@ particle_age_bins = np.zeros((nmoor,nrad))
 
 for m in range(nmoor):
     for r in range(nrad):
-        particle_age_bins[r,i] = np.mean(particle_age_lists[r][m])
+        particle_age_bins[m,r] = np.mean(particle_age_lists[r][m])
 print('Done calculating mean age!')
 
 vnames = ['moor_list','particle_age_bins','radius_list','sample_dt','zref']
