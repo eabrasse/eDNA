@@ -116,7 +116,7 @@ particle_age_lists = [[[] for m in range(nmoor)] for r in range(nrad)]
 for f in f_list:
     
     track_dir = track_dir0+f
-    print(f'Working on {trackfn}')
+    print(f'Working on {f}')
 
 
     # build a keyname from the release filename
