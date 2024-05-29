@@ -154,7 +154,7 @@ for f in f_list:
                     particle_age_lists[r][m].append(age)
 
             
-        ds.close()
+    ds.close()
 
 print('Done extracting!')
 print('Calculating mean age...')
