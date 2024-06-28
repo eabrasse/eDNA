@@ -165,7 +165,7 @@ for m in range(nmoor):
         particle_age_bins[m,r] = np.mean(particle_age_lists[r][m])
 print('Done calculating mean age!')
 
-vnames = ['moor_list','particle_age_bins','radius_list','sample_dt','zref']
+vnames = ['moor_list','particle_age_bins','radius_list','sample_dt','zref','particle_age_lists']
 D={}
 for vname in vnames:
     D[vname] = locals()[vname]
