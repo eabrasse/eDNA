@@ -170,6 +170,6 @@ vnames = ['moor_list','particle_age_bins','radius_list','sample_dt','zref','part
 D={}
 for vname in vnames:
     D[vname] = locals()[vname]
-outfn = home+'LO_data/eDNA/Feb2023_moor_radius_counts.p'
+outfn = home+'LO_data/eDNA/Feb2023_moor_radius_counts_dev.p'
 pickle.dump(D,open(outfn, 'wb'))
 print('saved to {}'.format(outfn))
