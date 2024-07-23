@@ -23,7 +23,8 @@ track_dir0 = home+'LO_output/tracks/'
 
 f_list = os.listdir(track_dir0)
 f_list.sort()
-f_list = [x for x in f_list if (x[:11]=='hc_dolph_3d')&(x[-4]!='6')&(x[-10:-6]=='2023')] # because releases were in Jan & Feb
+# f_list = [x for x in f_list if (x[:11]=='hc_dolph_3d')&(x[-4]!='6')&(x[-10:-6]=='2023')] # because releases were in Jan & Feb
+f_list = [x for x in f_list if x[-4:]=='_dev']
 
 D = {}
 count=0
@@ -179,6 +180,6 @@ vnames = ['hist_particles_bin','outfield_particles','total_released_particles','
 D={}
 for vname in vnames:
     D[vname] = locals()[vname]
-outfn = home+'LO_data/eDNA/Feb2023_hist_counts.p'
+outfn = home+'LO_data/eDNA/Feb2023_hist_counts_dev.p'
 pickle.dump(D,open(outfn, 'wb'))
 print('saved to {}'.format(outfn))
