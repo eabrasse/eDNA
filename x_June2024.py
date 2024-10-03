@@ -63,7 +63,7 @@ count=1
 
 for f in f_list:
     
-    print('working on file {count} of {len(f_list)}')
+    print(f'working on file {count} of {len(f_list)}')
 
     track_dir = track_dir0+f
 
@@ -84,7 +84,7 @@ for f in f_list:
         dt_list = [np.abs(ts_p-ts_list[t]) for ts_p in ts_list_p]
         pt = np.argmin(dt_list)
         # pt = np.argmin(np.abs(ts_list_p-ts_list[t]))
-        deltaT = ts_list_p[pt]-ts_list_p[0]
+        delta_T = ts_list_p[pt]-ts_list_p[0]
         
         for z in range(nz):
             z0 = z_edges[z]
