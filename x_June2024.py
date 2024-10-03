@@ -81,6 +81,7 @@ for f in f_list:
         ts_list_p.append(datetime.timestamp(datetime(1970,1,1,tzinfo=pytz.utc)+timedelta(seconds=tt)))
     
     for t in range(nt):
+        print(f'Time step {t}...')
         dt_list = [np.abs(ts_p-ts_list[t]) for ts_p in ts_list_p]
         pt = np.argmin(dt_list)
         # pt = np.argmin(np.abs(ts_list_p-ts_list[t]))
@@ -98,13 +99,14 @@ for f in f_list:
                 particle_map[t,z,:]+= hist
                 
                 # make lists of particle ages
-                for y in range(ny):
-                    xinds = np.argwhere(hist[y,:]>0)[0]
+                yinds = np.argwhere(np.any(hist,axis=1))[0]
+                for yi in yinds:
+                    xinds = np.argwhere(hist[yi,:]>0)[0]
                     if len(xinds)>0:
                         for xi in xinds:
-                            age_list = [delta_T]*int(hist[y,xi])
+                            age_list = [delta_T]*int(hist[yi,xi])
                             for age in age_list:
-                                particle_age_lists[t][z][y][xi].append(age)
+                                particle_age_lists[t][z][yi][xi].append(age)
 
     ds.close()
     count+=1
