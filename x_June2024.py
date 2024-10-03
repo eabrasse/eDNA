@@ -39,8 +39,9 @@ lon0 = -122.729779; lat0 = 47.742773
 
 #set up heatmap bins
 # start by using same as model grid
-grid_fn = track_dir0+f_list[0]+'/grid.nc'
-dsg = nc.Dataset(grid_fn)
+# grid_fn = track_dir0+f_list[0]+'/grid.nc'
+ex_his_fn = '/data1/jxiong/LO_roms/hc11_v01_uu0k/f2024.06.13/ocean_his_0002.nc'
+dsg = nc.Dataset(ex_his_fn)
 # G,S,T = zrfun.get_basic_info(grid_fn)
 #use psi grid instead of rho to define box edges
 x_edges,y_edges = efun.ll2xy(dsg['lon_psi'].values,dsg['lat_psi'].values,lon0,lat0)
