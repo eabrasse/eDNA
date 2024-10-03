@@ -45,8 +45,8 @@ dsg = nc.Dataset(ex_his_fn)
 # G,S,T = zrfun.get_basic_info(grid_fn)
 #use psi grid instead of rho to define box edges
 x_edges,y_edges = efun.ll2xy(dsg['lon_psi'][0,:],dsg['lat_psi'][:,0],lon0,lat0)
-nx = np.shape(x_edges[0,:])[0]-1
-ny = np.shape(y_edges[:,0])[0]-1
+nx = len(x_edges)-1
+ny = len(y_edges)-1
 #ugh I can't actually get the z's without zeta, which requires opening the big model output files.
 #z_w = zrfun.get_z(G['h'],)
 
