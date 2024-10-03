@@ -13,7 +13,7 @@ def argnearest(items, pivot):
     td = [np.abs(item-pivot) for item in items]
     return np.argmin(td)
 
-plt.close('all')
+
 home = '/data2/pmr4/eab32/'
 
 #find June sampling particle tracks
