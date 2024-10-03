@@ -44,7 +44,7 @@ ex_his_fn = '/data1/jxiong/LO_roms/hc11_v01_uu0k/f2024.06.13/ocean_his_0002.nc'
 dsg = nc.Dataset(ex_his_fn)
 # G,S,T = zrfun.get_basic_info(grid_fn)
 #use psi grid instead of rho to define box edges
-x_edges,y_edges = efun.ll2xy(dsg['lon_psi'].values,dsg['lat_psi'].values,lon0,lat0)
+x_edges,y_edges = efun.ll2xy(dsg['lon_psi'][:],dsg['lat_psi'][:],lon0,lat0)
 nx = np.shape(x_edges[0,:])[0]-1
 ny = np.shape(y_edges[:,0])[0]-1
 #ugh I can't actually get the z's without zeta, which requires opening the big model output files.
