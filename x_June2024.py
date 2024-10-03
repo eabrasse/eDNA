@@ -31,7 +31,7 @@ utc = pytz.utc
 first_sample_utc = Pacific.localize(datetime(2024,6,13,10,0)).astimezone(utc)
 last_sample_utc = Pacific.localize(datetime(2024,6,13,17,0)).astimezone(utc)
 dt_list0 = pd.date_range(start=first_sample_utc,end = last_sample_utc, freq="60min").to_pydatetime().tolist()
-ts_list = [datetime.timestep(dt) for dt in dt_list0]
+ts_list = [datetime.timestamp(dt) for dt in dt_list0]
 nt = len(ts_list)
 
 # dolphin pen location
