@@ -78,7 +78,9 @@ for f in f_list:
         ts_list_p.append(datetime.timestamp(datetime(1970,1,1,tzinfo=pytz.utc)+timedelta(seconds=tt)))
     
     for t in range(nt):
-        pt = np.argmin(np.abs(ts_list_p-ts_list[t]))
+        dt_list = [np.abs(ts_p-ts_list[t]) for ts_p in ts_list_p]
+        pt = np.argmin(dt_list)
+        # pt = np.argmin(np.abs(ts_list_p-ts_list[t]))
         deltaT = ts_list_p[pt]-ts_list_p[0]
         
         for z in range(nz):
