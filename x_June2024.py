@@ -56,7 +56,7 @@ nz = np.shape(z_edges)[0]-1
 
 dsg.close()
 
-particle_map = np.zeroes((nt,nz,ny,nx))
+particle_map = np.zeros((nt,nz,ny,nx))
 particle_age_lists = [[[[[] for x in range(nx)] for y in range(ny)] for z in range(nz)] for t in range(nt)]
 
 
