@@ -39,7 +39,7 @@ lon0 = -122.729779; lat0 = 47.742773
 
 #set up heatmap bins
 # start by using same as model grid
-grid_fn = home+f_list[0]+'grid.nc'
+grid_fn = home+f_list[0]+'/grid.nc'
 dsg = nc.Dataset(grid_fn)
 # G,S,T = zrfun.get_basic_info(grid_fn)
 #use psi grid instead of rho to define box edges
