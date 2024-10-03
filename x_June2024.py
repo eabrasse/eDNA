@@ -93,15 +93,16 @@ for f in f_list:
             
             if np.sum(zmask)>0:
                 xp,yp = efun.ll2xy(ds['lon'][pt,zmask],ds['lat'][pt,zmask],lon0,lat0)
-                hist = np.histogram2d(xp,yp,bins=[x_edges,y_edges])
-                particle_map[t,z,:]+= hist[0]
+                hist = np.histogram2d(xp,yp,bins=[x_edges,y_edges])[0].T
+                
+                particle_map[t,z,:]+= hist
                 
                 # make lists of particle ages
                 for y in range(ny):
-                    xinds = np.argwhere(hist[0][y,:]>0)
+                    xinds = np.argwhere(hist[y,:]>0)
                     if len(xinds)>0:
                         for xi in xinds:
-                            age_list = [delta_T]*int(hist[0][y,xi])
+                            age_list = [delta_T]*int(hist[y,xi])
                             for age in age_list:
                                 particle_age_lists[t][z][y][xi].append(age)
 
