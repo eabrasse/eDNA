@@ -99,7 +99,7 @@ for f in f_list:
                 
                 # make lists of particle ages
                 for y in range(ny):
-                    xinds = np.argwhere(hist[y,:]>0)
+                    xinds = np.argwhere(hist[y,:]>0)[0]
                     if len(xinds)>0:
                         for xi in xinds:
                             age_list = [delta_T]*int(hist[y,xi])
