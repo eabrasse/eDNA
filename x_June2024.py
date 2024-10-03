@@ -99,14 +99,15 @@ for f in f_list:
                 particle_map[t,z,:]+= hist
                 
                 # make lists of particle ages
-                yinds = np.argwhere(np.any(hist,axis=1))[0]
-                for yi in yinds:
-                    xinds = np.argwhere(hist[yi,:]>0)[0]
-                    if len(xinds)>0:
-                        for xi in xinds:
-                            age_list = [delta_T]*int(hist[yi,xi])
-                            for age in age_list:
-                                particle_age_lists[t][z][yi][xi].append(age)
+                if np.any(hist):
+                    yinds = np.argwhere(np.any(hist,axis=1))[0]
+                    for yi in yinds:
+                        xinds = np.argwhere(hist[yi,:]>0)[0]
+                        if len(xinds)>0:
+                            for xi in xinds:
+                                age_list = [delta_T]*int(hist[yi,xi])
+                                for age in age_list:
+                                    particle_age_lists[t][z][yi][xi].append(age)
 
     ds.close()
     count+=1
