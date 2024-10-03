@@ -44,7 +44,7 @@ ex_his_fn = '/data1/jxiong/LO_roms/hc11_v01_uu0k/f2024.06.13/ocean_his_0002.nc'
 dsg = nc.Dataset(ex_his_fn)
 # G,S,T = zrfun.get_basic_info(grid_fn)
 #use psi grid instead of rho to define box edges
-x_edges,y_edges = efun.ll2xy(dsg['lon_psi'][:],dsg['lat_psi'][:],lon0,lat0)
+x_edges,y_edges = efun.ll2xy(dsg['lon_psi'][0,:],dsg['lat_psi'][:,0],lon0,lat0)
 nx = np.shape(x_edges[0,:])[0]-1
 ny = np.shape(y_edges[:,0])[0]-1
 #ugh I can't actually get the z's without zeta, which requires opening the big model output files.
@@ -59,8 +59,11 @@ dsg.close()
 particle_map = np.zeros((nt,nz,ny,nx))
 particle_age_lists = [[[[[] for x in range(nx)] for y in range(ny)] for z in range(nz)] for t in range(nt)]
 
+count=1
 
 for f in f_list:
+    
+    print('working on file {count} of {len(f_list)}')
 
     track_dir = track_dir0+f
 
@@ -103,6 +106,7 @@ for f in f_list:
                                 particle_age_lists[t][z][y][xi].append(age)
 
     ds.close()
+    count+=1
 
 
 D = {}
