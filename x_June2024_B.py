@@ -119,7 +119,7 @@ for f in f_list:
             for jj in range(ny):
                 xymask = (yp>y_edges[jj])&(yp<y_edges[jj+1])&xmask
                 
-                hist,edges = np.hist(ds['z'][pt,xymask],z_edges[t,:,jj,ii])
+                hist,edges = np.histogram(ds['z'][pt,xymask],z_edges[t,:,jj,ii])
                 
                 particle_map[t,:,jj,ii] += hist
                 
