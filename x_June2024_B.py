@@ -71,14 +71,14 @@ for fn in his_fn_list:
         x_edges,y_edges = efun.ll2xy(ds['lon_psi'][0,:],ds['lat_psi'][:,0],lon0,lat0)
         x_edges = np.tile(np.reshape(x_edges,(1,1,nx-1)),(nz-1,ny-1,1))
         y_edges = np.tile(np.reshape(y_edges,(1,ny-1,1)),(nz-1,1,nx-1))
-        z_edges = np.zeros((len(his_fn_list),nz-1,nx-1,ny-1))
+        z_edges = np.zeros((len(his_fn_list),nz-1,ny-1,nx-1))
         h = ds['h'][:]
         S = zrfun.get_basic_info(fn,only_S=True)
     zeta = ds['zeta'][0,:]
     z_w0 = zrfun.get_z(h, zeta, S, only_w=True)
     z_w_x = 0.5*(z_w0[:,:,1:]+z_w0[:,:,:-1])
     z_w_xy = 0.5*(z_w_x[:,1:,:]+z_w_x[:,:-1,:])
-    z_edges[tt,:] = z_w_xy
+    z_edges[tt,:] = z_w_xy[1:-1,:,:]
     ds.close()
     tt+=1
 
