@@ -76,7 +76,7 @@ for fn in his_fn_list:
         S = zrfun.get_basic_info(fn,only_S=True)
     zeta = ds['zeta'][0,:]
     z_w0 = zrfun.get_z(h, zeta, S, only_w=True)
-    z_w_x = 0.5*(z_w[:,:,1:]+z_w[:,:,:-1])
+    z_w_x = 0.5*(z_w0[:,:,1:]+z_w0[:,:,:-1])
     z_w_xy = 0.5*(z_w_x[:,1:,:]+z_w_x[:,:-1,:])
     z_edges[tt,:] = z_w_xy
     ds.close()
