@@ -114,9 +114,9 @@ for f in f_list:
         delta_T = ts_list_p[pt]-ts_list_p[0]
         
         xp,yp = efun.ll2xy(ds['lon'][pt,:],ds['lat'][pt,:],lon0,lat0)
-        for ii in range(nx-1):
+        for ii in range(nx-2):
             xmask = (xp>x_edges[ii])&(xp<x_edges[ii+1])
-            for jj in range(ny-1):
+            for jj in range(ny-2):
                 xymask = (yp>y_edges[jj])&(yp<y_edges[jj+1])&xmask
                 
                 hist,edges = np.histogram(ds['z'][pt,xymask],z_edges[t,:,jj,ii])
