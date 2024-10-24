@@ -114,7 +114,7 @@ for f in f_list:
         delta_T = ts_list_p[pt]-ts_list_p[0]
         
         xp,yp = efun.ll2xy(ds['lon'][pt,:],ds['lat'][pt,:],lon0,lat0)
-        hist, edges = np.histogramdd(np.array([xp,yp,ds['z'][pt,:]]),(x_edges,y_edges,z_edges[t,:,:,:]))
+        hist, edges = np.histogramdd(np.array([xp,yp,ds['z'][pt,:]]),np.array([x_edges,y_edges,z_edges[t,:,:,:]]))
         particle_map[t,:,:,:] = hist
         # for z in range(nz):
         #     z0 = z_edges[z]
