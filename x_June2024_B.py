@@ -73,7 +73,7 @@ for fn in his_fn_list:
         y_edges = np.tile(np.reshape(y_edges,(1,ny-1,1)),(nz-1,1,nx-1))
         z_edges = np.zeros((len(his_fn_list),nz-1,nx-1,ny-1))
         h = ds['h']
-        S = zrfun.get_basic_info(fn)
+        S = zrfun.get_basic_info(fn,only_S=True)
     zeta = ds['zeta'][0,:]
     z_w0 = zrfun.get_z(h, zeta, S, only_w=True)
     z_w_x = 0.5*(z_w[:,:,1:]+z_w[:,:,:-1])
