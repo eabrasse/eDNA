@@ -69,8 +69,8 @@ for fn in his_fn_list:
     if fn==his_fn_list[0]:
         nz,ny,nx = ds['salt'][0,:,:,:].shape
         x_edges,y_edges = efun.ll2xy(ds['lon_psi'][0,:],ds['lat_psi'][:,0],lon0,lat0)
-        x_edges = np.tile(np.reshape(x_edges,(1,1,nx-1)),(nz-1,ny-1,1))
-        y_edges = np.tile(np.reshape(y_edges,(1,ny-1,1)),(nz-1,1,nx-1))
+        # x_edges = np.tile(np.reshape(x_edges,(1,1,nx-1)),(nz-1,ny-1,1))
+        # y_edges = np.tile(np.reshape(y_edges,(1,ny-1,1)),(nz-1,1,nx-1))
         z_edges = np.zeros((len(his_fn_list),nz-1,ny-1,nx-1))
         h = ds['h'][:]
         S = zrfun.get_basic_info(fn,only_S=True)
@@ -114,8 +114,17 @@ for f in f_list:
         delta_T = ts_list_p[pt]-ts_list_p[0]
         
         xp,yp = efun.ll2xy(ds['lon'][pt,:],ds['lat'][pt,:],lon0,lat0)
-        hist, edges = np.histogramdd(np.array([xp,yp,ds['z'][pt,:]]),np.array([x_edges,y_edges,z_edges[t,:,:,:]]))
-        particle_map[t,:,:,:] = hist
+        for ii in range(nx):
+            xmask = (xp>x_edges[ii])&(xp<x_edges[ii+1])
+            for jj in range(ny):
+                xymask = (yp>y_edges[jj])&(yp<y_edges[jj+1])&xmask
+                
+                hist,edges = np.hist(ds['z'][pt,xymask],z_edges[t,:,jj,ii])
+                
+                particle_map[t,:,jj,ii] += hist
+                
+        # hist, edges = np.histogramdd(np.array([xp,yp,ds['z'][pt,:]]),np.array([x_edges,y_edges,z_edges[t,:,:,:]]))
+        # particle_map[t,:,:,:] = hist
         # for z in range(nz):
         #     z0 = z_edges[z]
         #     z1 = z_edges[z+1]
