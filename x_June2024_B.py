@@ -124,6 +124,9 @@ for f in f_list:
         
         for [xi,yi] in xyi_u:
             
+            if (xi==len(x_edges)) or (yi==len(y_edges)):
+                continue
+            
             xymask = (yp>y_edges[yi])&(yp<y_edges[yi+1])&(xp>x_edges[xi])&(xp<x_edges[xi+1])
             
             hist,edges = np.histogram(ds['z'][pt,xymask],z_edges[t,:,yi,xi])
