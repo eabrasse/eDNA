@@ -21,7 +21,7 @@ track_dir0 = home+'LO_output/tracks2/hc11_v01_uu0k/'
 
 f_list = os.listdir(track_dir0)
 f_list.sort()
-# f_list = [x for x in f_list if (x[:11]=='hc_dolph_3d')&(x[-4]!='6')] 
+f_list = [x for x in f_list if (x[:11]=='hc_dolph_3d')&(x[17:24]=='2024.06')]
 # note current these are the only releases I've done with the new tracker code, so no need to subselect
 
 #set dt list based on samples
@@ -114,14 +114,20 @@ for f in f_list:
         delta_T = ts_list_p[pt]-ts_list_p[0]
         
         xp,yp = efun.ll2xy(ds['lon'][pt,:],ds['lat'][pt,:],lon0,lat0)
-        for ii in range(nx-2):
-            xmask = (xp>x_edges[ii])&(xp<x_edges[ii+1])
-            for jj in range(ny-2):
-                xymask = (yp>y_edges[jj])&(yp<y_edges[jj+1])&xmask
-                
-                hist,edges = np.histogram(ds['z'][pt,xymask],z_edges[t,:,jj,ii])
-                
-                particle_map[t,:,jj,ii] += hist
+        
+        xis = np.digitize(xp,x_edges)
+        yis = np.digitize(yp,y_edges)
+        
+        xyi = [[xis[i],yis[i]] for i in range(len(xis))]
+        
+        xyi_u = np.unique(xyi,axis=0)
+        
+        for [xi,yi] in xyi_u:
+            
+            xymask = (yp>y_edges[yi])&(yp<y_edges[yi+1])&(xp>x_edges[xi])&(xp<x_edges[xi+1])
+            
+            hist,edges = np.histogram(ds['z'][pt,xymask],z_edges[t,:,yi,xi])
+            particle_map[t,:,yi,xi] += hist
                 
         # hist, edges = np.histogramdd(np.array([xp,yp,ds['z'][pt,:]]),np.array([x_edges,y_edges,z_edges[t,:,:,:]]))
         # particle_map[t,:,:,:] = hist
