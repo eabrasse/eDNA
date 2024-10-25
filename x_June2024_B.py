@@ -130,7 +130,7 @@ for f in f_list:
             xymask = (yp>y_edges[yi-1])&(yp<y_edges[yi])&(xp>x_edges[xi-1])&(xp<x_edges[xi])
             
             hist,edges = np.histogram(ds['z'][pt,xymask],z_edges[t,:,yi,xi])
-            particle_map[t,:,yi,xi] += hist
+            particle_map[t,:,yi-1,xi-1] += hist
                 
         # hist, edges = np.histogramdd(np.array([xp,yp,ds['z'][pt,:]]),np.array([x_edges,y_edges,z_edges[t,:,:,:]]))
         # particle_map[t,:,:,:] = hist
