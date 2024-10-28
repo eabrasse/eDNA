@@ -145,17 +145,19 @@ for t in range(nt):
     # delta_T = ts_list_p[pt]-ts_list_p[0]
     
     # count = np.sum((np.abs(xp-df.xsloc)<rad)*(np.abs(yp-df.ysloc)<rad)*(np.abs(ds['z'][pt,:]-df.depth_m)<depth))
-    ind0 = np.argwhere(df.ts0i==ts_list[t])[0][:]
-    for ind in ind0:
-        rpm = np.sqrt((xp-df.xsloc[ind])**2+(yp-df.ysloc[ind])**2)<100
-        count,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df.yli[ind],df.xli[ind]])
-        pz0[ind,:] += count[:]
+    ind0 = np.argwhere(df.ts0i==ts_list[t])
+    if len(ind0)>0:
+        for ind in ind0[0][:]:
+            rpm = np.sqrt((xp-df.xsloc[ind])**2+(yp-df.ysloc[ind])**2)<100
+            count,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df.yli[ind],df.xli[ind]])
+            pz0[ind,:] += count[:]
         
-    ind1 = np.argwhere(df.ts1i==ts_list[t])[0][:]
-    for ind in ind1:
-        rpm = np.sqrt((xp-df.xsloc[ind])**2+(yp-df.ysloc[ind])**2)<100
-        count,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df.yli[ind],df.xli[ind]])
-        pz1[ind,:] += count[:]
+    ind1 = np.argwhere(df.ts1i==ts_list[t])
+    if len(ind1)>0:
+        for ind in ind1[0][:]:
+            rpm = np.sqrt((xp-df.xsloc[ind])**2+(yp-df.ysloc[ind])**2)<100
+            count,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df.yli[ind],df.xli[ind]])
+            pz1[ind,:] += count[:]
     
 
 ds.close()
