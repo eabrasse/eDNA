@@ -98,8 +98,9 @@ for fn in his_fn_list:
     ds.close()
     tt+=1
 
-df['pz0'] = np.zeros((len(df.index),nz-1))
-df['pz1'] = np.zeros((len(df.index),nz-1))
+
+pz0 = np.zeros((len(df.index),nz-1))
+pz1 = np.zeros((len(df.index),nz-1))
 # particle_age_lists = [[[[[] for x in range(nx-2)] for y in range(ny-2)] for z in range(nz-2)] for t in range(nt)]
 rad = 100
 depth = 5
@@ -148,23 +149,25 @@ for t in range(nt):
     for ind in ind0:
         rpm = np.sqrt((xp-df[ind].xsloc)**2+(yp-df[ind].ysloc)**2)<100
         count,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df[ind].yi,df[ind].xi])
-        df.pz0[ind,:] += count[:]
+        pz0[ind,:] += count[:]
         
     ind1 = np.argwhere(df.t1i==ts_list[t])
     for ind in ind1:
         rpm = np.sqrt((xp-df[ind].xsloc)**2+(yp-df[ind].ysloc)**2)<100
         count,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df[ind].yi,df[ind].xi])
-        df.pz1[ind,:] += count[:]
+        pz1[ind,:] += count[:]
     
 
 ds.close()
 count+=1
 
-
-df['ps'] = df.apply(lambda row: row.p0 + (row.ts0-row.ts0i)*(row.p1-row.p0)/dt, axis=1)
+particle_profiles = np.zeros((len(df.index),nz-1))
+for ind in df.index:
+    particle_profiles[ind,:] = pz0[ind,:]+(df[ind].ts0-df[ind].ts0i)*(pz1[ind,:]-pz0[ind,:])/dt
+# df['ps'] = df.apply(lambda row: row.p0 + (row.ts0-row.ts0i)*(row.p1-row.p0)/dt, axis=1)
 
 D = {}
-var_list = ['df','z_edges','ts_list']
+var_list = ['particle_profiles','z_edges','ts_list']
 for var in var_list:
     D[var] = locals()[var]
 
