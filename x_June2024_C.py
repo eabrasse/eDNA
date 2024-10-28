@@ -163,7 +163,7 @@ count+=1
 
 particle_profiles = np.zeros((len(df.index),nz-1))
 for ind in df.index:
-    if np.isnan(df[ind].ts)
+    # if np.isnan(df[ind].ts)
     particle_profiles[ind,:] = pz0[ind,:]+(df[ind].ts0-df[ind].ts0i)*(pz1[ind,:]-pz0[ind,:])/dt
 # df['ps'] = df.apply(lambda row: row.p0 + (row.ts0-row.ts0i)*(row.p1-row.p0)/dt, axis=1)
 
