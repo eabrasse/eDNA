@@ -156,8 +156,8 @@ for f in f_list:
         if len(ind1)>0:
             for ind in ind1[0][:]:
                 rpm = np.sqrt((xp-df.xsloc[ind])**2+(yp-df.ysloc[ind])**2)<100
-                count,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df.yli[ind],df.xli[ind]])
-                pz1[ind,:] += count[:]
+                hist,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df.yli[ind],df.xli[ind]])
+                pz1[ind,:] += hist[:]
 
 
     ds.close()
