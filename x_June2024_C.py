@@ -53,15 +53,15 @@ dt = ts_list[1]-ts_list[0]
 nt = len(ts_list)
 
 
-df['t0i'] = np.zeros(len(df.index))
+df['t0i'] = np.zeros(len(df.index)).astype(int)
 df['ts0i'] = np.zeros(len(df.index))
-df['t1i'] = np.zeros(len(df.index))
+df['t1i'] = np.zeros(len(df.index)).astype(int)
 df['ts1i'] = np.zeros(len(df.index))
 for ind in df.index:
-    df['t0i'][ind] = np.argwhere(ts_list<df['ts0'][ind])[-1][0]
+    df['t0i'][ind] = int(np.argwhere(ts_list<df['ts0'][ind])[-1][0])
     df['ts0i'][ind] = ts_list[df['t0i'][ind]]
     if np.sum(ts_list>df['ts0'][ind])>0:
-        df['t1i'][ind] = np.argwhere(ts_list>df['ts0'][ind])[0][0]
+        df['t1i'][ind] = int(np.argwhere(ts_list>df['ts0'][ind])[0][0])
         df['ts1i'][ind] = ts_list[df['t1i'][ind]]
     else:
         df['t1i'][ind] = np.nan
