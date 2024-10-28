@@ -90,8 +90,8 @@ for fn in his_fn_list:
         lonr = G['lon_rho'][:]
         latr = G['lat_rho'][:]
         xr,yr = efun.ll2xy(lonr,latr,lon0,lat0)
-        df['xli'] = np.argmin(np.abs(xr[0,:]-df['xsloc']))
-        df['yli'] = np.argmin(np.abs(yr[:,0]-df['ysloc']))
+        df['xli'] = df.apply(lambda row: np.argmin(np.abs(xr[0,:]-row.xsloc), axis=1)
+        df['yli'] = df.apply(lambda row: np.argmin(np.abs(yr[:,0]-row.ysloc), axis=1)
     zeta = ds['zeta'][0,:]
     z_edges [tt,:] = zrfun.get_z(h, zeta, S, only_r=True)
 
