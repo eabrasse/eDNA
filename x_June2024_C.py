@@ -145,13 +145,13 @@ for t in range(nt):
     # delta_T = ts_list_p[pt]-ts_list_p[0]
     
     # count = np.sum((np.abs(xp-df.xsloc)<rad)*(np.abs(yp-df.ysloc)<rad)*(np.abs(ds['z'][pt,:]-df.depth_m)<depth))
-    ind0 = np.argwhere(df.ts0i==ts_list[t])
+    ind0 = np.argwhere(df.ts0i==ts_list[t])[0][:]
     for ind in ind0:
         rpm = np.sqrt((xp-df[ind].xsloc)**2+(yp-df[ind].ysloc)**2)<100
         count,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df[ind].yli,df[ind].xli])
         pz0[ind,:] += count[:]
         
-    ind1 = np.argwhere(df.ts1i==ts_list[t])
+    ind1 = np.argwhere(df.ts1i==ts_list[t])[0][:]
     for ind in ind1:
         rpm = np.sqrt((xp-df[ind].xsloc)**2+(yp-df[ind].ysloc)**2)<100
         count,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df[ind].yli,df[ind].xli])
