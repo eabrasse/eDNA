@@ -18,7 +18,7 @@ lon0 = -122.729779; lat0 = 47.742773
 
 home = '/data2/pmr4/eab32/'
 
-sample_info_fn = home+'data/June2024_sampling_info.csv'
+sample_info_fn = home+'LO_data/eDNA/June2024_sampling_info.csv'
 df = pd.read_csv(sample_info_fn,sep=',',engine='python')
 old_columns = [col for col in df.columns]
 
