@@ -93,7 +93,7 @@ for fn in his_fn_list:
         df['xli'] = df.apply(lambda row: np.argmin(np.abs(xr[0,:]-row.xsloc)), axis=1)
         df['yli'] = df.apply(lambda row: np.argmin(np.abs(yr[:,0]-row.ysloc)), axis=1)
     zeta = ds['zeta'][0,:]
-    z_edges [tt,:] = zrfun.get_z(h, zeta, S, only_r=True)
+    z_edges [tt,:] = zrfun.get_z(h, zeta, S, only_rho=True)
 
     ds.close()
     tt+=1
