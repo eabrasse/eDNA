@@ -16,6 +16,10 @@ def argnearest(items, pivot):
 # dolphin pen location
 lon0 = -122.729779; lat0 = 47.742773
 
+#set dt list based on samples
+Pacific = pytz.timezone("PST8PDT")
+utc = pytz.utc
+
 home = '/data2/pmr4/eab32/'
 
 sample_info_fn = home+'LO_data/eDNA/June2024_sampling_info.csv'
@@ -39,9 +43,7 @@ f_list.sort()
 f_list = [x for x in f_list if (x[:11]=='hc_dolph_3d')&(x[17:24]=='2024.06')]
 # note current these are the only releases I've done with the new tracker code, so no need to subselect
 
-#set dt list based on samples
-Pacific = pytz.timezone("PST8PDT")
-utc = pytz.utc
+
 
 first_sample_utc = Pacific.localize(datetime(2024,6,13,10,0)).astimezone(utc)
 last_sample_utc = Pacific.localize(datetime(2024,6,13,17,0)).astimezone(utc)
