@@ -26,7 +26,7 @@ sample_info_fn = home+'LO_data/eDNA/June2024_sampling_info.csv'
 df = pd.read_csv(sample_info_fn,sep=',',engine='python')
 old_columns = [col for col in df.columns]
 
-df['dt0'] = pd.to_datetime(df['date_filtered']+' '+df['time_filtered_t0']).dt.tz_localize(pdt)
+df['dt0'] = pd.to_datetime(df['date_filtered']+' '+df['time_filtered_t0']).dt.tz_localize(Pacific)
 df['ts0'] = df.dt0.values.astype(np.int64) // 10 ** 9
 # t00 = np.nanmin(df.ts0.values[:])
 # t11 = np.nanmax(df.ts0.values[:])
