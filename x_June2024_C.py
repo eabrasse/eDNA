@@ -114,54 +114,54 @@ depth = 5
 
 count=1
 
-# for f in f_list:
+for f in f_list:
 
-f=f_list[0] #testing
+    # f=f_list[0] #testing
 
-print(f'working on file {count} of {len(f_list)}')
+    print(f'working on file {count} of {len(f_list)}')
 
-track_dir = track_dir0+f
+    track_dir = track_dir0+f
 
-# build a keyname from the release filename
-file_list = os.listdir(track_dir)
-file_list = [x for x in file_list if x[:3]=='rel']
-rel_fn = file_list[0]
+    # build a keyname from the release filename
+    file_list = os.listdir(track_dir)
+    file_list = [x for x in file_list if x[:3]=='rel']
+    rel_fn = file_list[0]
 
-filefn = track_dir+'/'+rel_fn
-ds = nc.Dataset(filefn)
+    filefn = track_dir+'/'+rel_fn
+    ds = nc.Dataset(filefn)
 
-ot = ds['ot'][:].data
-ts_list_p = []
-for tt in ot:
-    ts_list_p.append(datetime.timestamp(datetime(1970,1,1,tzinfo=pytz.utc)+timedelta(seconds=tt)))
+    ot = ds['ot'][:].data
+    ts_list_p = []
+    for tt in ot:
+        ts_list_p.append(datetime.timestamp(datetime(1970,1,1,tzinfo=pytz.utc)+timedelta(seconds=tt)))
 
-for t in range(nt):
-    
-    print(f'Time step {t}...')
-    dt_list = [np.abs(ts_p-ts_list[t]) for ts_p in ts_list_p]
-    pt = np.argmin(dt_list)
-    xp,yp = efun.ll2xy(ds['lon'][pt,:],ds['lat'][pt,:],lon0,lat0)
-    # pt = np.argmin(np.abs(ts_list_p-ts_list[t]))
-    # delta_T = ts_list_p[pt]-ts_list_p[0]
-    
-    # count = np.sum((np.abs(xp-df.xsloc)<rad)*(np.abs(yp-df.ysloc)<rad)*(np.abs(ds['z'][pt,:]-df.depth_m)<depth))
-    ind0 = np.argwhere(df.ts0i==ts_list[t])
-    if len(ind0)>0:
-        for ind in ind0[0][:]:
-            rpm = np.sqrt((xp-df.xsloc[ind])**2+(yp-df.ysloc[ind])**2)<100
-            count,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df.yli[ind],df.xli[ind]])
-            pz0[ind,:] += count[:]
-        
-    ind1 = np.argwhere(df.ts1i==ts_list[t])
-    if len(ind1)>0:
-        for ind in ind1[0][:]:
-            rpm = np.sqrt((xp-df.xsloc[ind])**2+(yp-df.ysloc[ind])**2)<100
-            count,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df.yli[ind],df.xli[ind]])
-            pz1[ind,:] += count[:]
-    
+    for t in range(nt):
 
-ds.close()
-count+=1
+        print(f'Time step {t}...')
+        dt_list = [np.abs(ts_p-ts_list[t]) for ts_p in ts_list_p]
+        pt = np.argmin(dt_list)
+        xp,yp = efun.ll2xy(ds['lon'][pt,:],ds['lat'][pt,:],lon0,lat0)
+        # pt = np.argmin(np.abs(ts_list_p-ts_list[t]))
+        # delta_T = ts_list_p[pt]-ts_list_p[0]
+
+        # count = np.sum((np.abs(xp-df.xsloc)<rad)*(np.abs(yp-df.ysloc)<rad)*(np.abs(ds['z'][pt,:]-df.depth_m)<depth))
+        ind0 = np.argwhere(df.ts0i==ts_list[t])
+        if len(ind0)>0:
+            for ind in ind0[0][:]:
+                rpm = np.sqrt((xp-df.xsloc[ind])**2+(yp-df.ysloc[ind])**2)<100
+                count,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df.yli[ind],df.xli[ind]])
+                pz0[ind,:] += count[:]
+
+        ind1 = np.argwhere(df.ts1i==ts_list[t])
+        if len(ind1)>0:
+            for ind in ind1[0][:]:
+                rpm = np.sqrt((xp-df.xsloc[ind])**2+(yp-df.ysloc[ind])**2)<100
+                count,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df.yli[ind],df.xli[ind]])
+                pz1[ind,:] += count[:]
+
+
+    ds.close()
+    count+=1
 
 particle_profiles = np.zeros((len(df.index),nz-1))
 for ind in df.index:
