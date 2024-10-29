@@ -147,17 +147,21 @@ for f in f_list:
         # count = np.sum((np.abs(xp-df.xsloc)<rad)*(np.abs(yp-df.ysloc)<rad)*(np.abs(ds['z'][pt,:]-df.depth_m)<depth))
         ind0 = np.argwhere(df.ts0i==ts_list[t])
         if len(ind0)>0:
-            for ind in ind0[0][:]:
-                rpm = np.sqrt((xp-df.xsloc[ind])**2+(yp-df.ysloc[ind])**2)<100
-                hist,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df.yli[ind],df.xli[ind]])
-                pz0[ind,:] += hist[:]
+            for ind in ind0:
+                rpm = np.sqrt((xp-df.xsloc[ind[0]])**2+(yp-df.ysloc[ind[0]])**2)<100
+                if np.any(rpm):
+                    print('release {} had {} particles <100m from sample {} at timestep {}'.format(count,np.sum(rpm),ind,t))
+                hist,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df.yli[ind[0]],df.xli[ind[0]]])
+                pz0[ind[0],:] += hist[:]
 
         ind1 = np.argwhere(df.ts1i==ts_list[t])
         if len(ind1)>0:
-            for ind in ind1[0][:]:
-                rpm = np.sqrt((xp-df.xsloc[ind])**2+(yp-df.ysloc[ind])**2)<100
-                hist,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df.yli[ind],df.xli[ind]])
-                pz1[ind,:] += hist[:]
+            for ind in ind1:
+                rpm = np.sqrt((xp-df.xsloc[ind[0]])**2+(yp-df.ysloc[ind[0]])**2)<100
+                if np.any(rpm):
+                    print('release {} had {} particles <100m from sample {} at timetsep {}'.format(count,np.sum(rpm),ind,t))
+                hist,edges = np.histogram(ds['z'][pt,rpm],z_edges[t,:,df.yli[ind[0]],df.xli[ind[0]]])
+                pz1[ind[0],:] += hist[:]
 
 
     ds.close()
