@@ -143,11 +143,11 @@ for f in f_list:
             particle_map[t,:,yi-1,xi-1] += hist
             
             
-        VLrpm = np.sqrt((xp-VLx])**2+(yp-VLy)**2)<100
+        VLrpm = np.sqrt((xp-VLx)**2+(yp-VLy)**2)<100
         hist,edges = np.histogram(ds['z'][pt,VLrpm],z_edges[t,:,VLyi,VLxi])
         VL_particle_profile[t,:] += hist
         
-        HArpm = np.sqrt((xp-HAx])**2+(yp-HAy)**2)<100
+        HArpm = np.sqrt((xp-HAx)**2+(yp-HAy)**2)<100
         hist,edges = np.histogram(ds['z'][pt,HArpm],z_edges[t,:,HAyi,HAxi])
         HA_particle_profile[t,:] += hist
 
