@@ -76,7 +76,7 @@ for fn in his_fn_list:
     ds.close()
     tt+=1
 #move z_edges time steps from hourly to between hours
-z_edges = 0.5*[z_edges[1:,:]+z_edges[:-1,:]]
+z_edges = 0.5*(z_edges[1:,:]+z_edges[:-1,:])
 
 particle_map = np.zeros((nt,nz-2,ny-2,nx-2))
 # particle_age_lists = [[[[[] for x in range(nx-2)] for y in range(ny-2)] for z in range(nz-2)] for t in range(nt)]
