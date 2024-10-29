@@ -21,7 +21,7 @@ track_dir0 = home+'LO_output/tracks2/hc11_v01_uu0k/'
 
 f_list = os.listdir(track_dir0)
 f_list.sort()
-f_list = [x for x in f_list if (x[:11]=='hc_dolph_3d')&(x[17:24]=='2024.06')]
+f_list = [x for x in f_list if (x[:12]=='hc_dolph2_3d')&(x[18:25]=='2024.10')]
 # note current these are the only releases I've done with the new tracker code, so no need to subselect
 
 #set dt list based on samples
