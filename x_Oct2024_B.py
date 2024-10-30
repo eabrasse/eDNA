@@ -100,14 +100,14 @@ VLlat = 47.740000
 VLx, VLy = efun.ll2xy(VLlon,VLlat,lon0,lat0)
 VL_particle_profile = np.zeros((nt,nz-2))
 VLxi = np.argmin(np.abs(xr[0,1:-1]-VLx))
-VLyi = np.argmin(np.abs(yr[0,1:-1]-VLy))
+VLyi = np.argmin(np.abs(yr[1:-1,0]-VLy))
 
 HAlat = 47.742236
 HAlon = -122.729975
 HAx, HAy = efun.ll2xy(HAlon,HAlat,lon0,lat0)
 HA_particle_profile = np.zeros((nt,nz-2))
 HAxi = np.argmin(np.abs(xr[0,1:-1]-HAx))
-HAyi = np.argmin(np.abs(yr[0,1:-1]-HAy))
+HAyi = np.argmin(np.abs(yr[1:-1,0]-HAy))
 
 count=1
 
