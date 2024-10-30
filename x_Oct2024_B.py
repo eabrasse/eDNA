@@ -53,7 +53,7 @@ his_fn_list = [his_dir + 'f2024.10.16/ocean_his_0019.nc',
             ]
 his_fn_list.sort()
 
-
+ts_list_m = []
 tt=0
 for fn in his_fn_list:
     ds = nc.Dataset(fn)
@@ -73,10 +73,18 @@ for fn in his_fn_list:
     z_w_x = 0.5*(z_w0[:,:,1:]+z_w0[:,:,:-1])
     z_w_xy = 0.5*(z_w_x[:,1:,:]+z_w_x[:,:-1,:])
     z_edges[tt,:] = z_w_xy[1:-1,:,:]
+    ts_list_m.append(datetime.timestamp(datetime(1970,1,1,tzinfo=pytz.utc)+timedelta(seconds=ds['ocean_time'][0])))
     ds.close()
     tt+=1
-#move z_edges time steps from hourly to between hours
-z_edges = 0.5*(z_edges[1:,:]+z_edges[:-1,:])
+
+# #move z_edges time steps from hourly to between hours
+# z_edges = 0.5*(z_edges[1:,:]+z_edges[:-1,:])
+z_edges_15min = np.zeros((nt,nz-1))
+for tt in range(nt):
+    t0m = np.argwhere(ts_list_m<ts_list[tt]])[-1][0]
+    t1m = np.argwhere(ts_list_m>ts_list[tt])[0][0]
+    z_edges_15min[tt,:] = z_edges[t0m,:] + (z_edges[t1m,:]-z_edges[t0m,:])*(t_list[tt]-t_list_m[t0m])/(t_list_m[t1m]-t_list_m[t0m])
+    
 
 particle_map = np.zeros((nt,nz-2,ny-2,nx-2))
 # particle_age_lists = [[[[[] for x in range(nx-2)] for y in range(ny-2)] for z in range(nz-2)] for t in range(nt)]
@@ -139,16 +147,16 @@ for f in f_list:
             
             xymask = (yp>y_edges[yi-1])&(yp<y_edges[yi])&(xp>x_edges[xi-1])&(xp<x_edges[xi])
             
-            hist,edges = np.histogram(ds['z'][pt,xymask],z_edges[t,:,yi,xi])
+            hist,edges = np.histogram(ds['z'][pt,xymask],z_edges_15min[t,:,yi,xi])
             particle_map[t,:,yi-1,xi-1] += hist
             
             
         VLrpm = np.sqrt((xp-VLx)**2+(yp-VLy)**2)<100
-        hist,edges = np.histogram(ds['z'][pt,VLrpm],z_edges[t,:,VLyi,VLxi])
+        hist,edges = np.histogram(ds['z'][pt,VLrpm],z_edges_15min[t,:,VLyi,VLxi])
         VL_particle_profile[t,:] += hist
         
         HArpm = np.sqrt((xp-HAx)**2+(yp-HAy)**2)<100
-        hist,edges = np.histogram(ds['z'][pt,HArpm],z_edges[t,:,HAyi,HAxi])
+        hist,edges = np.histogram(ds['z'][pt,HArpm],z_edges_15min[t,:,HAyi,HAxi])
         HA_particle_profile[t,:] += hist
 
 
@@ -157,7 +165,7 @@ for f in f_list:
 
 
 D = {}
-var_list = ['x_edges','y_edges','z_edges','ts_list','particle_map','VL_particle_profile','HA_particle_profile']
+var_list = ['x_edges','y_edges','z_edges_15min','ts_list','particle_map','VL_particle_profile','HA_particle_profile']
 for var in var_list:
     D[var] = locals()[var]
 
