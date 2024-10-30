@@ -80,11 +80,16 @@ for fn in his_fn_list:
 ts_list_m = np.array(ts_list_m)
 # #move z_edges time steps from hourly to between hours
 # z_edges = 0.5*(z_edges[1:,:]+z_edges[:-1,:])
-z_edges_15min = np.zeros((nt,nz-1))
+z_edges_15min = np.zeros((nt,nz-1,ny-1,nx-1))
 for tt in range(nt):
-    t0m = np.argwhere(ts_list_m<ts_list[tt])[-1][0]
-    t1m = np.argwhere(ts_list_m>ts_list[tt])[0][0]
-    z_edges_15min[tt,:] = z_edges[t0m,:] + (z_edges[t1m,:]-z_edges[t0m,:])*(t_list[tt]-t_list_m[t0m])/(t_list_m[t1m]-t_list_m[t0m])
+    t0m = np.argwhere(ts_list_m<=ts_list[tt])[-1][0]
+    t1m = np.argwhere(ts_list_m>=ts_list[tt])[0][0]
+    # if we're on a time step, t0m==t1m and z_edges_15min = z_edges[t0m,:] + 0
+    # welllll maybe to avoid dividing by zero...
+    if t0m==t1m:
+        z_edges_15min[tt,:] = z_edges[t0m,:]
+    else:
+        z_edges_15min[tt,:] = z_edges[t0m,:] + (z_edges[t1m,:]-z_edges[t0m,:])*(ts_list[tt]-ts_list_m[t0m])/(ts_list_m[t1m]-ts_list_m[t0m])
     
 
 particle_map = np.zeros((nt,nz-2,ny-2,nx-2))
