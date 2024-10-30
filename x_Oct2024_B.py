@@ -73,7 +73,8 @@ for fn in his_fn_list:
     z_w_x = 0.5*(z_w0[:,:,1:]+z_w0[:,:,:-1])
     z_w_xy = 0.5*(z_w_x[:,1:,:]+z_w_x[:,:-1,:])
     z_edges[tt,:] = z_w_xy[1:-1,:,:]
-    ts_list_m.append(datetime.timestamp(datetime(1970,1,1,tzinfo=pytz.utc)+timedelta(seconds=ds['ocean_time'].data[0])))
+    ot = ds['ocean_time'][:]
+    ts_list_m.append(datetime.timestamp(datetime(1970,1,1,tzinfo=pytz.utc)+timedelta(seconds=ot[0])))
     ds.close()
     tt+=1
 
