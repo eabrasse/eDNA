@@ -77,7 +77,7 @@ for fn in his_fn_list:
     ts_list_m.append(datetime.timestamp(datetime(1970,1,1,tzinfo=pytz.utc)+timedelta(seconds=ot[0])))
     ds.close()
     tt+=1
-
+t_list_m = np.array(t_list_m)
 # #move z_edges time steps from hourly to between hours
 # z_edges = 0.5*(z_edges[1:,:]+z_edges[:-1,:])
 z_edges_15min = np.zeros((nt,nz-1))
