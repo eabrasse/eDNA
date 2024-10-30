@@ -28,9 +28,9 @@ f_list = [x for x in f_list if (x[:12]=='hc_dolph2_3d')&(x[18:25]=='2024.10')]
 Pacific = pytz.timezone("PST8PDT")
 utc = pytz.utc
 
-first_sample_utc = Pacific.localize(datetime(2024,10,16,11,30)).astimezone(utc)
-last_sample_utc = Pacific.localize(datetime(2024,10,16,17,30)).astimezone(utc)
-dt_list0 = pd.date_range(start=first_sample_utc,end = last_sample_utc, freq="60min").to_pydatetime().tolist()
+first_sample_utc = Pacific.localize(datetime(2024,10,16,11,00)).astimezone(utc)
+last_sample_utc = Pacific.localize(datetime(2024,10,16,18,00)).astimezone(utc)
+dt_list0 = pd.date_range(start=first_sample_utc,end = last_sample_utc, freq="15min").to_pydatetime().tolist()
 ts_list = [datetime.timestamp(dt) for dt in dt_list0]
 nt = len(ts_list)
 
@@ -162,6 +162,6 @@ for var in var_list:
     D[var] = locals()[var]
 
 
-outfn = home+'LO_data/eDNA/Oct2024_3dhist_zw_no_ages.p'
+outfn = home+'LO_data/eDNA/Oct2024_3dhist_zw_no_ages_15min.p'
 pickle.dump(D,open(outfn, 'wb'))
 print('saved to {}'.format(outfn))
