@@ -118,7 +118,7 @@ VL['x'], VL['y'] = efun.ll2xy(VL['lon'],VL['lat'],lon0,lat0)
 # VL_particle_profile = np.zeros((nt,nz-2))
 VL['xi'] = np.argmin(np.abs(xr[0,1:-1]-VL['x']))
 VL['yi'] = np.argmin(np.abs(yr[1:-1,0]-VL['y']))
-VL['col'] = tab10(8)
+# VL['col'] = tab10(8)
 VL['profile'] = np.zeros((nt,nz-2))
 
 HA = {}
@@ -129,7 +129,7 @@ HA['x'], HA['y'] = efun.ll2xy(HA['lon'],HA['lat'],lon0,lat0)
 # HA_particle_profile = np.zeros((nt,nz-2))
 HA['xi'] = np.argmin(np.abs(xr[0,1:-1]-HA['x']))
 HA['yi'] = np.argmin(np.abs(yr[1:-1,0]-HA['y']))
-HA['col'] = tab10(6)
+# HA['col'] = tab10(6)
 HA['profile'] = np.zeros((nt,nz-2))
 
 NB = {}
@@ -139,7 +139,7 @@ NB['lon'] = -122.743109
 NB['x'],NB['y'] = efun.ll2xy(NB['lon'],NB['lat'],lon0,lat0)
 NB['xi'] = np.argmin(np.abs(xr[0,1:-1]-NB['x']))
 NB['yi'] = np.argmin(np.abs(yr[1:-1,0]-NB['y']))
-NB['col'] = tab10(9)
+# NB['col'] = tab10(9)
 NB['profile'] = np.zeros((nt,nz-2))
 
 station_list = [VL,HA,NB]
