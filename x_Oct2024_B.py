@@ -15,7 +15,6 @@ def argnearest(items, pivot):
 
 
 home = '/data2/pmr4/eab32/'
-
 #find June sampling particle tracks
 track_dir0 = home+'LO_output/tracks2/hc11_v01_uu0k/'
 
@@ -23,6 +22,24 @@ f_list = os.listdir(track_dir0)
 f_list.sort()
 f_list = [x for x in f_list if (x[:12]=='hc_dolph2_3d')&(x[18:25]=='2024.10')]
 # note current these are the only releases I've done with the new tracker code, so no need to subselect
+
+# since particles have consistent release points, we can derive the VL pen only releases
+VL_only = True
+
+track_dir = track_dir0+f_list[0]
+file_list = os.listdir(track_dir)
+file_list = [x for x in file_list if x[:3]=='rel']
+rel_fn = file_list[0]
+
+filefn = track_dir+'/'+rel_fn
+
+ds = nc.Dataset(filefn)
+if VL_only:
+    pmask = ds['lat'][0,:]<47.741
+else:
+    pmask = np.ones(ds['lat'][0,:].shape)
+        
+ds.close()
 
 #set dt list based on samples
 Pacific = pytz.timezone("PST8PDT")
@@ -186,14 +203,14 @@ for f in f_list:
             if (xi in [0,len(x_edges)]) or (yi in [0,len(y_edges)]):
                 continue
             
-            xymask = (yp>y_edges[yi-1])&(yp<y_edges[yi])&(xp>x_edges[xi-1])&(xp<x_edges[xi])
+            xymask = (yp>y_edges[yi-1])&(yp<y_edges[yi])&(xp>x_edges[xi-1])&(xp<x_edges[xi])&pmask
             
             hist,edges = np.histogram(ds['z'][pt,xymask],z_edges_15min[t,:,yi,xi])
             particle_map[t,:,yi-1,xi-1] += hist
             
         
         for station in station_list:
-            station['rpm'] = np.sqrt((xp-station['x'])**2+(yp-station['y'])**2)<100
+            station['rpm'] = (np.sqrt((xp-station['x'])**2+(yp-station['y'])**2)<100)&pmask
             hist,edges = np.histogram(ds['z'][pt,station['rpm']],z_edges_15min[t,:,station['yi'],station['xi']])
             station['profile'][t,:] += hist
 
@@ -208,6 +225,11 @@ for var in var_list:
     D[var] = locals()[var]
 
 
-outfn = home+'LO_data/eDNA/Oct2024_3dhist_zw_no_ages_15min.p'
+outfn = home+'LO_data/eDNA/Oct2024_3dhist_zw_no_ages_15min'
+if VL_only:
+    outfn = outfn + "_VL_only.p"
+else:
+    outfn = outfn + '.p'
+
 pickle.dump(D,open(outfn, 'wb'))
 print('saved to {}'.format(outfn))
