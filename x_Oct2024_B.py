@@ -95,19 +95,54 @@ for tt in range(nt):
 particle_map = np.zeros((nt,nz-2,ny-2,nx-2))
 # particle_age_lists = [[[[[] for x in range(nx-2)] for y in range(ny-2)] for z in range(nz-2)] for t in range(nt)]
 
-VLlon = -122.733598
-VLlat = 47.740000
-VLx, VLy = efun.ll2xy(VLlon,VLlat,lon0,lat0)
-VL_particle_profile = np.zeros((nt,nz-2))
-VLxi = np.argmin(np.abs(xr[0,1:-1]-VLx))
-VLyi = np.argmin(np.abs(yr[1:-1,0]-VLy))
+# VLlon = -122.733598
+# VLlat = 47.740000
+# VLx, VLy = efun.ll2xy(VLlon,VLlat,lon0,lat0)
+# VL_particle_profile = np.zeros((nt,nz-2))
+# VLxi = np.argmin(np.abs(xr[0,1:-1]-VLx))
+# VLyi = np.argmin(np.abs(yr[1:-1,0]-VLy))
+#
+# HAlat = 47.742236
+# HAlon = -122.729975
+# HAx, HAy = efun.ll2xy(HAlon,HAlat,lon0,lat0)
+# HA_particle_profile = np.zeros((nt,nz-2))
+# HAxi = np.argmin(np.abs(xr[0,1:-1]-HAx))
+# HAyi = np.argmin(np.abs(yr[1:-1,0]-HAy))
 
-HAlat = 47.742236
-HAlon = -122.729975
-HAx, HAy = efun.ll2xy(HAlon,HAlat,lon0,lat0)
-HA_particle_profile = np.zeros((nt,nz-2))
-HAxi = np.argmin(np.abs(xr[0,1:-1]-HAx))
-HAyi = np.argmin(np.abs(yr[1:-1,0]-HAy))
+# VL pen and Husbandry area sampling stations
+VL = {}
+VL['name'] = 'VL\nPen\nSouth'
+VL['lon'] = -122.733598
+VL['lat'] = 47.740000
+VL['x'], VL['y'] = efun.ll2xy(VL['lon'],VL['lat'],lon0,lat0)
+# VL_particle_profile = np.zeros((nt,nz-2))
+VL['xi'] = np.argmin(np.abs(xr[0,1:-1]-VL['x']))
+VL['yi'] = np.argmin(np.abs(yr[1:-1,0]-VL['y']))
+VL['col'] = tab10(8)
+VL['profile'] = np.zeros((nt,nz-2))
+
+HA = {}
+HA['name'] = 'Husbandry\nArea'
+HA['lat'] = 47.742236
+HA['lon'] = -122.729975
+HA['x'], HA['y'] = efun.ll2xy(HA['lon'],HA['lat'],lon0,lat0)
+# HA_particle_profile = np.zeros((nt,nz-2))
+HA['xi'] = np.argmin(np.abs(xr[0,1:-1]-HA['x']))
+HA['yi'] = np.argmin(np.abs(yr[1:-1,0]-HA['y']))
+HA['col'] = tab10(6)
+HA['profile'] = np.zeros((nt,nz-2))
+
+NB = {}
+NB['name'] = 'NOAA\nBoat'
+NB['lat'] = 47.736613
+NB['lon'] = -122.743109
+NB['x'],NB['y'] = efun.ll2xy(NB['lon'],NB['lat'],lon0,lat0)
+NB['xi'] = np.argmin(np.abs(xr[0,1:-1]-NB['x']))
+NB['yi'] = np.argmin(np.abs(yr[1:-1,0]-NB['y']))
+NB['col'] = tab10(9)
+NB['profile'] = np.zeros((nt,nz-2))
+
+station_list = [VL,HA,NB]
 
 count=1
 
@@ -156,14 +191,11 @@ for f in f_list:
             hist,edges = np.histogram(ds['z'][pt,xymask],z_edges_15min[t,:,yi,xi])
             particle_map[t,:,yi-1,xi-1] += hist
             
-            
-        VLrpm = np.sqrt((xp-VLx)**2+(yp-VLy)**2)<100
-        hist,edges = np.histogram(ds['z'][pt,VLrpm],z_edges_15min[t,:,VLyi,VLxi])
-        VL_particle_profile[t,:] += hist
         
-        HArpm = np.sqrt((xp-HAx)**2+(yp-HAy)**2)<100
-        hist,edges = np.histogram(ds['z'][pt,HArpm],z_edges_15min[t,:,HAyi,HAxi])
-        HA_particle_profile[t,:] += hist
+        for station in station_list:
+            station['rpm'] = np.sqrt((xp-station['x'])**2+(yp-station['y'])**2)<100
+            hist,edges = np.histogram(ds['z'][pt,station['rpm']],z_edges_15min[t,:,station['yi'],station['xi']])
+            station['particle_profile'][t,:] += hist
 
 
     ds.close()
@@ -171,7 +203,7 @@ for f in f_list:
 
 
 D = {}
-var_list = ['x_edges','y_edges','z_edges_15min','ts_list','particle_map','VL_particle_profile','HA_particle_profile']
+var_list = ['x_edges','y_edges','z_edges_15min','ts_list','particle_map','station_list']
 for var in var_list:
     D[var] = locals()[var]
 
