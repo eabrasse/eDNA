@@ -95,7 +95,7 @@ for tt in range(nt):
 particle_map = np.zeros((nt,nz-2,ny-2,nx-2))
 # particle_age_lists = [[[[[] for x in range(nx-2)] for y in range(ny-2)] for z in range(nz-2)] for t in range(nt)]
 
-VLlon = 122.733598
+VLlon = -122.733598
 VLlat = 47.740000
 VLx, VLy = efun.ll2xy(VLlon,VLlat,lon0,lat0)
 VL_particle_profile = np.zeros((nt,nz-2))
@@ -103,7 +103,7 @@ VLxi = np.argmin(np.abs(xr[0,1:-1]-VLx))
 VLyi = np.argmin(np.abs(yr[0,1:-1]-VLy))
 
 HAlat = 47.742236
-HAlon = 122.729975
+HAlon = -122.729975
 HAx, HAy = efun.ll2xy(HAlon,HAlat,lon0,lat0)
 HA_particle_profile = np.zeros((nt,nz-2))
 HAxi = np.argmin(np.abs(xr[0,1:-1]-HAx))
