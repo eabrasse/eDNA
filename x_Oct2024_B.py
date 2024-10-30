@@ -195,7 +195,7 @@ for f in f_list:
         for station in station_list:
             station['rpm'] = np.sqrt((xp-station['x'])**2+(yp-station['y'])**2)<100
             hist,edges = np.histogram(ds['z'][pt,station['rpm']],z_edges_15min[t,:,station['yi'],station['xi']])
-            station['particle_profile'][t,:] += hist
+            station['profile'][t,:] += hist
 
 
     ds.close()
