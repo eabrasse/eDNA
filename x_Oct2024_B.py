@@ -81,7 +81,7 @@ for fn in his_fn_list:
 # z_edges = 0.5*(z_edges[1:,:]+z_edges[:-1,:])
 z_edges_15min = np.zeros((nt,nz-1))
 for tt in range(nt):
-    t0m = np.argwhere(ts_list_m<ts_list[tt]])[-1][0]
+    t0m = np.argwhere(ts_list_m<ts_list[tt])[-1][0]
     t1m = np.argwhere(ts_list_m>ts_list[tt])[0][0]
     z_edges_15min[tt,:] = z_edges[t0m,:] + (z_edges[t1m,:]-z_edges[t0m,:])*(t_list[tt]-t_list_m[t0m])/(t_list_m[t1m]-t_list_m[t0m])
     
