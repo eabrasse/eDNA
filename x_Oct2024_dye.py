@@ -115,7 +115,7 @@ for f in f_list:
     ds = nc.Dataset(f)
 
     ot = ds['ot'][:]
-    dt_list.append(((datetime(1970,1,1,tzinfo=pytz.utc)+timedelta(seconds=ot[0])).astimezone(utc))
+    dt_list.append((datetime(1970,1,1,tzinfo=pytz.utc)+timedelta(seconds=ot[0])).astimezone(utc))
     
     zeta = ds['zeta'][0,:]
     zr = zrfun.get_z(h, zeta, S, only_r=True)
