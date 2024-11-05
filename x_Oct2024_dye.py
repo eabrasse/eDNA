@@ -119,7 +119,7 @@ for f in f_list:
     dt_list.append((datetime(1970,1,1,tzinfo=pytz.utc)+timedelta(seconds=ot[0])).astimezone(utc))
     
     zeta = ds['zeta'][0,:]
-    zr = zrfun.get_z(h, zeta, S, only_r=True)
+    zr = zrfun.get_z(h, zeta, S, only_rho=True)
     
     zrmask = zr[0,:,:,:]<-10 # mask everything deeper than 10m
     dye_masked = np.ma.array(ds['dye_01'][0,:,:,:],zrmask)
