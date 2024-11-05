@@ -40,6 +40,7 @@ his_dir_list = [his_dir0 + 'f2024.10.16.'+subscript,
             ]
 f_list = []
 flag=0
+print('preprocessing...')
 for his_dir in his_dir_list:
     his_dir_fn_list = os.listdir(his_dir)
     fnh = [x for x in his_dir_fn_list if x[:9]=='ocean_his']
@@ -57,7 +58,7 @@ for his_dir in his_dir_list:
         ot = ds['ocean_time'][:]
         dt = utc.localize(datetime(1970,1,1)+timedelta(seconds=ot[0]))
         if (dt>first_sample_utc) & (dt<last_sample_utc):
-            f_list.append(his_dir+fnh)
+            f_list.append(his_dir+fn)
         ds.close()
 
 f_list.sort()
@@ -110,7 +111,7 @@ tt = 0
 
 for f in f_list:
     
-    print(f'working on file {count} of {len(f_list)}')
+    print(f'extracting dye from file {count} of {len(f_list)}')
 
     ds = nc.Dataset(f)
 
