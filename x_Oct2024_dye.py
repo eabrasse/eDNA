@@ -46,7 +46,7 @@ for his_dir in his_dir_list:
     fnh = [x for x in his_dir_fn_list if x[:9]=='ocean_his']
     fnh.sort()
     for fn in fnh:
-        ds = nc.Dataset(his_dir+fnh)
+        ds = nc.Dataset(his_dir+fn)
         if flag==0:
             nz,ny,nx = ds['salt'][0,:,:,:].shape
             lonr = ds['lon_rho'][:]
