@@ -46,7 +46,7 @@ for his_dir in his_dir_list:
     fnh = [x for x in his_dir_fn_list if x[:9]=='ocean_his']
     fnh.sort()
     for fn in fnh:
-        ds = nc.Dataset(his_dir+fn)
+        ds = nc.Dataset(his_dir+'/'+fn)
         if flag==0:
             nz,ny,nx = ds['salt'][0,:,:,:].shape
             lonr = ds['lon_rho'][:]
@@ -58,7 +58,7 @@ for his_dir in his_dir_list:
         ot = ds['ocean_time'][:]
         dt = utc.localize(datetime(1970,1,1)+timedelta(seconds=ot[0]))
         if (dt>first_sample_utc) & (dt<last_sample_utc):
-            f_list.append(his_dir+fn)
+            f_list.append(his_dir+'/'+fn)
         ds.close()
 
 f_list.sort()
