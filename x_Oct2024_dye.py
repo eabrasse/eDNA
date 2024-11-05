@@ -74,8 +74,8 @@ VL['lon'] = -122.733598
 VL['lat'] = 47.740000
 VL['x'], VL['y'] = efun.ll2xy(VL['lon'],VL['lat'],lon0,lat0)
 # VL_particle_profile = np.zeros((nt,nz-2))
-VL['xi'] = np.argmin(np.abs(xr[0,1:-1]-VL['x']))
-VL['yi'] = np.argmin(np.abs(yr[1:-1,0]-VL['y']))
+VL['xi'] = np.argmin(np.abs(xr[0,:]-VL['x']))
+VL['yi'] = np.argmin(np.abs(yr[:,0]-VL['y']))
 # VL['col'] = tab10(8)
 VL['profile'] = np.zeros((nt,nz))
 VL['zr'] = np.zeros((nt,nz))
@@ -86,8 +86,8 @@ HA['lat'] = 47.742236
 HA['lon'] = -122.729975
 HA['x'], HA['y'] = efun.ll2xy(HA['lon'],HA['lat'],lon0,lat0)
 # HA_particle_profile = np.zeros((nt,nz-2))
-HA['xi'] = np.argmin(np.abs(xr[0,1:-1]-HA['x']))
-HA['yi'] = np.argmin(np.abs(yr[1:-1,0]-HA['y']))
+HA['xi'] = np.argmin(np.abs(xr[0,:]-HA['x']))
+HA['yi'] = np.argmin(np.abs(yr[:,0]-HA['y']))
 # HA['col'] = tab10(6)
 HA['profile'] = np.zeros((nt,nz))
 HA['zr'] = np.zeros((nt,nz))
@@ -97,14 +97,13 @@ NB['name'] = 'NOAA\nBoat'
 NB['lat'] = 47.736613
 NB['lon'] = -122.743109
 NB['x'],NB['y'] = efun.ll2xy(NB['lon'],NB['lat'],lon0,lat0)
-NB['xi'] = np.argmin(np.abs(xr[0,1:-1]-NB['x']))
-NB['yi'] = np.argmin(np.abs(yr[1:-1,0]-NB['y']))
+NB['xi'] = np.argmin(np.abs(xr[0,:]-NB['x']))
+NB['yi'] = np.argmin(np.abs(yr[:,0]-NB['y']))
 # NB['col'] = tab10(9)
 NB['profile'] = np.zeros((nt,nz))
 NB['zr'] = np.zeros((nt,nz))
 
-station_list = [VL,HA,NB]
-dye_upper10m = np.zeros((nt,ny,nx))
+surface_dye = np.zeros((nt,ny,nx))
 dt_list = []
 
 tt = 0
@@ -121,10 +120,11 @@ for f in f_list:
     zeta = ds['zeta'][0,:]
     zr = zrfun.get_z(h, zeta, S, only_rho=True)
     
-    zrmask = zr[:,:,:]<-10 # mask everything deeper than 10m
-    dye = ds['dye_01'][0,:,:,:]
-    dye_masked = np.ma.masked_where(dye,zrmask)
-    dye_upper10m[tt,:,:] = np.mean(dye_masked,axis=0)
+    # zrmask = zr[:,:,:]<-10 # mask everything deeper than 10m
+    # dye = ds['dye_01'][0,:,:,:]
+    # dye_masked = np.ma.masked_where(dye,zrmask)
+    # dye_upper10m[tt,:,:] = np.mean(dye_masked,axis=0)
+    surface_dye[tt,:,:] = ds['dye_01'][0,-1,:,:]
     
     for station in station_list:
         station['zr'][tt,:] = zr[:,station['yi'],station['xi']]
@@ -136,12 +136,12 @@ for f in f_list:
 
 
 D = {}
-var_list = ['xr','yr','dt_list','dye_upper10m','station_list']
+var_list = ['xr','yr','dt_list','surface_dye','station_list']
 for var in var_list:
     D[var] = locals()[var]
 
 
-outfn = home+'LO_data/eDNA/Oct2024_'+subscript+'_dye_15min.p'
+outfn = home+'LO_data/eDNA/Oct2024_'+subscript+'_surfdye_15min.p'
 
 
 pickle.dump(D,open(outfn, 'wb'))
