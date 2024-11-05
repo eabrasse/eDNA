@@ -121,12 +121,12 @@ for f in f_list:
     zeta = ds['zeta'][0,:]
     zr = zrfun.get_z(h, zeta, S, only_rho=True)
     
-    zrmask = zr[0,:,:,:]<-10 # mask everything deeper than 10m
+    zrmask = zr[:,:,:]<-10 # mask everything deeper than 10m
     dye_masked = np.ma.array(ds['dye_01'][0,:,:,:],zrmask)
     dye_upper10m[tt,:,:] = np.mean(dye_masked,axis=0)
     
     for station in station_list:
-        station['zr'][tt,:] = zr[0,:,yi,xi]
+        station['zr'][tt,:] = zr[:,yi,xi]
         station['profile'][tt,:] = ds['dye_01'][0,:,yi,xi]
     
     ds.close()
