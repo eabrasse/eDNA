@@ -103,6 +103,8 @@ NB['yi'] = np.argmin(np.abs(yr[:,0]-NB['y']))
 NB['profile'] = np.zeros((nt,nz))
 NB['zr'] = np.zeros((nt,nz))
 
+
+station_list = [VL,HA,NB]
 surface_dye = np.zeros((nt,ny,nx))
 dt_list = []
 
