@@ -111,7 +111,7 @@ tt = 0
 
 for f in f_list:
     
-    print(f'extracting dye from file {count} of {len(f_list)}')
+    print(f'extracting dye from file {tt} of {len(f_list)}')
 
     ds = nc.Dataset(f)
 
