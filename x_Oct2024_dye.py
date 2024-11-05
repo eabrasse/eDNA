@@ -53,7 +53,7 @@ for his_dir in his_dir_list:
             latr = ds['lat_rho'][:]
             xr,yr = efun.ll2xy(lonr,latr,lon0,lat0)
             h = ds['h'][:]
-            S= zrfun.get_basic_info(fn, only_S=True)
+            S= zrfun.get_basic_info(his_dir+'/'+fn, only_S=True)
             flag+=1
         ot = ds['ocean_time'][:]
         dt = utc.localize(datetime(1970,1,1)+timedelta(seconds=ot[0]))
