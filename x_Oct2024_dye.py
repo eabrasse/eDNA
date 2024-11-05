@@ -123,7 +123,7 @@ for f in f_list:
     
     zrmask = zr[:,:,:]<-10 # mask everything deeper than 10m
     dye = ds['dye_01'][0,:,:,:]
-    dye_masked = np.ma.array(dye,zrmask)
+    dye_masked = np.ma.masked_where(dye,zrmask)
     dye_upper10m[tt,:,:] = np.mean(dye_masked,axis=0)
     
     for station in station_list:
