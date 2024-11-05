@@ -127,8 +127,8 @@ for f in f_list:
     dye_upper10m[tt,:,:] = np.mean(dye_masked,axis=0)
     
     for station in station_list:
-        station['zr'][tt,:] = zr[:,yi,xi]
-        station['profile'][tt,:] = ds['dye_01'][0,:,yi,xi]
+        station['zr'][tt,:] = zr[:,station['yi'],station['xi']]
+        station['profile'][tt,:] = ds['dye_01'][0,:,station['yi'],station['xi']]
     
     ds.close()
     tt+=1
