@@ -115,7 +115,7 @@ for f in f_list:
 
     ds = nc.Dataset(f)
 
-    ot = ds['ot'][:]
+    ot = ds['ocean_time'][:]
     dt_list.append((datetime(1970,1,1,tzinfo=pytz.utc)+timedelta(seconds=ot[0])).astimezone(utc))
     
     zeta = ds['zeta'][0,:]
