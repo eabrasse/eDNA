@@ -29,7 +29,7 @@ nt = len(ts_list)
 # dolphin pen location
 lon0 = -122.729779; lat0 = 47.742773
 
-subscript = '1845rel'
+subscript = '1945rel'
 #set up heatmap bins
 # start by using same as model grid
 # grid_fn = track_dir0+f_list[0]+'/grid.nc'
