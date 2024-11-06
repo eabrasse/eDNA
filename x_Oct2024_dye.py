@@ -20,8 +20,9 @@ home = '/data2/pmr4/eab32/'
 Pacific = pytz.timezone("PST8PDT")
 utc = pytz.utc
 
-first_sample_utc = Pacific.localize(datetime(2024,10,16,10,00)).astimezone(utc)
-last_sample_utc = Pacific.localize(datetime(2024,10,16,18,00)).astimezone(utc)
+lag=1 #testing delayed release
+first_sample_utc = Pacific.localize(datetime(2024,10,16,10,00)).astimezone(utc)+timedelta(hour=lag)
+last_sample_utc = Pacific.localize(datetime(2024,10,16,18,00)).astimezone(utc)+timedelta(hour=lag)
 dt_list0 = pd.date_range(start=first_sample_utc,end = last_sample_utc, freq="15min").to_pydatetime().tolist()
 ts_list = [datetime.timestamp(dt) for dt in dt_list0]
 nt = len(ts_list)
