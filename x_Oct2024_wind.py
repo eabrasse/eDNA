@@ -59,7 +59,7 @@ for f in f_list:
         filefn = f+'/'+his_fn
         ds = nc.Dataset(filefn)
 
-        ot = ds['ot'][:].data
+        ot = ds['ocean_time'][:].data
         dt_list.append(datetime(1970,1,1)+timedelta(seconds=ot[0]))
         
         if tt==0:
