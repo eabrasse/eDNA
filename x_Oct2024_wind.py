@@ -47,7 +47,7 @@ dt_list = []
 tt=0
 for f in f_list:
     
-    print(f'working on folder {count} of {len(f_list)}')
+    print(f'working on folder {tt} of {len(f_list)}')
 
     # build a keyname from the release filename
     his_list = os.listdir(f)
