@@ -12,11 +12,11 @@ from lo_tools import zrfun
 home = '/data2/pmr4/eab32/'
 
 dir0 = '/data1/jxiong/LO_roms/cas7_t0_x4b/'
-f_list = [his_dir + 'f2024.10.14',
-    his_dir + 'f2024.10.15',
-    his_dir + 'f2024.10.16',
-    his_dir + 'f2024.10.17',
-    his_dir + 'f2024.10.18'
+f_list = [dir0 + 'f2024.10.14',
+    dir0 + 'f2024.10.15',
+    dir0 + 'f2024.10.16',
+    dir0 + 'f2024.10.17',
+    dir0 + 'f2024.10.18'
             ]
 f_list.sort()
 
