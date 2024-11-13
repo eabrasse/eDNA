@@ -97,8 +97,8 @@ for f in f_list:
         tt+=1
 
 D = {}
-var_list.append('dt_list')
-for var in var_list:
+pickle_list = ['Brem','Bang','dt_list']
+for var in pickle_list:
     D[var] = locals()[var]
 
 
