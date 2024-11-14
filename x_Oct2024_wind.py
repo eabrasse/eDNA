@@ -31,8 +31,8 @@ Brem['lon'] = -122.626
 
 Bang = {}
 Bang['name'] = 'Bangor'
-Bang['lat'] = 47.748
-Bang['lon'] = -122.726
+Bang['lat'] = 47.7578
+Bang['lon'] = -122.7306
 
 station_list = [Brem,Bang]
 
