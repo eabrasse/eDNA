@@ -72,6 +72,11 @@ for f in f_list:
             lonv = ds['lon_v'][:]
             latv = ds['lat_v'][:]
             nxv,nyv = lonv.shape[:]
+            
+            #also, for plotting
+            maskr = ds['mask_rho'][:]
+            h = ds['h'][:]
+            
             for station in station_list:
                 station['ir'] = np.argmin(np.abs(lonr[0,:]-station['lon']))
                 station['jr'] = np.argmin(np.abs(latr[:,0]-station['lat']))
@@ -97,7 +102,7 @@ for f in f_list:
         tt+=1
 
 D = {}
-pickle_list = ['Brem','Bang','dt_list']
+pickle_list = ['Brem','Bang','dt_list','lonr','latr','h']
 for var in pickle_list:
     D[var] = locals()[var]
 
