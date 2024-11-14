@@ -45,7 +45,7 @@ for station in station_list:
 dt_list = []
 
 tt=0
-fcount = 0
+fcount = 1
 for f in f_list:
     
     print(f'working on folder {fcount} of {len(f_list)}')
