@@ -45,9 +45,10 @@ for station in station_list:
 dt_list = []
 
 tt=0
+fcount = 0
 for f in f_list:
     
-    print(f'working on folder {tt} of {len(f_list)}')
+    print(f'working on folder {fcount} of {len(f_list)}')
 
     # build a keyname from the release filename
     his_list = os.listdir(f)
@@ -100,9 +101,10 @@ for f in f_list:
 
         ds.close()
         tt+=1
+    fcount+=1
 
 D = {}
-pickle_list = ['Brem','Bang','dt_list','lonr','latr','h']
+pickle_list = ['Brem','Bang','dt_list','lonr','latr','h','maskr']
 for var in pickle_list:
     D[var] = locals()[var]
 
