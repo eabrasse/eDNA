@@ -77,7 +77,7 @@ for f in f_list:
                 for nxy in varshape0[1:]:
                     varshape.append(nxy)
                     
-                vdict[var][:] = np.zeros(varshape)
+                vdict[var] = np.zeros(varshape)
                 
         for var in vname_list:
             vdict[var][tt,:] = ds[var][0,:]
