@@ -66,55 +66,30 @@ for f in f_list:
         if tt==0:
             lonr = ds['lon_rho'][:]
             latr = ds['lat_rho'][:]
-            # nxr,nyr = lonr.shape[:]
-            lonu = ds['lon_u'][:]
-            latu = ds['lat_u'][:]
-            # nxu,nyu = lonu.shape[:]
-            lonv = ds['lon_v'][:]
-            latv = ds['lat_v'][:]
-            # nxv,nyv = lonv.shape[:]
-            
-            #also, for plotting
             maskr = ds['mask_rho'][:]
             h = ds['h'][:]
             
-            # for station in station_list:
-            #     station['ir'] = np.argmin(np.abs(lonr[0,:]-station['lon']))
-            #     station['jr'] = np.argmin(np.abs(latr[:,0]-station['lat']))
-            #     station['iu'] = np.argmin(np.abs(lonu[0,:]-station['lon']))
-            #     station['ju'] = np.argmin(np.abs(latu[:,0]-station['lat']))
-            #     station['iv'] = np.argmin(np.abs(lonv[0,:]-station['lon']))
-            #     station['jv'] = np.argmin(np.abs(latv[:,0]-station['lat']))
             for var in vname_list:
+                # build up the shape of the variable
+                # based on the total time steps + grid shape
                 varshape0 = ds[var].shape[:]
                 varshape = [nhr]
-                for var in varshape0[1:]:
-                    varshape.append(var)
+                for nxy in varshape0[1:]:
+                    varshape.append(nxy)
+                    
                 vdict[var][:] = np.zeros(varshape)
+                
         for var in vname_list:
             vdict[var][tt,:] = ds[var][0,:]
-        
-        # for station in station_list:
-        #     for var in var_list:
-        #         dummy, nxvar, nyvar = ds[var].shape[:]
-        #         match [nxvar,nyvar]:
-        #             case [nxr,nyr]:
-        #                 station[var][tt] = ds[var][0,station['jr'],station['ir']]
-        #             case [nxu,nyu]:
-        #                 station[var][tt] = ds[var][0,station['ju'],station['iu']]
-        #             case [nxv,nyv]:
-        #                 station[var][tt] = ds[var][0,station['jv'],station['iv']]
-        #             case _:
-        #                 print(f'{var} not on 2D rho, u, or v grid')
-
+            
         ds.close()
         tt+=1
     fcount+=1
 
 
 othervars = ['dt_list','lonr','latr','h','maskr']
-for var in othervars:
-    vdict[var] = locals()[var]
+for ovar in othervars:
+    vdict[ovar] = locals()[ovar]
 
 
 outfn = home+'LO_data/eDNA/Oct2024_HC2wind.p'
