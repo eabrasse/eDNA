@@ -21,7 +21,7 @@ f_list = [dir0 + 'f2024.10.14',
 f_list.sort()
 
 nday = len(f_list)
-nhr = nday*24
+nhr = nday*24+1
 
 # # VL pen and Husbandry area sampling stations
 # Brem = {}
