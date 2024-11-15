@@ -37,7 +37,7 @@ nhr = nday*24
 # station_list = [Brem,Bang]
 
 vname_list = ['Uwind','Vwind','svstr','sustr']
-
+vdict = {}
 # for station in station_list:
 #     for var in var_list:
 #         station[var] =  np.zeros((nhr))
@@ -90,9 +90,9 @@ for f in f_list:
                 varshape = [nhr]
                 for var in varshape0[1:]:
                     varshape.append(var)
-                locals()[var] = np.zeros(varshape)
+                vdict[var] = np.zeros(varshape)
         for var in vname_list:
-            locals(var)[tt,:] = ds[var][0,:]
+            vdict[var][tt,:] = ds[var][0,:]
         
         # for station in station_list:
         #     for var in var_list:
@@ -111,13 +111,13 @@ for f in f_list:
         tt+=1
     fcount+=1
 
-D = {}
-vname_list.extend(['dt_list','lonr','latr','h','maskr'])
-for var in vname_list:
-    D[var] = locals()[var]
+
+othervars = ['dt_list','lonr','latr','h','maskr']
+for var in othervars:
+    vdict[var] = locals()[var]
 
 
 outfn = home+'LO_data/eDNA/Oct2024_HC2wind.p'
 
-pickle.dump(D,open(outfn, 'wb'))
+pickle.dump(vdict,open(outfn, 'wb'))
 print('saved to {}'.format(outfn))
