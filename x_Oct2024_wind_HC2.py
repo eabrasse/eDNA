@@ -89,7 +89,7 @@ for f in f_list:
                 varshape0 = ds[var].shape[:]
                 varshape = [nhr]
                 for var in varshape0[1:]:
-                    varshape.append(0,var)
+                    varshape.append(var)
                 locals()[var] = np.zeros(varshape)
         for var in vname_list:
             locals(var)[tt,:] = ds[var][0,:]
