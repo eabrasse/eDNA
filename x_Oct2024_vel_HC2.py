@@ -36,7 +36,7 @@ for hc in hc11, hc12:
     fcount = 1
     for f in hc['f_list']:
     
-        print(f'working on folder {fcount} of {len(hc['f_list'])}')
+        print('working on folder {} of {}'.format(fcount,len(hc['f_list'])))
 
         # build a keyname from the release filename
         his_list = os.listdir(f)
