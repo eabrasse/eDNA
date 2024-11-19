@@ -17,8 +17,7 @@ hc11['dir0'] = '/data1/jxiong/LO_roms/hc11_v01_uu0k/'
 hc12['dir0'] = '/data1/jxiong/LO_roms/hc12_v00_uu0k/'
 for hc in hc11, hc12:
     hc['dt_list'] = []
-    hc['f_list'] = [hc['dir0'] + 'f2024.10.15',
-        hc['dir0'] + 'f2024.10.16',
+    hc['f_list'] = [hc['dir0'] + 'f2024.10.16',
         hc['dir0'] + 'f2024.10.17'
                 ]
                 
