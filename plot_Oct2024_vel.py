@@ -37,7 +37,7 @@ plt.close('all')
 home='/data2/pmr4/eab32/'
 
 
-data_fn = home+'LO_data/eDNAOct2024_hc11_hc12_vel_corr.p'
+data_fn = home+'LO_data/eDNA/Oct2024_hc11_hc12_vel_corr.p'
 D = pickle.load(open(data_fn,'rb'))
 for key in D.keys():
     locals()[key] = D[key]
