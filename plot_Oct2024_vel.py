@@ -67,7 +67,7 @@ yss = 10
 dt_list = [utc.localize(dt) for dt in hc['dt_list']]
 
 
-surf=True
+surf=False
 for hc in hc11,hc12:
     #stagger onto rho grid
     
@@ -149,7 +149,7 @@ for t in range(len(hc['dt_list'])):
 
 
     fig.subplots_adjust(right=0.98,left=0.1,bottom=0.10,top = 0.95,wspace=0.1)
-    plt.savefig(home+f'etools/plots/delta pier mask/vel_{t:0>2}.png')
+    plt.savefig(home+f'etools/plots/delta pier mask/vel_bar_{t:0>2}.png')
     # plt.show(block=False)
     # plt.pause(0.1)
     plt.close()
