@@ -75,7 +75,7 @@ for hc in hc11, hc12:
 
 D = {'hc11':hc11,'hc12':hc12}
 
-outfn = home+'LO_data/eDNA/Oct2024_hc11_hc12_vel.p'
+outfn = home+'LO_data/eDNA/Oct2024_hc11_hc12_vel_corr.p'
 
 pickle.dump(D,open(outfn, 'wb'))
 print('saved to {}'.format(outfn))
