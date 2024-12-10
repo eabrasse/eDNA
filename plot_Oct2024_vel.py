@@ -64,7 +64,8 @@ yi1 = np.argmin(np.abs(yr[:,0]-y1))
 xss = 10
 yss = 10
 
-dt_list = [utc.localize(dt) for dt in hc['dt_list']]
+# dt_list = [utc.localize(dt) for dt in hc['dt_list']]
+dt_list = hc['dt_list'][:]
 
 
 surf=False
