@@ -48,7 +48,7 @@ for hc in hc11, hc12:
             ds = nc.Dataset(filefn)
 
             ot = ds['ocean_time'][:].data
-            hc['dt_list'].append(datetime(1970,1,1)+timedelta(seconds=ot[0]))
+            hc['dt_list'].append(datetime(1970,1,1,tzinfo=pytz.utc)+timedelta(seconds=ot[0]))
         
             if tt==0:
                 hc['lonr'] = ds['lon_rho'][:]
