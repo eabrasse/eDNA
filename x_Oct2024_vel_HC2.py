@@ -14,12 +14,19 @@ home = '/data2/pmr4/eab32/'
 hc11 = {'grid':'unmasked'}
 hc12 = {'grid':'masked'}
 hc11['dir0'] = '/data1/jxiong/LO_roms/hc11_v01_uu0k/'
-hc12['dir0'] = '/data1/jxiong/LO_roms/hc12_v00_uu0k/'
+hc11['f_list'] = [hc11['dir0'] + 'f2024.10.16_problem',
+        hc11['dir0'] + 'f2024.10.17_problem'
+                ]
+# hc12['dir0'] = '/data1/jxiong/LO_roms/hc12_v00_uu0k/'
+hc12['dir0'] = 'data1/jxiong/LO_roms/hc12_v00_uu0k_problem/'
+hc12['f_list'] = [hc12['dir0'] + 'f2024.10.16',
+        hc12['dir0'] + 'f2024.10.17'
+                ]
 for hc in hc11, hc12:
     hc['dt_list'] = []
-    hc['f_list'] = [hc['dir0'] + 'f2024.10.16',
-        hc['dir0'] + 'f2024.10.17'
-                ]
+    # hc['f_list'] = [hc['dir0'] + 'f2024.10.16',
+        # hc['dir0'] + 'f2024.10.17'
+                # ]
                 
     hc['f_list'].sort()
 
@@ -75,7 +82,7 @@ for hc in hc11, hc12:
 
 D = {'hc11':hc11,'hc12':hc12}
 
-outfn = home+'LO_data/eDNA/Oct2024_hc11_hc12_vel_corr.p'
+outfn = home+'LO_data/eDNA/Oct2024_hc11_hc12_vel.p'
 
 pickle.dump(D,open(outfn, 'wb'))
 print('saved to {}'.format(outfn))
