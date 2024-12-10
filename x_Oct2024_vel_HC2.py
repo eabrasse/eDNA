@@ -18,7 +18,7 @@ hc11['f_list'] = [hc11['dir0'] + 'f2024.10.16_problem',
         hc11['dir0'] + 'f2024.10.17_problem'
                 ]
 # hc12['dir0'] = '/data1/jxiong/LO_roms/hc12_v00_uu0k/'
-hc12['dir0'] = 'data1/jxiong/LO_roms/hc12_v00_uu0k_problem/'
+hc12['dir0'] = '/data1/jxiong/LO_roms/hc12_v00_uu0k_problem/'
 hc12['f_list'] = [hc12['dir0'] + 'f2024.10.16',
         hc12['dir0'] + 'f2024.10.17'
                 ]
