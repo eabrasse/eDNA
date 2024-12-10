@@ -37,7 +37,7 @@ plt.close('all')
 home='/data2/pmr4/eab32/'
 
 
-data_fn = home+'LO_data/eDNA/Oct2024_hc11_hc12_vel_corr.p'
+data_fn = home+'LO_data/eDNA/Oct2024_hc11_hc12_vel.p'
 D = pickle.load(open(data_fn,'rb'))
 for key in D.keys():
     locals()[key] = D[key]
@@ -150,7 +150,7 @@ for t in range(len(hc['dt_list'])):
 
 
     fig.subplots_adjust(right=0.98,left=0.1,bottom=0.10,top = 0.95,wspace=0.1)
-    plt.savefig(home+f'etools/plots/delta pier mask/vel_bar_{t:0>2}.png')
+    plt.savefig(home+f'etools/plots/delta pier mask/problem_vel_bar_{t:0>2}.png')
     # plt.show(block=False)
     # plt.pause(0.1)
     plt.close()
