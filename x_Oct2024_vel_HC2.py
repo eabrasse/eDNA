@@ -46,7 +46,7 @@ for hc in hc11, hc12:
 
         # build a keyname from the release filename
         his_list = os.listdir(f)
-        his_list = [x for x in his_list if x[:9]=='ocean_his']
+        his_list = [x for x in his_list if x[:9]=='ocean_his' & x[:]!='ocean_his_0001.nc']
         his_list.sort()
     
         for his_fn in his_list:
