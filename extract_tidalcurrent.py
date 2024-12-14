@@ -76,6 +76,8 @@ if location==neardolphpen:
 
 depth_list0 = [0,-4.25,-8.5,-12.5]
 
+diag = True
+
 dt_list = []
 tt = 0
 for t in range(ndays):
@@ -135,6 +137,10 @@ for t in range(ndays):
             v = np.zeros((nt,ndepth))
             vbar = np.zeros((nt))
             
+            if diag:
+                sustr = np.zeros((nt))
+                svstr = np.zeros((nt))
+            
         
         ot = dsh['ocean_time'][:].data[0]
         dt_list.append(datetime(1970,1,1)+timedelta(seconds=ot))
@@ -142,6 +148,9 @@ for t in range(ndays):
         zeta[tt] = dsh['zeta'][0,j_r,i_r]
         ubar[tt] = dsh['ubar'][0,j_u,i_u]
         vbar[tt] = dsh['vbar'][0,j_v,i_v]
+        if diag:
+            sustr[tt] = dsh['sustr'][0,j_u,i_u]
+            svstr[tt] = dsh['svstr'][0,j_v,i_v]
         
         zvec = zrfun.get_z(np.array(h),np.array(zeta[tt]),S,only_rho=True)
         
@@ -161,6 +170,9 @@ for t in range(ndays):
 
 D = dict()
 var_list = ['dt_list','zeta','ubar','vbar','u','v','lonu','latu','masku','lonv','latv','maskv','lonr','latr','maskr','depth_list']
+if diag:
+    var_list.append('sustr')
+    var_list.append('svstr')
 for var in var_list:
     D[var] = locals()[var]
 D['lon0'] = location['lon0']

@@ -317,6 +317,11 @@ def earth_rad(lat_deg):
     RE = np.sqrt(((a*a*cl)**2 + (b*b*sl)**2) / ((a*cl)**2 + (b*sl)**2))
     return RE
 
+def find_nearest_ind(array, value):
+    # gives the index of the item in array that is closest to value
+    idx = (np.abs(array-value)).argmin()
+    return idx
+
 def ll2xy(lon, lat, lon0, lat0):
     """
     This converts lon, lat into meters relative to lon0, lat0.
