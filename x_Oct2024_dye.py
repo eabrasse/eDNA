@@ -35,7 +35,7 @@ subscript = '1945rel_dye'
 # start by using same as model grid
 # grid_fn = track_dir0+f_list[0]+'/grid.nc'
 # his_dir0 = '/data1/jxiong/LO_roms/hc11_v01_vldye/'
-his_dir0 = 'data1/jxiong/LO_roms/hc12_v00_vldye/'
+his_dir0 = '/data1/jxiong/LO_roms/hc12_v00_vldye/'
 # from 11am to 6pm on 10/16/2024 PDT
 his_dir_list = [his_dir0 + 'f2024.10.16.'+subscript,
                 his_dir0 + 'f2024.10.17.'+subscript
