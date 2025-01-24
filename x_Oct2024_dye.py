@@ -30,11 +30,12 @@ nt = len(ts_list)
 # dolphin pen location
 lon0 = -122.729779; lat0 = 47.742773
 
-subscript = '1945rel'
+subscript = '1945rel_dye'
 #set up heatmap bins
 # start by using same as model grid
 # grid_fn = track_dir0+f_list[0]+'/grid.nc'
-his_dir0 = '/data1/jxiong/LO_roms/hc11_v01_vldye/'
+# his_dir0 = '/data1/jxiong/LO_roms/hc11_v01_vldye/'
+his_dir0 = 'data1/jxiong/LO_roms/hc12_v00_vldye/'
 # from 11am to 6pm on 10/16/2024 PDT
 his_dir_list = [his_dir0 + 'f2024.10.16.'+subscript,
                 his_dir0 + 'f2024.10.17.'+subscript
@@ -144,7 +145,7 @@ for var in var_list:
     D[var] = locals()[var]
 
 
-outfn = home+'LO_data/eDNA/Oct2024_'+subscript+'_surfdye_15min.p'
+outfn = home+'LO_data/eDNA/Oct2024_'+subscript+'.p'
 
 
 pickle.dump(D,open(outfn, 'wb'))
