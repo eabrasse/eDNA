@@ -56,7 +56,7 @@ for his_dir in his_dir_list:
 f_list.sort()
 # ntt = len(f_list)
 
-ds = xr.open_mfdataset(f_list, combine = 'by_coord')#, concat_dim = 'time')
+ds = xr.open_mfdataset(f_list, combine = 'by_coords')#, concat_dim = 'time')
 outfn = '/data2/pmr4/eab32/LO_output/extract/hc12_v00_vldye/ocean_his_HC2_VLdye_DPmask_LOcorr_1hrlag_combined.nc'
 ds.to_netcdf(outfn) # Export netcdf file
 print('saved to {}'.format(outfn))
