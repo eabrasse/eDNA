@@ -141,7 +141,7 @@ for f in f_list:
 
 
 D = {}
-var_list = ['xr','yr','dt_list','surface_dye','station_list','lonr','latr','maskr']
+var_list = ['xr','yr','dt_list','surface_dye','station_list','lonr','latr','maskr','h']
 for var in var_list:
     D[var] = locals()[var]
 
