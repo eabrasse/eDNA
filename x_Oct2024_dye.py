@@ -53,6 +53,7 @@ for his_dir in his_dir_list:
             nz,ny,nx = ds['salt'][0,:,:,:].shape
             lonr = ds['lon_rho'][:]
             latr = ds['lat_rho'][:]
+            maskr = ds['mask_rho'][:]
             xr,yr = efun.ll2xy(lonr,latr,lon0,lat0)
             h = ds['h'][:]
             S= zrfun.get_basic_info(his_dir+'/'+fn, only_S=True)
@@ -140,7 +141,7 @@ for f in f_list:
 
 
 D = {}
-var_list = ['xr','yr','dt_list','surface_dye','station_list']
+var_list = ['xr','yr','dt_list','surface_dye','station_list','lonr','latr','maskr']
 for var in var_list:
     D[var] = locals()[var]
 
